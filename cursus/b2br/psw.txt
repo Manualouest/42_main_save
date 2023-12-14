@@ -1,0 +1,3 @@
+encr: Encryption_passphrase42
+log: New_user_password42
+root: B2bR Root_password

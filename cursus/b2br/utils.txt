@@ -1,0 +1,3 @@
+ssh config : etc/ssh/sshd_config
+passwd conf: etc/logins.defs
+	     pam.d/common-password

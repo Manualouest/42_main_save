@@ -1,0 +1,8 @@
+*tester*
+*Tester*
+*.o
+*.out
+*.a
+*.gch
+*.txt
+pft_2019/
