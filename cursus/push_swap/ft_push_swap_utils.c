@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:04:25 by mbirou            #+#    #+#             */
-/*   Updated: 2023/12/13 18:00:05 by mbirou           ###   ########.fr       */
+/*   Updated: 2023/12/16 20:05:52 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ int	ft_has_letter(char *str)
 {
 	int	i;
 	int	len;
-
+sta
 	i = 0;
 	if (!str || str[0] == '\0')
 		return (1);
 	while (str[i])
 	{
-		if (!(str[i] >= '0' && str[i] <= '9') || str[i] == ' ')
+		if (!(str[i] >= '0' && str[i] <= '9') && !((str[i] == '+' || str[i] == '-') && (str[i] >= '0' && str[i] <= '9'))
 			return (1);
 		i ++;
 	}

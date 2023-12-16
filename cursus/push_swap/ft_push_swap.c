@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 20:56:39 by mbirou            #+#    #+#             */
-/*   Updated: 2023/12/13 17:25:32 by mbirou           ###   ########.fr       */
+/*   Updated: 2023/12/16 20:06:17 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ char	**stack_maker_utils(char **args, int *nb_args)
 	int		i;
 
 	i = 2;
+	if (ft_has_letter(args[i]))
+		return(NULL);
 	tp_args = ft_strlcat(NULL, args[1], 0);
 	while (i < *nb_args)
 	{
