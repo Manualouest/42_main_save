@@ -1,3 +1,23 @@
 ssh config : etc/ssh/sshd_config
 passwd conf: etc/logins.defs
 	     pam.d/common-password
+
+
+wall "	#$(uname -a | awk '{print "Architecture : " $0}')
+	#$(lscpu | grep 'Socket(s)' | awk '{print "CPU physical : "$2}')
+	vCPU : $(nproc)
+	#$(free | grep 'Mem' | awk '{print "Memory Usage : "int($3/1000) "/" int($2/1000)"MB" " (" (int($3/$2*10000)/100) "%)"}')
+	#$(df -BM --total | grep 'total' | awk '{print "Disk Usage : " $3"B/" $2"B" " ("$5 ")"}')
+	#$(top -bn2 | grep '%Cpu' | sed -n '2p' | cut -c 9- | awk '{split($0,a,","); print a[1] "\n" a[2]}' | awk '{sum+=$1}; END {print "CPU load : " sum "%"}')
+	#$(who -b | awk '{print "Last boot : " $3 " " $4}')
+	#$(if [ $(lsblk | awk '{print $6}' | grep 'lvm' | sed -n '1p' | wc -l) -eq 1 ]; then echo "LVM use : yes"; else echo "LVM use : no"; fi)
+	#$(netstat -nat | grep "ESTABLISHED" | wc -l | awk '{print "Connections TCP : " $1 " ESTABLISHED"}')
+	#$(w | sed 1,2d | wc -l | awk '{print "User log : " $1}')
+	#$(ip=$(hostname -I); printf "Network : IP $ip"; ip link | grep 'ether' | awk '{print "("$2")"}')
+	#$(cat /var/log/sudo/sudo.log | grep COMMAND | wc -l | awk '{print "Sudo : " $1 " cmd"}')
+"
+
+
+
+etry=3 usercheck=1 reject_username enforce_for_root difok=7
+
