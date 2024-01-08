@@ -1,8 +1,5 @@
 {
 	"files.associations": {
-		"unistd.h": "c",
-		"ft_push_swap.h": "c",
-		"stdlib.h": "c",
-		"numbers": "c"
+		"random": "c"
 	}
 }

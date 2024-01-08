@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 22:12:19 by mbirou            #+#    #+#             */
-/*   Updated: 2023/12/16 20:02:02 by mbirou           ###   ########.fr       */
+/*   Updated: 2023/12/19 03:34:59 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,23 +88,46 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (array);
 }
 
-int	is_sorted(t_stack *a)
+int	is_sorted(t_stack *stk)
 {
 	int	last_num;
 
-	if (a)
+	if (stk)
 	{
-		last_num = a->content;
-		if (a->next)
-			a = a->next;
-		while (a && a->next)
+		last_num = stk->content;
+		if (stk->next)
+			stk = stk->next;
+		while (stk && stk->next)
 		{
-			if (a->content < last_num)
+			if (stk->content < last_num)
 				return (0);
-			last_num = a->content;
-			a = a->next;
+			last_num = stk->content;
+			stk = stk->next;
 		}
-		if (a && a->content < last_num)
+		if (stk && stk->content < last_num)
+			return (0);
+		return (1);
+	}
+	return (0);
+}
+
+int	is_rsorted(t_stack *stk)
+{
+	int	last_num;
+
+	if (stk)
+	{
+		last_num = stk->content;
+		if (stk->next)
+			stk = stk->next;
+		while (stk && stk->next)
+		{
+			if (stk->content > last_num)
+				return (0);
+			last_num = stk->content;
+			stk = stk->next;
+		}
+		if (stk && stk->content > last_num)
 			return (0);
 		return (1);
 	}
@@ -133,6 +156,34 @@ int	find_index_min(t_stack *stk)
 			stk = stk->next;
 		}
 		if (stk->content < curr_min)
+			index = i;
+		return (index);
+	}
+	return (-1);
+}
+
+int	find_index_max(t_stack *stk)
+{
+	int	index;
+	int	curr_min;
+	int	i;
+
+	if (stk)
+	{
+		curr_min = stk->content;
+		index = 0;
+		i = 0;
+		while (stk && stk->next != NULL)
+		{
+			if (stk->content > curr_min)
+			{
+				index = i;
+				curr_min = stk->content;
+			}
+			i ++;
+			stk = stk->next;
+		}
+		if (stk->content > curr_min)
 			index = i;
 		return (index);
 	}

@@ -6,13 +6,13 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 22:16:24 by mbirou            #+#    #+#             */
-/*   Updated: 2023/12/12 20:29:19 by mbirou           ###   ########.fr       */
+/*   Updated: 2023/12/30 15:56:35 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-int	ra(t_stack **stk)
+int	ra(t_stack **stk, int *index)
 {
 	t_stack	*temp;
 
@@ -25,12 +25,14 @@ int	ra(t_stack **stk)
 		*stk = (*stk)->next;
 		temp->next->next = NULL;
 		write(1, "ra\n", 3);
+		if (index && *index)
+			*index = *index - 1;
 		return (1);
 	}
 	return (0);
 }
 
-int	rb(t_stack **stk)
+int	rb(t_stack **stk, int *index)
 {
 	t_stack	*temp;
 
@@ -43,12 +45,14 @@ int	rb(t_stack **stk)
 		*stk = (*stk)->next;
 		temp->next->next = NULL;
 		write(1, "rb\n", 3);
+		if (index && *index)
+			*index = *index - 1;
 		return (1);
 	}
 	return (0);
 }
 
-int	rra(t_stack **stk)
+int	rra(t_stack **stk, int *index)
 {
 	t_stack	*temp;
 
@@ -61,12 +65,14 @@ int	rra(t_stack **stk)
 		*stk = temp->next;
 		temp->next = NULL;
 		write(1, "rra\n", 4);
+		if (index && *index)
+			*index = *index + 1;
 		return (1);
 	}
 	return (0);
 }
 
-int	rrb(t_stack **stk)
+int	rrb(t_stack **stk, int *index)
 {
 	t_stack	*temp;
 
@@ -78,7 +84,9 @@ int	rrb(t_stack **stk)
 		temp->next->next = *stk;
 		*stk = temp->next;
 		temp->next = NULL;
-		write(1, "rra\n", 4);
+		write(1, "rrb\n", 4);
+		if (index && *index)
+			*index = *index + 1;
 		return (1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 01:13:35 by mbirou            #+#    #+#             */
-/*   Updated: 2023/12/12 22:13:15 by mbirou           ###   ########.fr       */
+/*   Updated: 2023/12/18 18:28:54 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ static void	free_tab(char **splitted, int nb_elem);
 
 char	**ft_split(char const *s, char c, int *nb_subs)
 {
-	int		i;
-	int		n;
+	// int		i;
+	// int		n;
 	char	**splitted;
 
-	i = 0;
-	n = 0;
+	// i = 0;
+	// n = 0;
 	if (!s)
 		return (NULL);
 	*nb_subs = find_nb_subs(s, c);

@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:49:57 by mbirou            #+#    #+#             */
-/*   Updated: 2023/12/12 22:42:34 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/08 16:16:00 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,18 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_stack;
 
-void	debug_printer(t_stack *stk);
+void	debug_printer(t_stack *stk, t_stack *stk2);
 void	ft_putnbr_fd(int n, int fd);
 
 int		sa(t_stack **top);
 int		sb(t_stack **top);
 int		pa(t_stack **a, t_stack **b);
 int		pb(t_stack **a, t_stack **b);
-int		ra(t_stack **stk);
-int		rb(t_stack **stk);
-int		rra(t_stack **stk);
-int		rrb(t_stack **stk);
+int		fp(t_stack **a, t_stack **b);
+int		ra(t_stack **stk, int *index);
+int		rb(t_stack **stk, int *index);
+int		rra(t_stack **stk, int *index);
+int		rrb(t_stack **stk, int *index);
 
 int		ft_atoi(const char *nptr);
 void	ft_putnbr(int n);
@@ -58,7 +59,11 @@ void	ft_lstclear(t_stack **lst);
 
 void	algo(t_stack **a, t_stack **b);
 int		find_index_min(t_stack *stk);
-int		is_sorted(t_stack *a);
+int		find_index_max(t_stack *stk);
+int		is_sorted(t_stack *stk);
+int		is_rsorted(t_stack *stk);
 int		is_s_useful(t_stack *stk);
+
+t_stack	*duplicator(t_stack *stk);
 
 #endif

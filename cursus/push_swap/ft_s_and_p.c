@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 22:14:59 by mbirou            #+#    #+#             */
-/*   Updated: 2023/12/12 17:06:59 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/08 16:15:38 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	pa(t_stack **a, t_stack **b)
 {
 	t_stack	*temp;
 
-	if (!b && !*b)
+	if (!b || !*b)
 		return (0);
 	if (!*a)
 	{
@@ -64,7 +64,7 @@ int	pa(t_stack **a, t_stack **b)
 	}
 	if (*a == NULL)
 	{
-		free (a);
+		free(a);
 		return (0);
 	}
 	write(1, "pa\n", 3);
@@ -75,7 +75,7 @@ int	pb(t_stack **a, t_stack **b)
 {
 	t_stack	*temp;
 
-	if (!b && !*b)
+	if (!b || !*b)
 		return (0);
 	if (!*a)
 	{
@@ -95,5 +95,30 @@ int	pb(t_stack **a, t_stack **b)
 		return (0);
 	}
 	write(1, "pb\n", 3);
+	return (1);
+}
+int	fp(t_stack **a, t_stack **b)
+{
+	t_stack	*temp;
+
+	if (!b || !*b)
+		return (0);
+	if (!*a)
+	{
+		*a = *b;
+		*b = (*b)->next;
+		(*a)->next = NULL;
+	}
+	else
+	{
+		temp = (*b)->next;
+		ft_lstadd_front(a, *b);
+		*b = temp;
+	}
+	if (*a == NULL)
+	{
+		free(a);
+		return (0);
+	}
 	return (1);
 }
