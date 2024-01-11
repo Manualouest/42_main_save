@@ -15,14 +15,8 @@
 #include <stdio.h>
 // void	debug_printer(t_stack *stk);
 
-
-void	ft_do_move(t_stack **a, t_stack **b, int index, int indexb);
-int	ft_get_best(t_stack *a, t_stack *b);
-int	ft_sort_single(t_stack *a, t_stack *b, int place); // , int *curr_count
-
 static int	frr(t_stack **stk, t_stack **stk2,  int *place, int *placeb);
 static int	fr(t_stack **stk, t_stack **stk2,  int *place, int *placeb);
-int	ft_find_place(t_stack *a, t_stack *b, int place);
 
 
 int	main(int argc, char **argv)
@@ -45,6 +39,12 @@ int	main(int argc, char **argv)
 		// debug_printer(a, b);
 		// write(1, "\nbefore\n\n", 9);
 		
+		// debug_printer(a, b);
+		// ra(&a, NULL);
+		// debug_printer(a, b);
+		// rra(&a, NULL);
+		// debug_printer(a, b);
+
 		if (!is_sorted(a))
 			algo(&a, &b);
 
@@ -146,81 +146,306 @@ void	debug_printer(t_stack *stk, t_stack *stk2)
 
 
 
-
-
-int	ft_get_place(t_stack *stk, int num);
-int	ft_get_min(t_stack *stk);
-int	ft_get_max(t_stack *stk);
+int		ft_get_place(t_stack *stk, int num);
+int		ft_get_index_a(t_stack **sta, t_stack **stb);
+int		ft_get_index_b(t_stack **sta, t_stack **stb);
+int		ft_get_min(t_stack *stk);
+int		ft_get_max(t_stack *stk);
 void	ft_empty_b(t_stack **a, t_stack **b);
-void ft_sort_three(t_stack **a);
+void	ft_sort_three(t_stack **a);
+void	ft_do_move(t_stack **a, t_stack **b, int indexa);
 
 void	algo(t_stack **a, t_stack **b)
 {
-	int	i;
-	int indexb;
+	// t_stack *a2;
+	// t_stack *b2;
 
 	if (ft_lstsize(*a) > 3)
 	{
 		pb(b, a);
-		pb(b, a);
-		// if (is_sorted(*b))
-		// 	sb(b);
+		if (ft_lstsize(*a) > 3)
+			pb(b, a);
 	}
-	while (!is_sorted(*a) && ft_lstsize(*a) >= 4) // 
+	// ft_putnbr_fd(ft_get_index_a(&a2, &b2), 1);
+	while (ft_lstsize(*a) > 3 && !is_sorted(*a))
 	{
-		i = ft_get_best(*a, *b);
-		indexb = ft_find_place(*a, *b, i);
-		// write(1, "\n;\n", 3);
-		// ft_putnbr_fd(indexb, 1); #############################################
 		// debug_printer(*a, *b);
-		// write(1, ",\n", 2);
-		ft_do_move(a, b, i, indexb);
+		// a2 = duplicator(*a);
+		// b2 = duplicator(*b);
+		ft_do_move(a, b, ft_get_index_a(a, b));
 	}
-	// if (is_s_useful(*a) && *a && *b && (*a)->content < (*b)->content)
-	// 	sa(a);
-	// i = find_index_min(*a);
-	// while ((i > 0 && i < ft_lstsize(*a)))
-	// 	if (ft_lstsize(*a) - i < (ft_lstsize(*a) + 1) / 2)
-	// 		rra(a, &i);
-	// 	else
-	// 		ra(a, &i);
-	// while ((*a)->content < (*b)->content)
-	// 	ra(a, NULL);
 	ft_sort_three(a);
-	if (b && *b)
+	ft_empty_b(a, b);
+	while (find_index_min(*a) != 0 && find_index_min(*a) != ft_lstsize(*a))
 	{
-		while (find_index_max(*b) != 0 && find_index_max(*b) != ft_lstsize(*b))
-		{
-			if (ft_lstsize(*b) - find_index_max(*b) < (ft_lstsize(*b)) / 2)
-				rrb(b, NULL);
-			else
-				rb(b, NULL);
-		}
+		if (ft_lstsize(*a) - find_index_min(*a) < (ft_lstsize(*a)) / 2)
+			rra(a, NULL);
+		else
+			ra(a, NULL);
+	}
+}
+
+int	ft_get_index_b_special(t_stack **a, t_stack **b, int indexa)
+{
+	int	tpint;
+	int	indexb;
+
+	tpint = ft_lstsize(*a) - indexa;
+	while (indexa > 0 && indexa < ft_lstsize(*a))
+	{
+		if (ft_lstsize(*a) - indexa < ((ft_lstsize(*a)) / 2) + 1)
+			frr(a, NULL, &indexa, NULL);
+		else
+			fr(a, NULL, &indexa, NULL);
 	}
 
-	ft_empty_b(a, b);
-	i = find_index_min(*a);
-	while ((i > 0 && i < ft_lstsize(*a)))
+	indexb = ft_get_index_b(a, b);
+
+	while (tpint > 0 && tpint < ft_lstsize(*a))
 	{
-		// debug_printer(*a, *b);
-		if (ft_lstsize(*a) - i < (ft_lstsize(*a) + 1) / 2)
-			rra(a, &i);
+		if (ft_lstsize(*a) - tpint < ((ft_lstsize(*a)) / 2) + 1)
+			frr(a, NULL, &tpint, NULL);
 		else
-			ra(a, &i);
+			fr(a, NULL, &tpint, NULL);
 	}
-	i = 0;
-	if (!is_sorted(*a))
+	return (indexb);
+}
+
+void	ft_do_move(t_stack **a, t_stack **b, int indexa)
+{
+	int		indexb;
+	
+	// t_stack *a2;
+	// t_stack *b2;
+	// write(1, "before move", 11);
+	// debug_printer(*a, *b);
+	indexb = ft_get_index_b_special(a, b, indexa); //&a2, &b2
+	while (a && b && indexa > 0
+			&& indexa < ft_lstsize(*a)
+			&& indexb > 0 && indexb < ft_lstsize(*b)
+			&& ((ft_lstsize(*a) - indexa < ((ft_lstsize(*a)) / 2) + 1
+			&& ft_lstsize(*b) - indexb < ((ft_lstsize(*b)) / 2) + 1)
+			|| (ft_lstsize(*a) - indexa > ((ft_lstsize(*a)) / 2)
+			&& ft_lstsize(*b) - indexb > ((ft_lstsize(*b)) / 2))))
 	{
-		while ((i >= 0 && i < ft_lstsize(*a)) && !is_sorted(*a))
+		if (ft_lstsize(*a) - indexa < ((ft_lstsize(*a)) / 2) + 1
+			&& ft_lstsize(*b) - indexb < ((ft_lstsize(*b)) / 2) + 1)
 		{
-			// debug_printer(*a, *b);
-			if ((*a)->next && (*a)->content > (*a)->next->content)
-				sa(a);
-			if (!is_sorted(*a))
-				rra(a, &i);
+			frr(a, NULL, &indexa, NULL);
+			frr(b, NULL, &indexb, NULL);
+			write(1, "rrr\n", 4);
+		}
+		else if (ft_lstsize(*a) - indexa > ((ft_lstsize(*a)) / 2)
+			&& ft_lstsize(*b) - indexb > ((ft_lstsize(*b)) / 2))
+		{
+			fr(a, NULL, &indexa, NULL);
+			fr(b, NULL, &indexb, NULL);
+			write(1, "rr\n", 3);
 		}
 	}
-	// }
+	while (indexa > 0 && indexa < ft_lstsize(*a))
+	{
+		if (ft_lstsize(*a) - indexa < ((ft_lstsize(*a)) / 2) + 1)
+			rra(a, &indexa);
+		else
+			ra(a, &indexa);
+	}
+	// a2 = duplicator(*a);
+	// b2 = duplicator(*b);
+	while (indexb > 0 && indexb < ft_lstsize(*b))
+	{
+		if (ft_lstsize(*b) - indexb < ((ft_lstsize(*b)) / 2) + 1)
+			rrb(b, &indexb);
+		else
+			rb(b, &indexb);
+	}
+	pb(b, a);
+	// ft_putnbr_fd(indexa, 1);
+	// write(1, ",", 1);
+	// ft_putnbr_fd(indexb, 1);
+	// write(1, "after move", 10);
+	// debug_printer(*a, *b);
+}
+
+void	replace_stk(t_stack **stk, int index)
+{
+	int	tpint;
+
+	if (index > 0)
+		while (index > 0)
+			fr(stk, NULL, &index, NULL);
+	else
+	{
+		index = index * -1;
+		tpint = 0;
+		while (tpint < index)
+			frr(stk, NULL, &tpint, NULL);
+	}
+}
+
+int	find_num(t_stack *stk, int num)
+{
+	int	index;
+
+	index = 0;
+	while (stk && stk->content != num && index < ft_lstsize(stk))
+	{
+		stk = stk->next;
+		index ++;
+	}
+	return (index);	
+}
+
+void	refresh_stacks(t_stack **a, t_stack **b, int num)
+{
+	// int	tpint;
+
+	// write(1, "refresh", 7);
+	// debug_printer(*a, *b);
+	// tpint = ft_lstsize(*b);
+	// ft_putnbr_fd(num, 1);
+	// ft_putnbr_fd(find_num(*b, num), 1);
+	while (find_num(*b, num) > 0 && find_num(*b, num) < ft_lstsize(*b))
+		if (find_num(*b, num) > ft_lstsize(*b) / 2)
+			frr(b, NULL, NULL, NULL);
+		else
+			fr(b, NULL, NULL, NULL); //frr(b, NULL, &tpint, NULL);
+	// debug_printer(*a, *b);
+	fp(a, b);
+}
+
+int	ft_index_found(t_stack **a, t_stack **b, int index, int way)
+{
+	int tpint;
+
+	// write(1, "before", 6);
+	// ft_putnbr_fd(way, 1);
+	// ft_putnbr_fd(index, 1);
+	// debug_printer(*a, *b);
+	tpint = 0;
+	if (way == 1)
+	{
+		tpint = index;
+		while (tpint > 0)
+			fr(b, NULL, &tpint, NULL);
+	}
+	else
+		while (tpint < index)
+			frr(b, NULL, &tpint, NULL);
+	// debug_printer(*a, *b);
+	fp(b, a);
+	tpint = (*b)->content;
+	while (find_index_max(*b) != 0)
+		if (find_index_max(*b) > ft_lstsize(*b) / 2)
+			frr(b, NULL, NULL, NULL);
+		else
+			fr(b, NULL, NULL, NULL);
+	// debug_printer(*a, *b);
+	if (is_rsorted(*b))
+	{
+		refresh_stacks(a, b, tpint);
+		replace_stk(b, index * way * -1);
+		// write(1, "after replace", 13);
+		// debug_printer(*a, *b);
+		return (-1);
+	}
+	refresh_stacks(a, b, tpint);
+	replace_stk(b, index * way * -1);
+	// write(1, "after replace2", 14);
+	// debug_printer(*a, *b);
+	return (tpint);
+}
+
+int	ft_get_index_b(t_stack **a, t_stack **b)
+{
+	int	index;
+	int	tpint;
+	// int	old_b_size;
+	
+	index = -1;
+	tpint = 0;
+	// old_b_size = ft_lstsize(*b);
+	while (tpint != -1 && ++index < (ft_lstsize(*b) / 2) + 1) //////// was (ft_lstsize(*b) / 2)
+	{
+		tpint = ft_index_found(a, b, index, 1); //  the original part
+		if (tpint != -1)
+		{
+			tpint = ft_index_found(a, b, index , -1); // index + 1
+				if (tpint == -1)
+					return (ft_lstsize(*b) - index); // index - 1
+		}
+		else
+			return (index);
+
+		// write(1, "\nB", 2);
+		// debug_printer(*a, *b);
+	}
+	// ft_mega_clearer(*a, *b, NULL);
+	return (index);
+}
+
+int ft_move_stk(t_stack **a, t_stack **b, int index, int way)
+{
+	int	tpint;
+	// t_stack	*a_dup;
+	// t_stack	*b_dup;
+
+	if (a && way == 0)
+	{
+		tpint = index;
+		while (tpint > 0)
+			fr(a, NULL, &tpint, NULL);
+	}
+	else if (a)
+	{
+		tpint = 0;
+		while (tpint < index * 2)
+			frr(a, NULL, &tpint, NULL);
+	}
+	// a_dup = duplicator(*a);
+	// b_dup = duplicator(*b);
+	// write(1, "before b call", 13);
+	// debug_printer(*a, *b);
+	tpint = ft_get_index_b(a, b); //&a_dup, &b_dup
+	if (tpint > ft_lstsize(*b) / 2)
+		tpint = ft_lstsize(*b) - tpint;
+	return (tpint);
+}
+
+int	ft_get_index_a(t_stack **a, t_stack **b)
+{
+	int		index;
+	int		tpint;
+	int		min_move;
+	int		best_index;
+
+	index = -1;
+	min_move = -1;
+	while (++index < (ft_lstsize(*a) / 2) + 1 && index < (ft_lstsize(*b) / 2) + 1) //////// was ++index < (ft_lstsize(*a) / 2) + 1 && index < (ft_lstsize(*b) / 2) + 1
+	{ /// old test : ++index < (ft_lstsize(*a) / 3) + 1 && index < (ft_lstsize(*b) / 3) + 1
+		// write(1, "\nA1", 3);
+		// debug_printer(*a, *b);
+		tpint = ft_move_stk(a, b, index, 0);
+		if (min_move == -1 || index + tpint < min_move)
+		{
+			min_move = index + tpint;
+			best_index = index;
+		}
+		tpint = ft_move_stk(a, b, index, 1);
+		if (index + tpint < min_move)
+		{
+			min_move = index + tpint;
+			best_index = ft_lstsize(*a) - index - 1;
+		}
+		replace_stk(a, index);
+		// write(1, "\nA2", 3);
+		// debug_printer(*a, *b);
+	}
+	// ft_mega_clearer(*a, *b, NULL);
+	// write(1, "after a find: ", 14);
+	// ft_putnbr_fd(best_index, 1);
+	// debug_printer(*a, *b);
+	return (best_index);
 }
 
 void ft_sort_three(t_stack **a)
@@ -230,7 +455,6 @@ void ft_sort_three(t_stack **a)
 
 	min = find_index_min(*a);
 	max = find_index_max(*a);
-	// printf("min: %i, max: %i\n", min, max);
 	if ((min == 0 && max == 1) || (min == 2 && max == 0))
 	{
 		sa(a);
@@ -247,6 +471,25 @@ void ft_sort_three(t_stack **a)
 	// 	ra(a, NULL);
 }
 // 1 2 3 ; 1 3 2 sa, ra ; 2 1 3 sa ; 2 3 1 rra ; 3 2 1 sa, ra ; 3 1 2 ra
+
+int	ft_get_place(t_stack *stk, int num)
+{
+	int		i;
+	t_stack	*nstk;
+	
+	i = 0;
+	nstk = duplicator(stk);
+	while (nstk && !(nstk->content > num && ft_lstlast(nstk)->content < num) && i < ft_lstsize(nstk))
+	{
+		// rb(&nstk, NULL);
+		// debug_printer(nstk, stk);
+		fr(&nstk, NULL, NULL, NULL);
+		i ++;
+	}
+	ft_mega_clearer(nstk, NULL, NULL);
+	return (i);
+}
+
 
 void	ft_empty_b(t_stack **a, t_stack **b)
 {
@@ -270,24 +513,6 @@ void	ft_empty_b(t_stack **a, t_stack **b)
 				ra(a, &move_count);
 		pa(a, b);
 	}
-}
-
-int	ft_get_place(t_stack *stk, int num)
-{
-	int		i;
-	t_stack	*nstk;
-	
-	i = 0;
-	nstk = duplicator(stk);
-	while (nstk && !(nstk->content > num && ft_lstlast(nstk)->content < num) && i < ft_lstsize(nstk))
-	{
-		// rb(&nstk, NULL);
-		// debug_printer(nstk, stk);
-		fr(&nstk, NULL, NULL, NULL);
-		i ++;
-	}
-	ft_mega_clearer(nstk, NULL, NULL);
-	return (i);
 }
 
 int	ft_get_min(t_stack *stk)
@@ -324,226 +549,6 @@ int	ft_get_max(t_stack *stk)
 	if (stk && stk->content > max)
 		max = stk->content;
 	return (max);
-}
-
-
-// int	move_count;
-
-	// while (ft_lstsize(*b) != 0)
-	// {
-	// 	move_count = ft_lstsize(*a);
-	// 	while (move_count > 0
-	// 		&& !(((*a)->content > (*b)->content && find_index_max(*a) == 0)
-	// 		|| ((*a)->content < (*b)->content && find_index_min(*a) == 0))
-	// 			&& !((*a)->content > (*b)->content
-	// 			&& ft_lstlast(*a)->content < (*b)->content))
-	// 	{
-	// 		if ((*a)->content > (*b)->content)
-	// 			rra(a, NULL);
-	// 		else //if (ft_lstsize(*a) > 2)
-	// 			ra(a, NULL);
-	// 		move_count --;
-	// 	}
-	// 	if (move_count == ft_lstsize(*a) //&& move_count > 2
-	// 		&& (((*a)->content < (*b)->content && find_index_max(*a) == 0)
-	// 		|| ((*a)->content > (*b)->content && find_index_min(*a) == 0)))
-	// 	{
-	// 		// write(1, "t", 1);
-	// 		ra(a, NULL);
-	// 	}
-	// 	// if ((*a)->content > (*b)->content
-	// 	// 	&& ft_lstlast(*a)->content < (*b)->content)
-	// 	pa(a, b);
-	// }
-
-int		do_move_utils(t_stack *sta, t_stack *stb);
-void	ft_do_move(t_stack **a, t_stack **b, int index, int indexb)
-{
-	while (a && *a && (index > 0 && index < ft_lstsize(*a)))
-		if (ft_lstsize(*a) - index < (ft_lstsize(*a) + 1) / 2)
-			rra(a, &index);
-		else
-			ra(a, &index);
-						// if (indexb < 0)
-						// 	indexb ++;
-						// while (b && *b && (indexb != 0))
-						// 	if (indexb < 0)
-						// 		rrb(b, &indexb);
-						// 	else if (indexb != 0)
-						// 		rb(b, &indexb);
-	// if (b && *b && a && *a && (*a)->content < (*b)->content && find_index_max(*b) != 0)
-	// 	while ((*b)->next && (*a)->content < (*b)->content && find_index_max(*b) != 0)
-	// 		rb(b, NULL);
-	// rb(b, NULL);
-	indexb = do_move_utils(*a, *b);
-	while (indexb > 0 && indexb < ft_lstsize(*b))
-	{
-		if (ft_lstsize(*b) - indexb < (ft_lstsize(*b)) / 2)
-		{
-			rrb(b, NULL);
-			indexb ++;
-		}
-		else
-		{
-			rb(b, NULL);
-			indexb --;
-		}
-	}
-
-
-
-	pb(b, a);
-	// write(1, "\n*****", 6);
-	// debug_printer(*a, *b);
-	// write(1, "\n*****", 6);
-	// while (find_index_max(*b) != 0)
-	// 	rrb(b, NULL);
-	// int i;
-	// i = find_index_max(*b);
-	// while ((i > 0 && i < ft_lstsize(*b)) && (!is_rsorted(*b)))
-	// {
-	// 	if (ft_lstsize(*b) - i < (ft_lstsize(*b) + 1) / 2)
-	// 	{
-	// 		rrb(b, &i);
-	// 	}
-	// 	else if (find_index_max(*b) != 0)
-	// 	{
-	// 		rb(b, &i);
-	// 	}
-	// }
-}
-
-int	do_move_utils(t_stack *sta, t_stack *stb)
-{
-	int	i;
-	int	n;
-	t_stack	*a;
-	t_stack	*b;
-
-	i = -1;
-	b = NULL;
-	// write(1, "--------------------\n", 21);
-	while (!is_rsorted(b) && i < ft_lstsize(stb))
-	{
-		i ++;
-		a = duplicator(sta);
-		b = duplicator(stb);
-		// write(1, "\n||||\n", 6); 
-		// debug_printer(a, b);
-		n = i;
-		while (n > 0)
-		{
-			fr(&b, NULL, NULL, NULL);
-			n --;
-		}
-		fp(&b, &a);
-		while (find_index_max(b) != 0 && find_index_max(b) != ft_lstsize(b))
-		{
-			if (ft_lstsize(b) - find_index_max(b) < (ft_lstsize(b)) / 2)
-				frr(&b, NULL, NULL, NULL);
-			else
-				fr(&b, NULL, NULL, NULL);
-		}
-		// debug_printer(a, b);
-		// write(1, "i:", 2);
-		// ft_putnbr_fd(i, 1);
-		// write(1, "\n", 1);
-	}
-
-	return(i);
-}
-
-int	ft_get_best(t_stack *a, t_stack *b)
-{
-	int		i;
-	int		place;
-	t_stack	*tmp;
-
-	i = 0;
-	tmp = a;
-	place = 0;
-	while (tmp && tmp->next)
-	{
-		if (i > ft_sort_single(a, b, place))
-			i = ft_sort_single(a, b, place);
-		tmp = tmp->next;
-		place ++;
-	}
-	return (i);
-}
-
-int	ft_sort_single(t_stack *a, t_stack *b, int place)
-{
-	t_stack	*tmpa;
-	t_stack	*tmpb;
-	int		placeb;
-	int		i;
-
-	i = 1;
-	tmpa = duplicator(a);
-	tmpb = duplicator(b);
-	placeb = ft_find_place(a, b, place);
-	while (tmpa && (place > 0 && place < ft_lstsize(tmpa)))
-	{
-		if (ft_lstsize(tmpa) - place < (ft_lstsize(tmpa) + 1) / 2)
-			frr(&tmpa, &tmpb, &place,  &placeb);
-		else
-			fr(&tmpa, &tmpb, &place, &placeb);
-		i ++;
-	}
-	while (tmpb && (placeb > 0 && placeb < ft_lstsize(tmpb)))
-	{
-		if (ft_lstsize(tmpa) - placeb < (ft_lstsize(tmpa) + 1) / 2)
-			frr(&tmpb, NULL, &placeb, NULL);
-		else
-			fr(&tmpb, NULL, &placeb, NULL);
-		i ++;
-	}
-	ft_lstclear(&tmpb);
-	ft_lstclear(&tmpa);
-	return (i);
-}
-
-int	ft_find_place_util(t_stack *tmpa, int place)
-{
-	int	res;
-
-	while (tmpa && (place > 0 && place < ft_lstsize(tmpa)))
-		if (ft_lstsize(tmpa) - place < (ft_lstsize(tmpa) + 1) / 2)
-			frr(&tmpa, NULL, &place, 0);
-		else
-			fr(&tmpa, NULL, &place, 0);
-	if (tmpa)
-	{
-		res = tmpa->content;
-		ft_lstclear(&tmpa);
-		return (res);
-	}
-	return (-1);
-}
-
-int	ft_find_place(t_stack *a, t_stack *b, int place)
-{
-	int	i;
-	int	tmpa;
-	t_stack *tmpb;
-
-	i = 0;
-	tmpa = ft_find_place_util(duplicator(a), place);
-	// write(1, "\n|", 2);
-	// ft_putnbr_fd(place, 1); #############################################
-	tmpb = duplicator(b);
-	
-	while (tmpa && tmpa != -1 && tmpb && tmpb->content > tmpa && i != ft_lstsize(b))
-	{
-		frr(&tmpb, NULL, NULL, 0);
-		i ++;
-	}
-	// ft_putnbr_fd(i, 1); ################################################
-	if (i > ft_lstsize(tmpb) / 2)
-		i = -1 * (i - (ft_lstsize(b) / 2)); //  - 1
-	ft_lstclear(&tmpb);
-	return (i);
 }
 
 static int	fr(t_stack **stk, t_stack **stk2, int *place, int *placeb)
@@ -589,7 +594,7 @@ static int	frr(t_stack **stk, t_stack **stk2, int *place, int *placeb)
 	if (place && *place != -1)
 		*place = *place + 1;
 	else
-		if (place && *placeb)
+		if (placeb && *placeb)
 			*placeb = *placeb + 1;
 	return (0);
 }
