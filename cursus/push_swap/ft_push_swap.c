@@ -147,19 +147,22 @@ void	debug_printer(t_stack *stk, t_stack *stk2)
 
 
 int		ft_get_place(t_stack *stk, int num);
-int		ft_get_index_a(t_stack **sta, t_stack **stb);
+int		ft_get_index_a(t_stack **sta, t_stack **stb, int *indexb);
 int		ft_get_index_b(t_stack **sta, t_stack **stb);
 int		ft_get_min(t_stack *stk);
 int		ft_get_max(t_stack *stk);
 void	ft_empty_b(t_stack **a, t_stack **b);
 void	ft_sort_three(t_stack **a);
-void	ft_do_move(t_stack **a, t_stack **b, int indexa);
+void	ft_do_move(t_stack **a, t_stack **b, int indexa, int indexb);
 
 void	algo(t_stack **a, t_stack **b)
 {
 	// t_stack *a2;
 	// t_stack *b2;
+	int	indexb;
+	int	indexa;
 
+	indexb = 0;
 	if (ft_lstsize(*a) > 3)
 	{
 		pb(b, a);
@@ -172,7 +175,8 @@ void	algo(t_stack **a, t_stack **b)
 		// debug_printer(*a, *b);
 		// a2 = duplicator(*a);
 		// b2 = duplicator(*b);
-		ft_do_move(a, b, ft_get_index_a(a, b));
+		indexa = ft_get_index_a(a, b, &indexb);
+		ft_do_move(a, b, indexa, indexb);
 	}
 	ft_sort_three(a);
 	ft_empty_b(a, b);
@@ -211,15 +215,16 @@ int	ft_get_index_b_special(t_stack **a, t_stack **b, int indexa)
 	return (indexb);
 }
 
-void	ft_do_move(t_stack **a, t_stack **b, int indexa)
+void	ft_do_move(t_stack **a, t_stack **b, int indexa, int indexb)
 {
-	int		indexb;
+	// int		indexb;
 	
 	// t_stack *a2;
 	// t_stack *b2;
 	// write(1, "before move", 11);
+	// ft_putnbr_fd(indexb, 1);
 	// debug_printer(*a, *b);
-	indexb = ft_get_index_b_special(a, b, indexa); //&a2, &b2
+	// indexb = ft_get_index_b_special(a, b, indexa); //&a2, &b2
 	while (a && b && indexa > 0
 			&& indexa < ft_lstsize(*a)
 			&& indexb > 0 && indexb < ft_lstsize(*b)
@@ -333,6 +338,15 @@ int	ft_index_found(t_stack **a, t_stack **b, int index, int way)
 		while (tpint < index)
 			frr(b, NULL, &tpint, NULL);
 	// debug_printer(*a, *b);
+	if (((*a)->content > ft_get_max(*b) && find_index_max(*b) != 0)
+		|| ((*a)->content < ft_get_min(*b) && find_index_max(*b) != 0)
+		|| ((*a)->content < ft_get_max(*b) && (*a)->content > ft_get_min(*b) &&
+			((*a)->content < (*b)->content || (*a)->content > ft_lstlast(*b)->content)))
+	{
+		// debug_printer(*a, *b);
+		replace_stk(b, index * way * -1);
+		return (0);
+	}
 	fp(b, a);
 	tpint = (*b)->content;
 	while (find_index_max(*b) != 0)
@@ -384,13 +398,13 @@ int	ft_get_index_b(t_stack **a, t_stack **b)
 	return (index);
 }
 
-int ft_move_stk(t_stack **a, t_stack **b, int index, int way)
+int ft_move_stk(t_stack **a, t_stack **b, int index, int *indexb_help)
 {
 	int	tpint;
 	// t_stack	*a_dup;
 	// t_stack	*b_dup;
 
-	if (a && way == 0)
+	if (a && index > 0)
 	{
 		tpint = index;
 		while (tpint > 0)
@@ -398,6 +412,7 @@ int ft_move_stk(t_stack **a, t_stack **b, int index, int way)
 	}
 	else if (a)
 	{
+		index = index * -1;
 		tpint = 0;
 		while (tpint < index * 2)
 			frr(a, NULL, &tpint, NULL);
@@ -407,35 +422,40 @@ int ft_move_stk(t_stack **a, t_stack **b, int index, int way)
 	// write(1, "before b call", 13);
 	// debug_printer(*a, *b);
 	tpint = ft_get_index_b(a, b); //&a_dup, &b_dup
+	*indexb_help = tpint;
 	if (tpint > ft_lstsize(*b) / 2)
 		tpint = ft_lstsize(*b) - tpint;
 	return (tpint);
 }
 
-int	ft_get_index_a(t_stack **a, t_stack **b)
+int	ft_get_index_a(t_stack **a, t_stack **b, int *indexb)
 {
 	int		index;
 	int		tpint;
 	int		min_move;
 	int		best_index;
+	int		indexb_help;
 
 	index = -1;
 	min_move = -1;
+	indexb_help = 0;
 	while (++index < (ft_lstsize(*a) / 2) + 1 && index < (ft_lstsize(*b) / 2) + 1) //////// was ++index < (ft_lstsize(*a) / 2) + 1 && index < (ft_lstsize(*b) / 2) + 1
 	{ /// old test : ++index < (ft_lstsize(*a) / 3) + 1 && index < (ft_lstsize(*b) / 3) + 1
 		// write(1, "\nA1", 3);
 		// debug_printer(*a, *b);
-		tpint = ft_move_stk(a, b, index, 0);
+		tpint = ft_move_stk(a, b, index, &indexb_help);
 		if (min_move == -1 || index + tpint < min_move)
 		{
 			min_move = index + tpint;
 			best_index = index;
+			*indexb = indexb_help;
 		}
-		tpint = ft_move_stk(a, b, index, 1);
+		tpint = ft_move_stk(a, b, (index * -1), &indexb_help);
 		if (index + tpint < min_move)
 		{
 			min_move = index + tpint;
-			best_index = ft_lstsize(*a) - index - 1;
+			best_index = ft_lstsize(*a) - index;// - 1
+			*indexb = indexb_help;
 		}
 		replace_stk(a, index);
 		// write(1, "\nA2", 3);
