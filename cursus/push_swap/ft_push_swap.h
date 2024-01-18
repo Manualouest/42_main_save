@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:49:57 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/08 16:16:00 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/18 19:20:45 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,14 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_stack;
 
-void	debug_printer(t_stack *stk, t_stack *stk2);
-void	ft_putnbr_fd(int n, int fd);
+typedef struct indexa_vals
+{
+	int				min_move;
+	int				best_index;
+	int				index;
+	int				indexb_help;
+}					t_indexa_vals;
+
 
 int		sa(t_stack **top);
 int		sb(t_stack **top);
@@ -34,21 +40,21 @@ int		ra(t_stack **stk, int *index);
 int		rb(t_stack **stk, int *index);
 int		rra(t_stack **stk, int *index);
 int		rrb(t_stack **stk, int *index);
+int		frr(t_stack **stk, int *place);
+int		fr(t_stack **stk, int *place);
 
 int		ft_atoi(const char *nptr);
-void	ft_putnbr(int n);
-int		stack_maker(char **args, t_stack **a, int nb_args);
-int		ft_has_letter(char *str);
-int		ft_has_no_double(char **args, int nb_args);
-int		ft_argv_convert(char ***args, char **argv);
 char	**ft_split(char const *s, char c, int *nb_subs);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	**stack_maker_utils(char **args, int *nb_args);
-void	ft_mega_clearer(t_stack *a, t_stack *b, char **argv);
-
-int		ft_len_str_n(const char *s, int chc);
 char	*ft_strlcat(char *dest, char *src, int free_chc);
 void	*ft_calloc(size_t nmemb, size_t size);
+int		ft_has_letter(char *str);
+int		ft_has_no_double(char **args, int nb_args);
+
+int		ft_stack_maker(char **args, t_stack **a, int nb_args);
+char	**ft_stk_mk_util(char **args, int *nb_args);
+void	ft_mega_clearer(t_stack *a, t_stack *b, char **argv);
+
 
 t_stack	*ft_lstnew(int content);
 int		ft_lstsize(t_stack *lst);
@@ -57,13 +63,22 @@ void	ft_lstadd_back(t_stack **lst, t_stack *new);
 void	ft_lstadd_front(t_stack **lst, t_stack *new);
 void	ft_lstclear(t_stack **lst);
 
-void	algo(t_stack **a, t_stack **b);
-int		find_index_min(t_stack *stk);
-int		find_index_max(t_stack *stk);
-int		is_sorted(t_stack *stk);
-int		is_rsorted(t_stack *stk);
-int		is_s_useful(t_stack *stk);
+void	ft_algo(t_stack **a, t_stack **b);
+void	ft_do_move(t_stack **a, t_stack **b, int indexa, int indexb);
+void	ft_sort_three(t_stack **a);
+void	ft_empty_b(t_stack **a, t_stack **b);
+void	ft_do_rrr(t_stack **a, t_stack **b, int *indexa, int *indexb);
+void	ft_replace_stk(t_stack **stk, int index);
 
-t_stack	*duplicator(t_stack *stk);
+int		ft_is_sorted(t_stack *stk);
+int		ft_is_rsorted(t_stack *stk);
+
+int		ft_get_index_a(t_stack **sta, t_stack **stb, int *indexb);
+int		ft_get_index_b(t_stack **sta, t_stack **stb);
+int		ft_find_index_min(t_stack *stk);
+int		ft_find_index_max(t_stack *stk);
+int		ft_get_min(t_stack *stk);
+int		ft_get_max(t_stack *stk);
+int		ft_get_place(t_stack *stk, int num);
 
 #endif

@@ -6,38 +6,34 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 01:13:35 by mbirou            #+#    #+#             */
-/*   Updated: 2023/12/18 18:28:54 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/18 19:15:20 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-static int	find_nb_subs(char const *str, char stop);
-static int	n_len(char const *s, char c, int index, int chc);
-static char	**fill_tab(char	**splitted, char const *s, char c, int nb_subs);
-static void	free_tab(char **splitted, int nb_elem);
+static int	ft_find_nb_subs(char const *str, char stop);
+static int	ft_n_len(char const *s, char c, int index, int chc);
+static char	**ft_fill_tab(char	**splitted, char const *s, char c, int nb_subs);
+static void	ft_free_tab(char **splitted, int nb_elem);
 
 char	**ft_split(char const *s, char c, int *nb_subs)
 {
-	// int		i;
-	// int		n;
 	char	**splitted;
 
-	// i = 0;
-	// n = 0;
 	if (!s)
 		return (NULL);
-	*nb_subs = find_nb_subs(s, c);
+	*nb_subs = ft_find_nb_subs(s, c);
 	splitted = malloc((*nb_subs + 1) * sizeof(char *));
 	if (!splitted)
 		return (NULL);
-	splitted = fill_tab(splitted, s, c, *nb_subs);
+	splitted = ft_fill_tab(splitted, s, c, *nb_subs);
 	if (!splitted)
 		return (NULL);
 	return (splitted);
 }
 
-static void	free_tab(char **splitted, int nb_elem)
+static void	ft_free_tab(char **splitted, int nb_elem)
 {
 	while (nb_elem >= 0)
 	{
@@ -47,7 +43,7 @@ static void	free_tab(char **splitted, int nb_elem)
 	free(splitted);
 }
 
-static char	**fill_tab(char	**splitted, char const *s, char c, int nb_subs)
+static char	**ft_fill_tab(char	**splitted, char const *s, char c, int nb_subs)
 {
 	int	i;
 	int	n;
@@ -56,21 +52,21 @@ static char	**fill_tab(char	**splitted, char const *s, char c, int nb_subs)
 	n = 0;
 	while (i < nb_subs)
 	{
-		n = n_len(s, c, n, 0);
-		splitted[i] = ft_substr(s, n, n_len(s, c, n, 1));
+		n = ft_n_len(s, c, n, 0);
+		splitted[i] = ft_substr(s, n, ft_n_len(s, c, n, 1));
 		if (!splitted)
 		{
-			free_tab(splitted, i);
+			ft_free_tab(splitted, i);
 			return (NULL);
 		}
-		n = n + n_len(s, c, n, 1);
+		n = n + ft_n_len(s, c, n, 1);
 		i ++;
 	}
 	splitted[i] = 0;
 	return (splitted);
 }
 
-static int	n_len(char const *s, char c, int index, int chc)
+static int	ft_n_len(char const *s, char c, int index, int chc)
 {
 	int	res;
 
@@ -89,7 +85,7 @@ static int	n_len(char const *s, char c, int index, int chc)
 	return (res);
 }
 
-static int	find_nb_subs(char const *str, char stop)
+static int	ft_find_nb_subs(char const *str, char stop)
 {
 	int	i;
 	int	res;

@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 22:14:59 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/08 16:15:38 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/18 19:11:55 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	pb(t_stack **a, t_stack **b)
 	write(1, "pb\n", 3);
 	return (1);
 }
+
 int	fp(t_stack **a, t_stack **b)
 {
 	t_stack	*temp;

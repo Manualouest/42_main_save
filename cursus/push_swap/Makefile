@@ -3,12 +3,16 @@ NAME = push_swap
 CSRC = ft_push_swap.c\
 	ft_push_swap_utils.c\
 	ft_push_swap_utils2.c\
+	ft_push_swap_utils3.c\
+	ft_push_swap_utils4.c\
 	ft_push_swap_pile1.c\
 	ft_push_swap_pile2.c\
 	ft_s_and_p.c\
 	ft_r_and_rr.c\
 	ft_split.c\
-	ft_substr.c
+	ft_substr.c\
+	ft_push_swap_index_finders.c\
+	ft_push_swap_algo_utils.c
 
 HEADER = ft_push_swap.h 
 
