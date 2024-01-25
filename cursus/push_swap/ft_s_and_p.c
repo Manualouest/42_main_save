@@ -6,13 +6,13 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 22:14:59 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/18 19:11:55 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/25 17:31:23 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-int	sa(t_stack **stk)
+int	sa(t_stack **stk, int chc)
 {
 	t_stack	*temp;
 
@@ -22,13 +22,14 @@ int	sa(t_stack **stk)
 		*stk = (*stk)->next;
 		temp->next = (*stk)->next;
 		(*stk)->next = temp;
-		write(1, "sa\n", 3);
+		if (chc == 1)
+			write(1, "sa\n", 3);
 		return (1);
 	}
 	return (0);
 }
 
-int	sb(t_stack **stk)
+int	sb(t_stack **stk, int chc)
 {
 	t_stack	*temp;
 
@@ -38,7 +39,8 @@ int	sb(t_stack **stk)
 		*stk = (*stk)->next;
 		temp->next = (*stk)->next;
 		(*stk)->next = temp;
-		write(1, "sb\n", 3);
+		if (chc == 1)
+			write(1, "sb\n", 3);
 		return (1);
 	}
 	return (0);

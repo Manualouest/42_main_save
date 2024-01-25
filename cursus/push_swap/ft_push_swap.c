@@ -6,16 +6,11 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 20:56:39 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/18 19:13:20 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/25 17:21:44 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
-
-// int			ft_get_place(t_stack *stk, int num);
-// void		ft_empty_b(t_stack **a, t_stack **b);
-// void		ft_sort_three(t_stack **a);
-// void		ft_do_move(t_stack **a, t_stack **b, int indexa, int indexb);
 
 int	main(int argc, char **argv)
 {
@@ -41,26 +36,6 @@ int	main(int argc, char **argv)
 	exit (0);
 }
 
-void	ft_mega_clearer(t_stack *a, t_stack *b, char **argv)
-{
-	int	i;
-
-	if (a)
-		ft_lstclear(&a);
-	if (b)
-		ft_lstclear(&b);
-	i = 0;
-	if (argv)
-	{
-		while (argv[i])
-		{
-			free(argv[i]);
-			i ++;
-		}
-		free(argv);
-	}
-}
-
 void	ft_algo(t_stack **a, t_stack **b)
 {
 	int	indexb;
@@ -80,38 +55,12 @@ void	ft_algo(t_stack **a, t_stack **b)
 	}
 	ft_sort_three(a);
 	ft_empty_b(a, b);
-	while (ft_find_index_min(*a) != 0 && ft_find_index_min(*a) != ft_lstsize(*a))
+	while (ft_find_index_min(*a) != 0
+		&& ft_find_index_min(*a) != ft_lstsize(*a))
 	{
 		if (ft_lstsize(*a) - ft_find_index_min(*a) < (ft_lstsize(*a)) / 2)
 			rra(a, NULL);
 		else
 			ra(a, NULL);
-	}
-}
-
-void	ft_do_rrr(t_stack **a, t_stack **b, int *indexa, int *indexb)
-{
-	while (a && b && *indexa > 0
-		&& *indexa < ft_lstsize(*a)
-		&& *indexb > 0 && *indexb < ft_lstsize(*b)
-		&& ((ft_lstsize(*a) - *indexa < ((ft_lstsize(*a)) / 2) + 1
-				&& ft_lstsize(*b) - *indexb < ((ft_lstsize(*b)) / 2) + 1)
-			|| (ft_lstsize(*a) - *indexa > ((ft_lstsize(*a)) / 2)
-				&& ft_lstsize(*b) - *indexb > ((ft_lstsize(*b)) / 2))))
-	{
-		if (ft_lstsize(*a) - *indexa < ((ft_lstsize(*a)) / 2) + 1
-			&& ft_lstsize(*b) - *indexb < ((ft_lstsize(*b)) / 2) + 1)
-		{
-			frr(a, indexa);
-			frr(b, indexb);
-			write(1, "rrr\n", 4);
-		}
-		else if (ft_lstsize(*a) - *indexa > ((ft_lstsize(*a)) / 2)
-			&& ft_lstsize(*b) - *indexb > ((ft_lstsize(*b)) / 2))
-		{
-			fr(a, indexa);
-			fr(b, indexb);
-			write(1, "rr\n", 3);
-		}
 	}
 }

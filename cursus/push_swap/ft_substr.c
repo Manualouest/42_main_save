@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 16:17:56 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/18 19:11:52 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/25 17:32:20 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int		ft_check_start(char const *s, unsigned int start);
 static size_t	ft_malloc_size(size_t max_sub, size_t len);
-static size_t	ft_strlen(const char *s);
+// static size_t	ft_strlen(const char *s);
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -55,19 +55,19 @@ static size_t	ft_malloc_size(size_t max_sub, size_t len)
 
 static int	ft_check_start(char const *s, unsigned int start)
 {
-	if (start > ft_strlen(s))
+	if ((int)start > ft_strlen(s))
 		return (0);
 	return (1);
 }
 
-static size_t	ft_strlen(const char *s)
-{
-	size_t	i;
+// static size_t	ft_strlen(const char *s)
+// {
+// 	size_t	i;
 
-	i = 0;
-	while (s[i] != 0)
-	{
-		i ++;
-	}
-	return (i);
-}
+// 	i = 0;
+// 	while (s[i] != 0)
+// 	{
+// 		i ++;
+// 	}
+// 	return (i);
+// }

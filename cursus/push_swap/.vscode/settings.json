@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"random": "c"
+		"random": "c",
+		"get_next_line.h": "c"
 	}
 }

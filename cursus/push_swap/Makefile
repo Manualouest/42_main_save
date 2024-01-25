@@ -1,7 +1,8 @@
 NAME = push_swap
+BNAME = checker
 
-CSRC = ft_push_swap.c\
-	ft_push_swap_utils.c\
+
+COMMON_SRC = ft_push_swap_utils.c\
 	ft_push_swap_utils2.c\
 	ft_push_swap_utils3.c\
 	ft_push_swap_utils4.c\
@@ -14,25 +15,44 @@ CSRC = ft_push_swap.c\
 	ft_push_swap_index_finders.c\
 	ft_push_swap_algo_utils.c
 
-HEADER = ft_push_swap.h 
+SRC = ft_push_swap.c
 
-COBJS = $(CSRC:.c=.o)
+BSRC = ./GNL/get_next_line.c\
+	./GNL/get_next_line_utils.c\
+	ft_checker.c\
+	ft_checker_utils.c
+
+OBJS = $(SRC:.c=.o) $(COMMON_SRC:.c=.o)
+BOBJS = $(BSRC:.c=.o) $(COMMON_SRC:.c=.o)
 
 CFLAGS = -Wall -Wextra -Werror
 
-CC = cc
-
 %.o: %.c
-	$(CC) $(CFLAGS) $< -g -c -o $@
+	clang $(CFLAGS) $< -g -c -o $@
 
-$(NAME) : $(COBJS)
-	clang -g $(COBJS) -o $(NAME)
+$(NAME) : $(OBJS)
+	clang -g $(OBJS) -o $(NAME)
+	clear
+	@echo "Done :)"
+
+bonus: all $(BNAME)
+
+$(BNAME) : $(BOBJS)
+	clang -g $(BOBJS) -o $(BNAME)
+	clear
+	@echo "Done Bonus :)"
 
 clean:
-	rm -f $(COBJS)
+	rm -f $(OBJS)
+	rm -f $(BOBJS)
+	clear
+	@echo "Cleaned :)"
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f $(BNAME)
+	clear
+	@echo "Fcleaned :)"
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:04:25 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/18 19:14:59 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/24 23:29:49 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_stack_maker(char **args, t_stack **a, int nb_args)
 		return (0);
 	*a = ft_lstnew(ft_atoi(args[i - 1]));
 	if (*a == NULL || (args[i - 1] && ft_atoi(args[i - 1]) == 0
-			&& args[i - 1][0] != '0'))
+			&& (args[i - 1][0] != '0' || args[i - 1][1] != 0)))
 	{
 		ft_lstclear(a);
 		return (0);
@@ -29,7 +29,8 @@ int	ft_stack_maker(char **args, t_stack **a, int nb_args)
 	while (i < nb_args)
 	{
 		ft_lstadd_back(a, ft_lstnew(ft_atoi(args[i])));
-		if (*a == NULL || (ft_atoi(args[i]) == 0 && args[i][0] != '0'))
+		if (*a == NULL || (ft_atoi(args[i]) == 0 && (args[i][0] != '0'
+			|| args[i][1] != 0)))
 		{
 			ft_lstclear(a);
 			return (0);

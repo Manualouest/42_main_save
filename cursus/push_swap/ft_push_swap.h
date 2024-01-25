@@ -6,13 +6,14 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:49:57 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/18 19:20:45 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/25 19:01:36 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PUSH_SWAP_H
 # define FT_PUSH_SWAP_H
 
+# include "GNL/get_next_line.h"
 # include <unistd.h>
 # include <stdlib.h>
 
@@ -31,8 +32,8 @@ typedef struct indexa_vals
 }					t_indexa_vals;
 
 
-int		sa(t_stack **top);
-int		sb(t_stack **top);
+int		sa(t_stack **top, int chc);
+int		sb(t_stack **top, int chc);
 int		pa(t_stack **a, t_stack **b);
 int		pb(t_stack **a, t_stack **b);
 int		fp(t_stack **a, t_stack **b);
@@ -42,8 +43,13 @@ int		rra(t_stack **stk, int *index);
 int		rrb(t_stack **stk, int *index);
 int		frr(t_stack **stk, int *place);
 int		fr(t_stack **stk, int *place);
+int		f_rr(t_stack **a, t_stack **b);
+int		f_ss(t_stack **a, t_stack **b);
+int		f_rrr(t_stack **a, t_stack **b);
 
 int		ft_atoi(const char *nptr);
+int		ft_strlen(const char *s);
+int		ft_strncmp(const char *s1, const char *s2, int n);
 char	**ft_split(char const *s, char c, int *nb_subs);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strlcat(char *dest, char *src, int free_chc);
@@ -80,5 +86,7 @@ int		ft_find_index_max(t_stack *stk);
 int		ft_get_min(t_stack *stk);
 int		ft_get_max(t_stack *stk);
 int		ft_get_place(t_stack *stk, int num);
+
+
 
 #endif

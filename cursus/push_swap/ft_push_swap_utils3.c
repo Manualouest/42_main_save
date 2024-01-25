@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 18:14:55 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/18 19:12:01 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/25 18:48:20 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,10 @@ int	fr(t_stack **stk, int *place)
 		temp->next = *stk;
 		*stk = (*stk)->next;
 		temp->next->next = NULL;
+		if (place && *place && *place != -1)
+			*place = *place - 1;
+		return (1);
 	}
-	if (place && *place && *place != -1)
-		*place = *place - 1;
 	return (0);
 }
 
@@ -78,9 +79,10 @@ int	frr(t_stack **stk, int *place)
 		temp->next->next = *stk;
 		*stk = temp->next;
 		temp->next = NULL;
+		if (place && *place != -1)
+			*place = *place + 1;
+		return (1);
 	}
-	if (place && *place != -1)
-		*place = *place + 1;
 	return (0);
 }
 
@@ -102,13 +104,13 @@ int	ft_atoi(const char *nptr)
 		i = 0;
 	while (nptr[i] != 0 && (nptr[i] >= '0' && nptr[i] <= '9'))
 	{
-		if (((num >= 214748364 && (nptr[i] - '0') >= 8) && sign == 1)
-			|| (!(num <= 214748364 && (nptr[i] - '0') <= 8) && sign == -1))
+		if (num >= 2147483647)
 			return (0);
 		num = num * 10 + (nptr[i] - '0');
 		i ++;
 	}
-	if (nptr[i] != 0 && !(nptr[i] >= '0' && nptr[i] <= '9'))
+	if (((num > 2147483647 && sign == 1) || (num > 2147483648 && sign == -1))
+		|| (nptr[i] != 0 && !(nptr[i] >= '0' && nptr[i] <= '9')))
 		return (0);
 	return ((int)num * sign);
 }

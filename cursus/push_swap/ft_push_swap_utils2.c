@@ -6,28 +6,22 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 22:12:19 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/18 19:12:04 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/25 17:10:10 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_push_swap.h"
 
-int	ft_len_str_n(const char *s, int chc)
+int	ft_strlen(const char *s)
 {
 	int	i;
 
 	i = 0;
 	if (!s)
-		return (chc * -1);
-	if (chc == 0)
-	{
-		while (s[i] != 0)
-		{
-			i ++;
-		}
-		return (i);
-	}
-	return (-1);
+		return (0);
+	while (s[i] != 0)
+		i ++;
+	return (i);
 }
 
 char	*ft_strlcat(char *dest, char *src, int free_chc)
@@ -37,7 +31,7 @@ char	*ft_strlcat(char *dest, char *src, int free_chc)
 	char	*tp;
 
 	i = 0;
-	len = ft_len_str_n(dest, 0) + ft_len_str_n(src, 0);
+	len = ft_strlen(dest) + ft_strlen(src);
 	tp = (char *)ft_calloc(len + 1, 1);
 	if (!tp)
 		return (NULL);

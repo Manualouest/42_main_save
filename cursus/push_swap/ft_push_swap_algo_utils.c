@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 18:34:47 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/18 19:14:39 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/25 17:32:47 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	ft_sort_three(t_stack **a)
 	min = ft_find_index_min(*a);
 	max = ft_find_index_max(*a);
 	if ((min == 0 && max == 1) || (min == 2 && max == 0))
-		sa(a);
+		sa(a, 1);
 	else if ((min == 1 && max == 2) || (min == 1 && max == 2))
-		sa(a);
+		sa(a, 1);
 }
 
 int	ft_get_place(t_stack *stk, int num)
