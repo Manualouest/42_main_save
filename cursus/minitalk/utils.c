@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:06:24 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/24 18:12:25 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/26 18:35:42 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	ft_send_error(int check1, int check2)
 		write(2, "Wrong number of parameters.\n", 28);
 	else if (check2 == 1)
 		write(2, "Bad pid.\n", 9);
+	else if (check2 == 2)
+		write(2, "Server never gave response\n", 27);
 	return (0);
 }
 

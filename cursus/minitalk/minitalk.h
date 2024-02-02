@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:53:46 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/24 16:16:48 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/01/26 17:26:41 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <signal.h>
+
+typedef struct bit_info
+{
+	int				bits;
+	int				caracter;
+	int				is_start;
+}					t_bit_info;
 
 int		ft_has_letter(char *str);
 int		ft_atoi(const char *nptr);
