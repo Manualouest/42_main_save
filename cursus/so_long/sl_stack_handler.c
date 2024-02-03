@@ -6,53 +6,52 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:35:23 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/02 18:08:36 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/03 20:00:37 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sl_include.h"
+#include <stdio.h>
 
-static char	*sl_get_img_path(char type)
+char	*sl_get_img_path(char type, t_map_info *map_info)
 {
 	if (type == 'P')
 		return ("images/player/player.png");
 	else if (type == 'E')
-		return ("images/exit/exit.png");
+	{
+		if (map_info->c_num > 0)
+			return ("images/exit/exit_unwin.png");
+		else
+			return ("images/exit/exit_win.png");
+	}
 	else if (type == 'C')
 		return ("images/collectible/collectible.png");
 	else if (type == '0')
 		return ("images/floor/floor.png");
 	else if (type == '1')
 		return ("images/wall/wall.png");
-	return ("error ig");
+	return ("images/player/player.png");
 }
 
-// void	sl_lstadd_front(t_img_stack **lst, void *mlx, char type)
-// {
-	
-// 	t_img_stack	*node;
-
-// 	node = malloc(sizeof(*node));
-// 	if (!node)
-// 		return ;
-// 	node->img = mlx_png_file_to_image(mlx, sl_get_img_path(type), NULL, NULL);
-// 	node->type = type;
-// 	node->next = NULL;
-// 	if (*lst != NULL)
-// 		node->next = *lst;
-// 	*lst = node;
-// }
-
-void	sl_lstadd_back(t_img_stack **lst, void *mlx, char type)
+void	sl_redo_link(t_img_stack *stk, t_map_info *map_info, char type)
 {
-	t_img_stack	*curr;
-	t_img_stack	*node;
+	mlx_delete_image(map_info->mlx, stk->img);
+	mlx_delete_texture(stk->texture);
+	stk->texture = mlx_load_png(sl_get_img_path(type, map_info));
+	stk->img = mlx_texture_to_image(map_info->mlx, stk->texture);
+	stk->type = type;
+}
+
+void	sl_lstadd_back(t_img_stack **lst, t_map_info *map_info, char type)
+{
+	t_img_stack		*curr;
+	t_img_stack		*node;
 
 	node = malloc(sizeof(*node));
 	if (!node)
 		return ;
-	// type = 'P';
-	node->img = mlx_png_file_to_image(mlx, sl_get_img_path(type), NULL, NULL);
+	node->texture = mlx_load_png(sl_get_img_path(type, map_info));
+	node->img = mlx_texture_to_image(map_info->mlx, node->texture);
 	node->type = type;
 	node->next = NULL;
 	if (*lst == NULL)
@@ -65,6 +64,7 @@ void	sl_lstadd_back(t_img_stack **lst, void *mlx, char type)
 		curr = curr->next;
 	curr->next = node;
 }
+
 
 int	sl_lstsize(t_img_stack *lst)
 {
@@ -83,7 +83,7 @@ int	sl_lstsize(t_img_stack *lst)
 	return (i);
 }
 
-void	sl_lstclear(void *mlx, t_img_stack **lst)
+void	sl_lstclear(mlx_t *mlx, t_img_stack **lst)
 {
 	t_img_stack	*temp;
 	t_img_stack	*curr;
@@ -96,12 +96,24 @@ void	sl_lstclear(void *mlx, t_img_stack **lst)
 		temp = curr->next;
 		if (curr)
 		{
-			mlx_destroy_image(mlx, curr->img);
+			mlx_delete_image(mlx, curr->img);
+			mlx_delete_texture(curr->texture);
 			free (curr);
 		}
 		curr = temp;
 	}
 	if (curr)
+	{
+		mlx_delete_image(mlx, curr->img);
+		mlx_delete_texture(curr->texture);
 		free (curr);
+	}
 	*lst = NULL;
+}
+
+t_img_stack *sl_link_finder(t_img_stack * img_stack, int index)
+{
+	while(--index >= 0 && img_stack->next)
+		img_stack = img_stack->next;
+	return (img_stack);
 }

@@ -1,5 +1,8 @@
 {
 	"files.associations": {
-		"sl_include.h": "c"
+		"sl_include.h": "c",
+		"fcntl.h": "c",
+		"variant": "c",
+		"chrono": "c"
 	}
 }

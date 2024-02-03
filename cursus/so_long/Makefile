@@ -1,5 +1,8 @@
 Name = so_long
+LIBMLX = ./MLX42
 
+Header = -I sl_include.h -I $(LIBMLX)/include
+Libs = $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 M_Src = sl_parsing_main.c\
 	sl_free_error.c\
 	sl_main.c\
@@ -13,20 +16,25 @@ Extras = $(addprefix extras/,\
 
 M_Obj = $(M_Src:.c=.o) $(Extras:.c=.o)
 
-Cflags = -Wall -Wextra -Werror MacroLibX/libmlx.so -lSDL2 -g
+Cflags = -Wall -Wextra -Werror -g
 
-.o: .c
-	clang $(Cflags) $< -c -o $@
+all: libmlx $(Name)
+
+libmlx:
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+
+%.o: %.c
+	clang $(Cflags) $(Header) $< -c -o $@
 
 $(Name): $(M_Obj)
-	clang $(Cflags) $(M_Obj) -o $(Name)
+	clang $(Cflags) $(M_Obj) $(Libs) $(Header) -o $(Name)
 
 clean:
 	rm -rf $(M_Obj)
+	rm -rf $(LIBMLX)/build
 
 fclean: clean
 	rm -rf $(Name)
 
-all: $(Name)
 
 re: fclean all

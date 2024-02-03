@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 13:24:23 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/02 15:32:06 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/03 15:18:41 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ int	sl_free_t_map_info(t_map_info *map_info)
 int	sl_parsing_error(int err, t_map_info *mp_inf, char **extra, int freem)
 {
 	if (err == 2)
-		write(1, "Map edges invalid.\n", 19);
+		write(2, "Map edges invalid.\n", 19);
 	else if (err == 3)
-		write(1, "Invalid character detected.\n", 28);
+		write(2, "Invalid character detected.\n", 28);
 	else if (err == 4)
-		write(1, "Your map isn't a rectangle.\n", 28);
+		write(2, "Your map isn't a rectangle.\n", 28);
 	else if (err == 5)
-		write(1, "Wrong number of player, exit or collectible.\n", 45);
+		write(2, "Wrong number of player, exit or collectible.\n", 45);
 	else if (err == 6)
-		write(1, "The map is impossible to complete.\n", 35);
+		write(2, "The map is impossible to complete.\n", 35);
 	if (freem)
 		sl_free_t_map_info(mp_inf);
 	free(*extra);

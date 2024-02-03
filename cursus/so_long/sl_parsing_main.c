@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:01 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/02 15:32:29 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/03 18:54:22 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,22 @@ static int	sl_chk_tiles(t_map_info *m_inf)
 
 static void	sl_path_check_utils(t_map_info *map_info, int x, int y)
 {
+	char	**map_cpy;
+	int		width;
+	int		height;
+
+	map_cpy = map_info->map_copy;
+	width = map_info->size.x;
+	height = map_info->size.y;
 	map_info->map_copy[y][x] = '1';
-	if (y > 0 && map_info->map_copy[y - 1][x] != '1')
+	if (y > 1 && map_cpy[y - 1][x] != '1' && map_cpy[y - 1][x] != 'E')
 		sl_path_check_utils(map_info, x, y - 1);
-	if (x < map_info->size.x - 1 && map_info->map_copy[y][x + 1] != '1')
+	if (x < width - 1 && map_cpy[y][x + 1] != '1' && map_cpy[y][x + 1] != 'E')
 		sl_path_check_utils(map_info, x + 1, y);
-	if (y < map_info->size.y - 1 && map_info->map_copy[y + 1][x] != '1')
+	if (y < height - 1 && map_cpy[y + 1][x] != '1' && map_cpy[y + 1][x] != 'E')
 		sl_path_check_utils(map_info, x, y + 1);
-	if (x > 0 && map_info->map_copy[y][x - 1] != '1')
+	if (x > 1 && map_cpy[y][x - 1] != '1' && map_cpy[y][x - 1] != 'E')
 		sl_path_check_utils(map_info, x - 1, y);
-	return ;
 }
 
 static int	sl_path_check(t_map_info *map_info, char *original_map)
@@ -78,14 +84,13 @@ static int	sl_path_check(t_map_info *map_info, char *original_map)
 	int	x;
 
 	y = -1;
-	sl_path_check_utils(map_info, map_info->player.x, map_info->player.x);
+	sl_path_check_utils(map_info, map_info->player.x, map_info->player.y);
 	while (map_info->map_copy[++y] != 0)
 	{
 		x = -1;
 		while (map_info->map_copy[y][++x] != 0)
 		{
-			if (map_info->map_copy[y][x] == 'E'
-				|| map_info->map_copy[y][x] == 'P'
+			if (map_info->map_copy[y][x] == 'P'
 				|| map_info->map_copy[y][x] == 'C')
 				return (0);
 		}
