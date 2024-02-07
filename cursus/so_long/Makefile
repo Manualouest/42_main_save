@@ -6,7 +6,8 @@ Libs = $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 M_Src = sl_parsing_main.c\
 	sl_free_error.c\
 	sl_main.c\
-	sl_stack_handler.c
+	sl_stack_handler.c\
+	sl_wall_handler.c
 
 Extras = $(addprefix extras/,\
 	get_next_line.c\

@@ -6,24 +6,33 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:16:18 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/03 20:02:27 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/07 03:43:54 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sl_include.h"
 
-void	sl_create_img(t_map_info map_info, t_img_stack **img_stack)
+void	sl_create_img(t_map_info mp_inf, t_img_stack **img_stk)
 {
 	int		i;
 	int		ii;
+	t_x_y	xy;
 
 	i = -1;
-	while (++i < map_info.size.y)
+	while (++i < mp_inf.size.y)
 	{
 		ii = -1;
-		while (++ii < map_info.size.x)
+		while (++ii < mp_inf.size.x)
 		{
-			sl_lstadd_back(img_stack, &map_info, map_info.map[i][ii]);
+			xy.y = i;
+			xy.x = ii;
+			if ( mp_inf.map_copy[i][ii] == 'P')
+			{
+				sl_lstadd_back(img_stk, &mp_inf, '0', xy);
+				sl_lstadd_back(mp_inf.player_img, &mp_inf, 'P', xy);
+			}
+			else
+				sl_lstadd_back(img_stk, &mp_inf, mp_inf.map_copy[i][ii], xy);
 		}
 	}
 }
@@ -41,10 +50,14 @@ void	sl_img_show(mlx_t *mlx, t_map_info mp_inf, t_img_stack *img_stk)
 		ii = -1;
 		while (++ii < mp_inf.size.x)
 		{
-			mlx_image_to_window(mlx, tp_stk->img, ii * 32 + 16, i * 32 + 16);
+			mlx_image_to_window(mlx, tp_stk->img, ii * 42 + 16, i * 42 + 16);
 			tp_stk = tp_stk->next;
 		}
 	}
+	i = mp_inf.player.y;
+	ii = mp_inf.player.x;
+	write(1, &(*mp_inf.player_img)->type, 1);
+	mlx_image_to_window(mlx, (*mp_inf.player_img)->img, ii * 42 + 16, i * 42 + 16);
 }
 
 void	ft_putnbr(int n)
@@ -87,10 +100,12 @@ void	sl_win_stop(t_map_info *map_info)
 {
 	write(1,"\E[H\E[2J",7);
 	write(1, "You won :D\n", 11);
+	write(1, "With ", 5);
+	ft_putnbr(map_info->total_moves);
+	write(1, " moves played\n", 14);
 	mlx_close_window(map_info->mlx);
 }
 
-#include <stdio.h>
 void	sl_move_player(t_map_info *mp_inf, int way)
 {
 	t_img_stack *tp_link;
@@ -98,22 +113,21 @@ void	sl_move_player(t_map_info *mp_inf, int way)
 	int			x;
 	int			y;
 
-	x = mp_inf->player.x;
-	y = mp_inf->player.y;
-	index = (y * mp_inf->size.x) + x;
+	mp_inf->player.x += way % 10;
+	mp_inf->player.y += way / 10;
+	(*mp_inf->player_img)->img->instances->x = mp_inf->player.x * 42 + 16;
+	(*mp_inf->player_img)->img->instances->y = mp_inf->player.y * 42 + 16;
+	index = (mp_inf->player.y * mp_inf->size.x) + mp_inf->player.x;
+	x = mp_inf->player.x * 42 + 16;
+	y = mp_inf->player.y * 42 + 16;
 	tp_link = sl_link_finder(*mp_inf->img_stack, index);
-	sl_redo_link(tp_link, mp_inf, '0');
-	mlx_image_to_window(mp_inf->mlx, tp_link->img, x * 32 + 16, y * 32 + 16);
-	x += way % 10;
-	y += way / 10;
-	index = (y * mp_inf->size.x) + x;
-	tp_link = sl_link_finder(*mp_inf->img_stack, index);
+	if (tp_link->type == 'C')
+	{
+		tp_link->img->instances->x = -64;
+		tp_link->img->instances->y = -64;
+	}
 	if (tp_link->type == 'E')
 		index = -1;
-	sl_redo_link(tp_link, mp_inf, 'P');
-	mlx_image_to_window(mp_inf->mlx, tp_link->img, x * 32 + 16, y * 32 + 16);
-	mp_inf->player.x = x;
-	mp_inf->player.y = y;
 	sl_update_moves(mp_inf);
 	if (index == -1)
 		sl_win_stop(mp_inf);
@@ -137,7 +151,13 @@ void	sl_change_exit(t_map_info *map_info)
 	}
 	tp_stk = sl_link_finder(*map_info->img_stack, index);
 	sl_redo_link(tp_stk, map_info, 'E');
-	mlx_image_to_window(map_info->mlx, tp_stk->img, ii * 32 - 16, i * 32 - 16);
+	sl_redo_link((*map_info->player_img), map_info, 'P');
+	i --;
+	ii --;
+	mlx_image_to_window(map_info->mlx, tp_stk->img, ii * 42 + 16, i * 42 + 16);
+	ii = map_info->player.x * 42 + 16;
+	ii = map_info->player.x * 42 + 16;
+	mlx_image_to_window(map_info->mlx, (*map_info->player_img)->img, ii, i);
 }
 
 int	sl_next(t_map_info *map_info, int way)
@@ -182,21 +202,51 @@ void	sl_single_key_handler(mlx_key_data_t keydata, void *map_info_void)
 		sl_move_player(mp_inf, 10);
 }
 
+void	sl_handle_extra_floor(t_map_info mp_inf, t_img_stack **floor)
+{
+	int			i;
+	int			ii;
+	int			x;
+	int			y;
+
+	i = -1;
+	while (++i < mp_inf.size.y)
+	{
+		ii = -1;
+		while (++ii < mp_inf.size.x)
+		{
+			if (mp_inf.map[i][ii] != '0')
+			{
+				x = ii * 42 + 16;
+				y = i * 42 + 16;
+				sl_lstadd_back(floor, &mp_inf, '0', mp_inf.size);
+				mlx_image_to_window(mp_inf.mlx, ft_lstlast(*floor)->img, x, y);
+			}
+		}
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_map_info	map_info;
 	t_img_stack	*img_stack;
+	t_img_stack	*player_img;
+	t_img_stack	*floor;
 
 	write(1,"\E[H\E[2J",7);
 	if (argc != 2 || !sl_parse_main(argv[1], &map_info))
 		exit (0);
 	img_stack = NULL;
+	player_img = NULL;
+	floor = NULL;
+	map_info.player_img = &player_img;
 	map_info.img_stack = &img_stack;
 	map_info.total_moves = 0;
-	map_info.mlx = mlx_init(map_info.size.x * 32 + 32, map_info.size.y * 32 + 32, "So Long", false);
+	map_info.mlx = mlx_init(map_info.size.x * 42 + 32, map_info.size.y * 42 + 32, "So Long", false);
 	if (!map_info.mlx)
 		return (0);
 	
+	sl_handle_extra_floor(map_info, &floor);
 	sl_create_img(map_info, map_info.img_stack);
 	sl_img_show(map_info.mlx, map_info, *map_info.img_stack);
 
@@ -205,5 +255,8 @@ int	main(int argc, char **argv)
 	
 	sl_free_t_map_info(&map_info);
 	sl_lstclear(map_info.mlx, map_info.img_stack);
+	sl_lstclear(map_info.mlx, &floor);
+	sl_lstclear(map_info.mlx, map_info.player_img);
 	mlx_terminate(map_info.mlx);
 }
+

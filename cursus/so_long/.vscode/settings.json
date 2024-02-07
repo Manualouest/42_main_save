@@ -3,6 +3,7 @@
 		"sl_include.h": "c",
 		"fcntl.h": "c",
 		"variant": "c",
-		"chrono": "c"
+		"chrono": "c",
+		"stdio.h": "c"
 	}
 }
