@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:45:29 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/08 19:56:29 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/08 05:45:52 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,23 +93,5 @@ int	sl_mlx_handler(t_map_info map_info, t_img_stack *floor)
 	sl_lstclear(map_info.mlx, &floor);
 	sl_lstclear(map_info.mlx, map_info.player_img);
 	mlx_terminate(map_info.mlx);
-	return (1);
-}
-
-int	sl_next(t_map_info *map_info, int way)
-{
-	int			index;
-	int			x;
-	int			y;
-	char		link_type;
-
-	x = map_info->player.x;
-	y = map_info->player.y;
-	x += way % 10;
-	y += way / 10;
-	index = (y * map_info->size.x) + x;
-	link_type = sl_link_finder(*map_info->img_stack, index)->type;
-	if (link_type == '1' || (link_type == 'E' && map_info->c_num > 0))
-		return (0);
 	return (1);
 }

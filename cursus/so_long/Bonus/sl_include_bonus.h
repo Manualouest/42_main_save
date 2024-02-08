@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_include.h                                       :+:      :+:    :+:   */
+/*   sl_include_bonus.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:05 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/08 16:40:05 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/08 14:29:32 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SL_INCLUDE_H
-# define SL_INCLUDE_H
+#ifndef SL_INCLUDE_BONUS_H
+# define SL_INCLUDE_BONUS_H
 
-# include "extras/extras.h"
+# include "../extras/extras.h"
 # include <fcntl.h>
-# include "MLX42/include/MLX42/MLX42.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 
 typedef struct s_parse_util
 {
@@ -58,7 +58,7 @@ void		sl_get_map(char *file_name, char **map_full, int *tpint);
 
 void		sl_update_moves(t_map_info *map_info);
 void		sl_change_exit(t_map_info *map_info, int old_type, int ex, int ey);
-void		sl_change_player(t_map_info *map_info, int play);
+void		sl_change_player(t_map_info *map_info);
 void		sl_move_player(t_map_info *mp_inf, int way);
 int			sl_next(t_map_info *map_info, int way);
 

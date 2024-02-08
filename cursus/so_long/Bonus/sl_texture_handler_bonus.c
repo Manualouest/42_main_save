@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:21:07 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/08 19:56:15 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/08 05:38:19 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,13 @@ char	*sl_get_img_path(char type, t_map_info *map_info, t_x_y coord)
 	if (type == 'E')
 	{
 		if (map_info->exit_type == 0)
-			return ("images/exit/exit_idle.png");
+			return ("images/exit/exit_unwin.png");
 		else if (map_info->exit_type == 1)
-			return ("images/exit/exit_happy.png");
+			return ("images/exit/exit_win.png");
 		else if (map_info->exit_type == 2)
-			return ("images/exit/exit_shy.png");
+			return ("images/exit/exit_win_shy.png");
 		else if (map_info->exit_type == 3)
-			return ("images/exit/exit_ok.png");
-		else if (map_info->exit_type == 4)
-			return ("images/exit/exit_cry.png");
+			return ("images/exit/exit_win_sad.png");
 	}
 	if (type == 'C')
 		return ("images/collectible/collectible.png");
