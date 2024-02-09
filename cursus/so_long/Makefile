@@ -15,7 +15,8 @@ M_Src = sl_parsing_main.c\
 	sl_texture_handler2.c\
 	sl_texture_handler3.c\
 	sl_texture_handler4.c\
-	sl_texture_handler5.c
+	sl_texture_handler5.c\
+	utils.c
 
 B_Src = $(addprefix Bonus/,\
 	sl_parsing_main_bonus.c\

@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:39:43 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/08 21:34:58 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/09 04:35:02 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	sl_update_c_num(t_map_info *map_info)
 		ii = -1;
 		while (++ii < map_info->size.x)
 		{
-			tp_stk = sl_link_finder(*map_info->img_stack, (i * map_info->size.x) + ii);
+			tp_stk = sl_link_finder(*map_info->img_stack,
+					(i * map_info->size.x) + ii);
 			if (tp_stk->type == 'C' && tp_stk->img->instances->enabled == 1)
 				total ++;
 		}
@@ -34,7 +35,8 @@ void	sl_update_c_num(t_map_info *map_info)
 	map_info->c_num = total;
 	if (map_info->c_num == 0)
 	{
-		sl_change_exit(map_info, map_info->exit_type, map_info->exit.x, map_info->exit.y);
+		sl_change_exit(map_info, map_info->exit_type,
+			map_info->exit.x, map_info->exit.y);
 		sl_change_player(map_info, 0);
 	}
 }
@@ -57,41 +59,32 @@ void	sl_update_moves(t_map_info *map_info)
 	write(1, "\n", 1);
 }
 
-int	sl_is_in_circle(t_map_info map_info, int rad, int ex, int ey)
+void	sl_change_exit(t_map_info *mp_info, int old_type, int ex, int ey)
 {
-	int			px;
-	int			py;
-
-	px = map_info.player.x;
-	py = map_info.player.y;
-	if ((ey - rad >= py && ey + rad <= py))
-}
-
-void	sl_change_exit(t_map_info *map_info, int old_type, int ex, int ey)
-{
-	if (sl_is_inf_circle(*map_info, 2, ex, ey))
-		write(1, "hey\n", 4);
-	// int			x;
-	// int			y;
-	// t_img_stack	*tp_stk;
-
-	// x = map_info->player.x;
-	// y = map_info->player.y;
-	// tp_stk = sl_link_finder(*map_info->img_stack, (ey * map_info->size.x) + ex);
-	// if (((x - ex <= 3 && x - ex >= 0) || (ex - x <= 3 && ex - x >= 0))
-	// 	&& ((y - ey <= 3 && y - ey >= 0) || (ey - y <= 3 && ey - y >= 0))
-	// 	&& map_info->exit_type != 0)
-	// 	map_info->exit_type = 2;
-	// else if (map_info->exit_type == 2)
-	// 	map_info->exit_type = 3;
-	// if (map_info->c_num <= 0 && map_info->exit_type == 0)
-	// 	map_info->exit_type = 1;
-	// x = ex * 42 + 16;
-	// y = ey * 42 + 16;
-	// if (map_info->exit_type != old_type)
-	// 	sl_redo_link(tp_stk, map_info, 'E');
-	// if (map_info->exit_type != old_type)
-	// 	mlx_image_to_window(map_info->mlx, tp_stk->img, x, y);
+	if (sl_is_in_circle(*mp_info, 2, ex, ey) && old_type == 0
+		&& mp_info->c_num != 0)
+		mp_info->exit_type = 1;
+	else if (!sl_is_in_circle(*mp_info, 2, ex, ey) && old_type == 1
+		&& mp_info->c_num != 0)
+		mp_info->exit_type = 0;
+	if (sl_is_in_circle(*mp_info, 5, ex, ey) && mp_info->c_num == 0
+		&& !sl_is_in_circle(*mp_info, 2, ex, ey) && old_type - 1 <= 0)
+		mp_info->exit_type = 2;
+	else if (sl_is_in_circle(*mp_info, 2, ex, ey) && mp_info->c_num == 0)
+		mp_info->exit_type = 3;
+	else if (sl_is_in_circle(*mp_info, 5, ex, ey) && mp_info->c_num == 0
+		&& !sl_is_in_circle(*mp_info, 2, ex, ey) && old_type == 3)
+		mp_info->exit_type = 4;
+	else if (!sl_is_in_circle(*mp_info, 5, ex, ey) && mp_info->c_num == 0
+		&& old_type != 0 && old_type != 1)
+		mp_info->exit_type = 5;
+	else if (sl_is_in_circle(*mp_info, 5, ex, ey) && mp_info->c_num == 0
+		&& !sl_is_in_circle(*mp_info, 2, ex, ey) && old_type == 5)
+		mp_info->exit_type = 6;
+	if (mp_info->exit_type != old_type)
+	{
+		sl_switch_exit(mp_info, ex, ey);
+	}
 }
 
 void	sl_change_player(t_map_info *map_info, int way)
@@ -122,11 +115,11 @@ void	sl_move_player(t_map_info *mp_inf, int way)
 		tp_link->img->instances->enabled = 0;
 	if (tp_link->type == 'E')
 		index = -1;
-	if (index == -1)
-		sl_win_stop(mp_inf);
 	sl_change_exit(mp_inf, mp_inf->exit_type, mp_inf->exit.x, mp_inf->exit.y);
 	if (mp_inf->c_num == 0)
 		sl_change_player(mp_inf, way);
 	sl_update_c_num(mp_inf);
 	sl_update_moves(mp_inf);
+	if (index == -1)
+		sl_win_stop(mp_inf);
 }

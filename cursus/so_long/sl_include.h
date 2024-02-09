@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:05 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/08 16:40:05 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/09 03:43:54 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void		sl_change_player(t_map_info *map_info, int play);
 void		sl_move_player(t_map_info *mp_inf, int way);
 int			sl_next(t_map_info *map_info, int way);
 
+int			sl_is_in_circle(t_map_info map_info, int rad, int ex, int ey);
+
 void		ft_putnbr(int n);
 void		sl_create_img(t_map_info mp_inf, t_img_stack **img_stk);
 void		sl_img_show(mlx_t *mlx, t_map_info mp_inf, t_img_stack *img_stk);
@@ -106,5 +108,7 @@ char		*sl_wall_finder20(t_map_info *map_info, int x, int y, int xmax);
 char		*sl_wall_finder21(t_map_info *map_info, int x, int y, int xmax);
 char		*sl_wall_finder22(t_map_info *map_info, int x, int y, int xmax);
 char		*sl_wall_finder23(t_map_info *map_info, int x, int y, int xmax);
+char		*sl_exit_finder(t_map_info *map_info);
+void		sl_switch_exit(t_map_info *map_info, int ex, int ey);
 
 #endif
