@@ -6,17 +6,17 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 15:52:19 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/26 18:37:43 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/09 04:41:45 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int bit_confirm = 0;
+int	g_bit_confirm = 0;
 
 void	ft_timer_switch(int sig)
 {
-	bit_confirm = sig;
+	g_bit_confirm = sig;
 }
 
 void	ft_timer(void)
@@ -24,7 +24,7 @@ void	ft_timer(void)
 	int	time;
 
 	time = 0;
-	while(bit_confirm == 0)
+	while (g_bit_confirm == 0)
 	{
 		if (time > 30000)
 		{
@@ -34,7 +34,7 @@ void	ft_timer(void)
 		usleep(10);
 		time += 10;
 	}
-	bit_confirm = 0;
+	g_bit_confirm = 0;
 	return ;
 }
 
@@ -62,7 +62,6 @@ int	main(int argc, char **argv)
 
 	if (argc != 3 || ft_has_letter(argv[1]))
 		return (ft_send_error(argc, 1));
-	
 	pid = ft_atoi(argv[1]);
 	signal(SIGUSR1, ft_timer_switch);
 	i = -1;

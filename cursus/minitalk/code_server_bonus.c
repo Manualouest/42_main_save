@@ -6,37 +6,37 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:55:46 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/26 18:23:15 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/09 04:44:36 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
-t_bit_info	bit_info;
+t_bit_info	g_bit_info;
 
 void	ft_handler(int sig, siginfo_t *info, void *oldact)
 {
 	(void)oldact;
-	bit_info.caracter = bit_info.caracter << 1;
+	g_bit_info.caracter = g_bit_info.caracter << 1;
 	if (sig == SIGUSR2)
-		bit_info.caracter++;
-	bit_info.bits++;
-	if (bit_info.caracter == 0 && bit_info.bits == 8)
+		g_bit_info.caracter++;
+	g_bit_info.bits++;
+	if (g_bit_info.caracter == 0 && g_bit_info.bits == 8)
 		kill(info->si_pid, SIGUSR2);
-	if (bit_info.is_start++, bit_info.is_start == 1)
+	if (g_bit_info.is_start++, g_bit_info.is_start == 1)
 	{
 		write(1, "\nMessage received from ", 23);
 		ft_putnbr(info->si_pid);
 		write(1, ": ", 2);
-		bit_info.is_start = 1;
+		g_bit_info.is_start = 1;
 	}
-	if (bit_info.bits == 8)
+	if (g_bit_info.bits == 8)
 	{
-		write(1, &(char){bit_info.caracter}, 1);
-		if (bit_info.caracter == 0)
-			bit_info.is_start = 0;
-	 	bit_info.bits = 0;
-		bit_info.caracter = 0;
+		write(1, &(char){g_bit_info.caracter}, 1);
+		if (g_bit_info.caracter == 0)
+			g_bit_info.is_start = 0;
+		g_bit_info.bits = 0;
+		g_bit_info.caracter = 0;
 	}
 	kill(info->si_pid, SIGUSR1);
 }

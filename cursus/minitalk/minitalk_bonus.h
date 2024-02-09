@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_wall_handler.c                                  :+:      :+:    :+:   */
+/*   minitalk_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/06 20:51:17 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/07 02:27:56 by mbirou           ###   ########.fr       */
+/*   Created: 2024/01/23 16:53:46 by mbirou            #+#    #+#             */
+/*   Updated: 2024/02/09 04:42:29 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// 1; E_N_in
-// 2; E_N_out
-// 3; O_E_bot
-// 4; OE_N
-// 5; OE_S
-// 6; O_E_top
-// 7; O_N_in
-// 8; O_N_out
-// 9; S_E_in
-// 10;S_E_out
-// 11;S_N_center
-// 12;S_N_left
-// 13;S_N_right
-// 14;S_O_in
-// 15;S_O_out
-// 16;O_S_C
-// 17;E_S_C
-// 18;E_N_C
-// 19;O_N_C
-// 20;S_N_right+push
-// 21;S_N_left+push
-// 22;S_N_center_stop
+#ifndef MINITALK_BONUS_H
+# define MINITALK_BONUS_H
+
+# include <unistd.h>
+# include <stdlib.h>
+# include <signal.h>
+
+typedef struct bit_info
+{
+	int				bits;
+	int				caracter;
+	int				is_start;
+}					t_bit_info;
+
+int		ft_has_letter(char *str);
+int		ft_atoi(const char *nptr);
+int		ft_send_error(int check1, int check2);
+void	ft_putnbr(int n);
+
+#endif
