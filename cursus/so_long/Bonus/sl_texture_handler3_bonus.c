@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_texture_handler3.c                              :+:      :+:    :+:   */
+/*   sl_texture_handler3_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:34:26 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/08 05:37:34 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/09 17:24:55 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sl_include.h"
+#include "sl_include_bonus.h"
 
 char	*sl_wall_finder13(t_map_info *map_info, int x, int y, int xmax)
 {

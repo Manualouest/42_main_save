@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_texture_handler.c                               :+:      :+:    :+:   */
+/*   sl_texture_handler_bonus.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:21:07 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/08 05:38:19 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/09 17:24:47 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sl_include.h"
+#include "sl_include_bonus.h"
 
 char	*sl_wall_finder(t_map_info *map_info, t_x_y coord);
 
@@ -24,16 +24,7 @@ char	*sl_get_img_path(char type, t_map_info *map_info, t_x_y coord)
 			return ("images/player/player_win.png");
 	}
 	if (type == 'E')
-	{
-		if (map_info->exit_type == 0)
-			return ("images/exit/exit_unwin.png");
-		else if (map_info->exit_type == 1)
-			return ("images/exit/exit_win.png");
-		else if (map_info->exit_type == 2)
-			return ("images/exit/exit_win_shy.png");
-		else if (map_info->exit_type == 3)
-			return ("images/exit/exit_win_sad.png");
-	}
+		return (sl_exit_finder(map_info));
 	if (type == 'C')
 		return ("images/collectible/collectible.png");
 	if (type == '0')

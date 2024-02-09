@@ -30,13 +30,15 @@ B_Src = $(addprefix Bonus/,\
 	sl_texture_handler2_bonus.c\
 	sl_texture_handler3_bonus.c\
 	sl_texture_handler4_bonus.c\
-	sl_texture_handler5_bonus.c)
+	sl_texture_handler5_bonus.c\
+	utils_bonus.c)
 
 Extras = $(addprefix extras/,\
 	get_next_line.c\
 	get_next_line_utils.c\
 	ft_split.c\
-	ft_substr.c)
+	ft_substr.c\
+	ft_itoa.c)
 
 M_Obj = $(M_Src:.c=.o) $(Extras:.c=.o)
 B_Obj = $(B_Src:.c=.o) $(Extras:.c=.o)
@@ -56,12 +58,17 @@ libmlx:
 $(Name): $(M_Obj)
 	clang $(Cflags) $(M_Obj) $(Libs) $(Header) -o $(Name)
 
+$(B_Name): $(B_Obj)
+	clang $(Cflags) $(B_Obj) $(Libs) $(Header) -o $(B_Name)
+
 clean:
 	rm -rf $(M_Obj)
+	rm -rf $(B_Obj)
 	rm -rf $(LIBMLX)/build
 
 fclean: clean
 	rm -rf $(Name)
+	rm -rf $(B_NAME)
 
 
 re: fclean all

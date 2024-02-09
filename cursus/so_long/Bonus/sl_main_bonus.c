@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_main.c                                          :+:      :+:    :+:   */
+/*   sl_main_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:16:18 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/08 14:31:45 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/09 18:44:52 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sl_include.h"
+#include "sl_include_bonus.h"
 
 void	sl_create_img(t_map_info mp_inf, t_img_stack **img_stk)
 {
@@ -26,11 +26,8 @@ void	sl_create_img(t_map_info mp_inf, t_img_stack **img_stk)
 		{
 			xy.y = i;
 			xy.x = ii;
-			if (mp_inf.map_copy[i][ii] == 'P')
-			{
+			if (mp_inf.map_copy[i][ii] == 'P' || mp_inf.map_copy[i][ii] == 'E')
 				sl_add_back(img_stk, &mp_inf, '0', xy);
-				sl_add_back(mp_inf.player_img, &mp_inf, 'P', xy);
-			}
 			else
 				sl_add_back(img_stk, &mp_inf, mp_inf.map_copy[i][ii], xy);
 		}
@@ -54,8 +51,8 @@ void	sl_img_show(mlx_t *mlx, t_map_info mp_inf, t_img_stack *img_stk)
 			tp_stk = tp_stk->next;
 		}
 	}
-	i = mp_inf.player.y * 42 + 16;
-	ii = mp_inf.player.x * 42 + 16;
+	i = mp_inf.players.xy.y * 42 + 16;
+	ii = mp_inf.players.xy.x * 42 + 16;
 	mlx_image_to_window(mlx, (*mp_inf.player_img)->img, ii, i);
 }
 
@@ -90,13 +87,13 @@ void	sl_get_exit(t_map_info *map_info)
 		{
 			if (map_info->map[i][ii] == 'E')
 			{
-				map_info->exit.x = ii;
-				map_info->exit.y = i;
+				map_info->exits.exit.x = ii;
+				map_info->exits.exit.y = i;
 				break ;
 			}
 		}
 	}
-	map_info->exit_type = 0;
+	map_info->exits.exit_type = 0;
 }
 
 int	main(int argc, char **argv)
@@ -106,7 +103,7 @@ int	main(int argc, char **argv)
 	t_img_stack	*player_img;
 	t_img_stack	*floor;
 
-	write(1, "\E[H\E[2J", 7);
+	// write(1, "\E[H\E[2J", 7);
 	if (argc != 2 || !sl_parse_main(argv[1], &map_info))
 		exit (0);
 	img_stack = NULL;

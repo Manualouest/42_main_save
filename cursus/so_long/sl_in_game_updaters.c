@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:39:43 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/09 04:35:02 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/09 18:18:17 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	sl_update_moves(t_map_info *map_info)
 	write(1, "\n", 1);
 	if (map_info->c_num > 0)
 	{
-		write(1, "Collectibles left: ", 19);
+		write(1, "Flowers left: ", 14);
 		ft_putnbr(map_info->c_num);
 	}
 	else

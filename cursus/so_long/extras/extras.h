@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:56:13 by mbirou            #+#    #+#             */
-/*   Updated: 2024/01/31 15:17:38 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/09 19:18:09 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ void	*gnl_calloc(size_t nmemb, size_t size);
 char	*gnl_free_readd(char *str, char *new_str);
 char	**ft_split(char const *s, char c, int *nb_subs);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_itoa(int n);
 
 #endif

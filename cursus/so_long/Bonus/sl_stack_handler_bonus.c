@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_stack_handler.c                                 :+:      :+:    :+:   */
+/*   sl_stack_handler_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:35:23 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/08 05:43:33 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/09 17:24:45 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sl_include.h"
-#include <stdio.h>
+#include "sl_include_bonus.h"
 
 void	sl_add_back(t_img_stack **lst, t_map_info *inf, char type, t_x_y xy)
 {

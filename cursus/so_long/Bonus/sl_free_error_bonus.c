@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_free_error.c                                    :+:      :+:    :+:   */
+/*   sl_free_error_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 13:24:23 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/08 03:01:40 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/09 17:24:29 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sl_include.h"
+#include "sl_include_bonus.h"
 
 int	sl_free_t_map_info(t_map_info *map_info)
 {

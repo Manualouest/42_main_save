@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_parsing_main.c                                  :+:      :+:    :+:   */
+/*   sl_parsing_main_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:01 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/08 03:01:44 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/09 18:48:31 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sl_include.h"
+#include "sl_include_bonus.h"
 
 static int	sl_ct_util(t_map_info *m_inf, t_parse_util *parse_ut, int x, int y)
 {
@@ -19,8 +19,8 @@ static int	sl_ct_util(t_map_info *m_inf, t_parse_util *parse_ut, int x, int y)
 	else if (m_inf->map[y][x] == 'P')
 	{
 		parse_ut->p_num += 1;
-		m_inf->player.x = x;
-		m_inf->player.y = y;
+		m_inf->players.xy.x = x;
+		m_inf->players.xy.y = y;
 	}
 	else if (m_inf->map[y][x] == 'C')
 		m_inf->c_num ++;
@@ -84,7 +84,7 @@ static int	sl_path_check(t_map_info *map_info, char *original_map)
 	int	x;
 
 	y = -1;
-	sl_path_check_utils(map_info, map_info->player.x, map_info->player.y);
+	sl_path_check_utils(map_info, map_info->players.xy.x, map_info->players.xy.y);
 	while (map_info->map_copy[++y] != 0)
 	{
 		x = -1;
