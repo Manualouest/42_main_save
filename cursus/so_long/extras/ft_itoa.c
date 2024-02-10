@@ -59,8 +59,6 @@ static int	get_num_len(int num)
 	while (num != 0)
 	{
 		num = ft_abs(num / 10);
-		if (num == 10 || num == -10)
-			i ++;
 		i ++;
 	}
 	return (i);

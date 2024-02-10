@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:05 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/09 19:26:33 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/10 10:08:49 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,20 @@
 # include <fcntl.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 
+# define EXIT_IDLE "images/exit/exit_idle_bonus/"
+# define EXIT_ANGRY "images/exit/exit_angry_bonus/"
+# define EXIT_HAPPY "images/exit/exit_happy_bonus/"
+# define EXIT_SHY "images/exit/exit_shy_bonus/"
+# define EXIT_OK "images/exit/exit_ok_bonus/"
+# define EXIT_CRY "images/exit/exit_cry_bonus/"
+# define EXIT_SUS "images/exit/exit_sus_bonus/"
+# define PLAYER_UNWIN "images/player/player_unwin_bonus/"
+# define PLAYER_WIN "images/player/player_win_bonus/"
+
 typedef struct s_parse_util
 {
-	int			p_num;
-	int			e_num;
+	int				p_num;
+	int				e_num;
 }				t_parse_util;
 
 typedef struct s_x_y
@@ -68,8 +78,8 @@ typedef struct s_map_info
 	char				**map_copy;
 	mlx_t				*mlx;
 	t_x_y				size;
-	struct s_exits		exits;
-	struct s_players	players;
+	struct s_exits		*exits;
+	struct s_players	*players;
 	struct s_img_stack	**img_stack;
 }						t_map_info;
 
@@ -84,15 +94,16 @@ void		sl_change_player(t_map_info *map_info, int play);
 void		sl_move_player(t_map_info *mp_inf, int way);
 
 int			sl_is_in_circle(t_map_info map_info, int rad, int ex, int ey);
+int			ft_lstsize(t_img_stack *lst);
 
 void		ft_putnbr(int n);
-void		sl_create_img(t_map_info mp_inf, t_img_stack **img_stk);
+t_x_y		sl_create_img(t_map_info mp_inf, t_img_stack **img_stk);
 void		sl_img_show(mlx_t *mlx, t_map_info mp_inf, t_img_stack *img_stk);
 
 void		sl_win_stop(t_map_info *map_info);
 void		sl_single_key_handler(mlx_key_data_t keydata, void *map_info_void);
 void		sl_handle_extra_floor(t_map_info mp_inf, t_img_stack **floor);
-int			sl_mlx_handler(t_map_info map_info, t_img_stack *floor);
+int			sl_mlx_handler(t_map_info map_info, t_img_stack **floor);
 
 int			sl_lstsize(t_img_stack *lst);
 void		sl_redo_link(t_img_stack *stk, t_map_info *map_info, char type);
@@ -131,7 +142,8 @@ char		*sl_wall_finder22(t_map_info *map_info, int x, int y, int xmax);
 char		*sl_wall_finder23(t_map_info *map_info, int x, int y, int xmax);
 
 char		*sl_exit_finder(t_map_info *map_info);
-void		sl_switch_exit(t_map_info *map_info, int ex, int ey);
-void		sl_load_players(t_map_info *map_info, char *player);
+t_exits		sl_exits_maker(t_map_info *map_info);
+t_x_y		sl_get_link(t_map_info *map_info, char type);
+t_players	sl_players_maker(t_map_info *map_inf);
 
 #endif

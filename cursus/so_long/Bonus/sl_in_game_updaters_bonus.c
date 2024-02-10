@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:39:43 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/09 19:21:50 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/10 08:54:11 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ void	sl_update_c_num(t_map_info *map_info)
 	map_info->c_num = total;
 	if (map_info->c_num == 0)
 	{
-		sl_change_exit(map_info, map_info->exits.exit_type,
-			map_info->exits.exit.x, map_info->exits.exit.y);
-		sl_change_player(map_info, 0);
+		sl_change_exit(map_info, map_info->exits->exit_type,
+			map_info->exits->exit.x, map_info->exits->exit.y);
 	}
 }
 
@@ -59,73 +58,77 @@ void	sl_update_moves(t_map_info *map_info)
 	write(1, "\n", 1);
 }
 
+void	sl_switch_exit(t_map_info *map_info, int old_type)
+{
+	t_img_stack	*stk;
+
+	if (old_type == 0)
+		stk = *map_info->exits->idle;
+	else if (old_type == 1)
+		stk = *map_info->exits->angry;
+	else if (old_type == 2)
+		stk = *map_info->exits->happy;
+	else if (old_type == 3)
+		stk = *map_info->exits->shy;
+	else if (old_type == 4)
+		stk = *map_info->exits->ok;
+	else if (old_type == 5)
+		stk = *map_info->exits->cry;
+	else
+		stk = *map_info->exits->sus;
+	while (stk)
+	{
+		stk->img->instances->enabled = 0;
+		stk = stk->next;
+	}
+}
+
 void	sl_change_exit(t_map_info *mp_info, int old_type, int ex, int ey)
 {
 	if (sl_is_in_circle(*mp_info, 2, ex, ey) && old_type == 0
 		&& mp_info->c_num != 0)
-		mp_info->exits.exit_type = 1;
+		mp_info->exits->exit_type = 1;
 	else if (!sl_is_in_circle(*mp_info, 2, ex, ey) && old_type == 1
 		&& mp_info->c_num != 0)
-		mp_info->exits.exit_type = 0;
+		mp_info->exits->exit_type = 0;
 	if (sl_is_in_circle(*mp_info, 5, ex, ey) && mp_info->c_num == 0
 		&& !sl_is_in_circle(*mp_info, 2, ex, ey) && old_type - 1 <= 0)
-		mp_info->exits.exit_type = 2;
+		mp_info->exits->exit_type = 2;
 	else if (sl_is_in_circle(*mp_info, 2, ex, ey) && mp_info->c_num == 0)
-		mp_info->exits.exit_type = 3;
+		mp_info->exits->exit_type = 3;
 	else if (sl_is_in_circle(*mp_info, 5, ex, ey) && mp_info->c_num == 0
 		&& !sl_is_in_circle(*mp_info, 2, ex, ey) && old_type == 3)
-		mp_info->exits.exit_type = 4;
+		mp_info->exits->exit_type = 4;
 	else if (!sl_is_in_circle(*mp_info, 5, ex, ey) && mp_info->c_num == 0
 		&& old_type != 0 && old_type != 1)
-		mp_info->exits.exit_type = 5;
+		mp_info->exits->exit_type = 5;
 	else if (sl_is_in_circle(*mp_info, 5, ex, ey) && mp_info->c_num == 0
 		&& !sl_is_in_circle(*mp_info, 2, ex, ey) && old_type == 5)
-		mp_info->exits.exit_type = 6;
-	if (mp_info->exits.exit_type != old_type)
+		mp_info->exits->exit_type = 6;
+	if (mp_info->exits->exit_type != old_type)
 	{
-		sl_switch_exit(mp_info, ex, ey);
+		sl_switch_exit(mp_info, old_type);
 	}
 }
 
-void	sl_change_player(t_map_info *map_info, int way)
+void	sl_change_player_pos(t_map_info *map_info)
 {
-	int	x;
-	int	y;
+	t_img_stack	*stk;
 
-	(void)way;
-	x = map_info->players.xy.x * 42 + 16;
-	y = map_info->players.xy.y * 42 + 16;
-	sl_redo_link(*map_info->players.win, map_info, 'P');
-	mlx_image_to_window(map_info->mlx, (*map_info->players.win)->img, x, y);
-	map_info->c_num = -2;
-}
-
-void	sl_move_player_frames(t_map_info *map_info)
-{
-	int			x;
-	int			y;
-	t_img_stack	**tp1;
-	t_img_stack	**tp2;
-	
-	x = map_info->players.xy.x;
-	y = map_info->players.xy.y;
-	tp1 = map_info->players.nowin;
-	tp2 = map_info->players.win;
-	while((*tp1)->next || (*tp2)->next)
+	stk = *map_info->players->nowin;
+	while (stk)
 	{
-		(*tp1)->img->instances->x = x;
-		(*tp1)->img->instances->y = y;
-		(*tp2)->img->instances->x = x;
-		(*tp2)->img->instances->y = y;
-		if ((*tp2)->next)
-			(*tp2) = (*tp2)->next;
-		if ((*tp1)->next)
-			(*tp1) = (*tp1)->next;
+		stk->img->instances->x = map_info->players->xy.x * 42 + 16;
+		stk->img->instances->y = map_info->players->xy.y * 42 + 16;
+		stk = stk->next;
 	}
-	(*tp1)->img->instances->x = x;
-	(*tp1)->img->instances->y = y;
-	(*tp2)->img->instances->x = x;
-	(*tp2)->img->instances->y = y;
+	stk = *map_info->players->win;
+	while (stk)
+	{
+		stk->img->instances->x = map_info->players->xy.x * 42 + 16;
+		stk->img->instances->y = map_info->players->xy.y * 42 + 16;
+		stk = stk->next;
+	}
 }
 
 void	sl_move_player(t_map_info *mp_inf, int way)
@@ -133,19 +136,17 @@ void	sl_move_player(t_map_info *mp_inf, int way)
 	t_img_stack	*tp_link;
 	int			index;
 
-	mp_inf->players.xy.x += way % 10;
-	mp_inf->players.xy.y += way / 10;
-	sl_move_player_frames(mp_inf);
-	index = (mp_inf->players.xy.y * mp_inf->size.x) + mp_inf->players.xy.x;
+	mp_inf->players->xy.x += way % 10;
+	mp_inf->players->xy.y += way / 10;
+	sl_change_player_pos(mp_inf);
+	index = (mp_inf->players->xy.y * mp_inf->size.x) + mp_inf->players->xy.x;
 	tp_link = sl_link_finder(*mp_inf->img_stack, index);
 	if (tp_link->type == 'C')
 		tp_link->img->instances->enabled = 0;
 	if (tp_link->type == 'E')
 		index = -1;
-	sl_change_exit(mp_inf, mp_inf->exits.exit_type,
-		mp_inf->exits.exit.x, mp_inf->exits.exit.y);
-	if (mp_inf->c_num == 0)
-		sl_change_player(mp_inf, way);
+	sl_change_exit(mp_inf, mp_inf->exits->exit_type,
+		mp_inf->exits->exit.x, mp_inf->exits->exit.y);
 	sl_update_c_num(mp_inf);
 	sl_update_moves(mp_inf);
 	if (index == -1)

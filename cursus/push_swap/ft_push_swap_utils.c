@@ -30,7 +30,7 @@ int	ft_stack_maker(char **args, t_stack **a, int nb_args)
 	{
 		ft_lstadd_back(a, ft_lstnew(ft_atoi(args[i])));
 		if (*a == NULL || (ft_atoi(args[i]) == 0 && (args[i][0] != '0'
-			|| args[i][1] != 0)))
+				|| args[i][1] != 0)))
 		{
 			ft_lstclear(a);
 			return (0);

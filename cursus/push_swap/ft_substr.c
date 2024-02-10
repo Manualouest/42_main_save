@@ -14,7 +14,6 @@
 
 static int		ft_check_start(char const *s, unsigned int start);
 static size_t	ft_malloc_size(size_t max_sub, size_t len);
-// static size_t	ft_strlen(const char *s);
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -59,15 +58,3 @@ static int	ft_check_start(char const *s, unsigned int start)
 		return (0);
 	return (1);
 }
-
-// static size_t	ft_strlen(const char *s)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	while (s[i] != 0)
-// 	{
-// 		i ++;
-// 	}
-// 	return (i);
-// }

@@ -19,8 +19,8 @@ SRC = ft_push_swap.c
 
 BSRC = ./GNL/get_next_line.c\
 	./GNL/get_next_line_utils.c\
-	ft_checker.c\
-	ft_checker_utils.c
+	ft_checker_bonus.c\
+	ft_checker_utils_bonus.c
 
 OBJS = $(SRC:.c=.o) $(COMMON_SRC:.c=.o)
 BOBJS = $(BSRC:.c=.o) $(COMMON_SRC:.c=.o)

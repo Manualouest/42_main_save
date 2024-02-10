@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:21:07 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/09 17:24:47 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/10 08:52:36 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,6 @@ char	*sl_wall_finder(t_map_info *map_info, t_x_y coord);
 
 char	*sl_get_img_path(char type, t_map_info *map_info, t_x_y coord)
 {
-	if (type == 'P')
-	{
-		if (map_info->c_num > 0)
-			return ("images/player/player_unwin.png");
-		else
-			return ("images/player/player_win.png");
-	}
-	if (type == 'E')
-		return (sl_exit_finder(map_info));
 	if (type == 'C')
 		return ("images/collectible/collectible.png");
 	if (type == '0')
@@ -36,7 +27,7 @@ void	sl_redo_link(t_img_stack *stk, t_map_info *map_info, char type)
 {
 	t_x_y	player_pos;
 
-	player_pos = map_info->player;
+	player_pos = map_info->players->xy;
 	mlx_delete_image(map_info->mlx, stk->img);
 	mlx_delete_texture(stk->texture);
 	stk->texture = mlx_load_png(sl_get_img_path(type, map_info, player_pos));

@@ -31,7 +31,6 @@ typedef struct indexa_vals
 	int				indexb_help;
 }					t_indexa_vals;
 
-
 int		sa(t_stack **top, int chc);
 int		sb(t_stack **top, int chc);
 int		pa(t_stack **a, t_stack **b);
@@ -61,7 +60,6 @@ int		ft_stack_maker(char **args, t_stack **a, int nb_args);
 char	**ft_stk_mk_util(char **args, int *nb_args);
 void	ft_mega_clearer(t_stack *a, t_stack *b, char **argv);
 
-
 t_stack	*ft_lstnew(int content);
 int		ft_lstsize(t_stack *lst);
 t_stack	*ft_lstlast(t_stack *lst);
@@ -86,7 +84,5 @@ int		ft_find_index_max(t_stack *stk);
 int		ft_get_min(t_stack *stk);
 int		ft_get_max(t_stack *stk);
 int		ft_get_place(t_stack *stk, int num);
-
-
 
 #endif
