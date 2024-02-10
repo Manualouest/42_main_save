@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:16:18 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/10 10:05:38 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/10 15:30:08 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ char	*sl_get_png(char *path, char *tp)
 	png = gnl_strlcat(path, tp, 0);
 	png = gnl_strlcat(png, ".png", 1);
 	fd = open(png, O_RDONLY);
-	printf("%s, %i\n", png, fd);
 	free(tp);
 	if (fd > 0)
 	{
@@ -151,92 +150,48 @@ char	*sl_get_png(char *path, char *tp)
 	return (NULL);
 }
 
-t_img_stack	**sl_fill_stk(char *way, int *frame, t_map_info *mp_inf, char type)
+t_players	*sl_create_players(t_map_info map_info)
 {
+	t_players	*players;
 	char		*png;
-	t_img_stack	*stk;
-	t_img_stack	**return_stk;
+	int			i;
 
-	stk = NULL;
-	png = sl_get_png(way, ft_itoa(*frame));
-	while (++(*frame), png != NULL)
+	players = malloc(sizeof(*players));;
+	players->nowin = malloc(sizeof(**players->nowin));
+	i = 1;
+	png = sl_get_png(PLAYER_UNWIN, ft_itoa(i));
+	while (i++, png != NULL)
 	{
-		sl_custom_addback(mp_inf, png, &stk, type);
+		sl_custom_addback(&map_info, png, players->nowin, 'P');
 		free(png);
-		png = sl_get_png(way, ft_itoa(*frame));
+		png = sl_get_png(PLAYER_UNWIN, ft_itoa(i));
 	}
 	free(png);
-	*frame = 1;
-	return_stk = &stk;
-	return (return_stk);
-}
-
-t_players	sl_players_maker(t_map_info *map_inf)
-{
-	t_players players;
-
-	players.player_frame = 1;
-	players.player_type = 0;
-	players.xy = sl_get_link(map_inf, 'P');
-	players.nowin = sl_fill_stk(PLAYER_UNWIN, &players.player_frame, map_inf, 'P');
-	players.win = sl_fill_stk(PLAYER_WIN, &players.player_frame, map_inf, 'P');
-	t_img_stack **test = players.nowin;
-	while ((*test)->next)
+	players->win = malloc(sizeof(**players->win));
+	players->win = NULL;
+	i = 1;
+	png = sl_get_png(PLAYER_UNWIN, ft_itoa(i));
+	while (i++, png != NULL)
 	{
-		write(1, &(*test)->type, 1);
-		write(1, "\n", 1);
+		sl_custom_addback(&map_info, png, players->win, 'P');
+		free(png);
+		png = sl_get_png(PLAYER_UNWIN, ft_itoa(i));
 	}
-	return (players);
-}
-
-t_exits	sl_exits_maker(t_map_info *map_inf)
-{
-	t_exits	exits;
-
-	// exits.idle = NULL;
-	// exits.angry = NULL;
-	// exits.happy = NULL;
-	// exits.shy = NULL;
-	// exits.ok = NULL;
-	// exits.cry = NULL;
-	// exits.sus = NULL;
-	exits.exit = sl_get_link(map_inf, 'E');
-	exits.exit_frame = 1;
-	exits.exit_type = 0;
-	exits.idle = sl_fill_stk(EXIT_IDLE, &exits.exit_frame, map_inf, 'E');
-	exits.angry = sl_fill_stk(EXIT_ANGRY, &exits.exit_frame, map_inf, 'E');
-	exits.happy =sl_fill_stk(EXIT_HAPPY, &exits.exit_frame, map_inf, 'E');
-	exits.shy = sl_fill_stk(EXIT_SHY, &exits.exit_frame, map_inf, 'E');
-	exits.ok = sl_fill_stk(EXIT_OK, &exits.exit_frame, map_inf, 'E');
-	exits.cry = sl_fill_stk(EXIT_CRY, &exits.exit_frame, map_inf, 'E');
-	exits.sus = sl_fill_stk(EXIT_SUS, &exits.exit_frame, map_inf, 'E');
-	// sl_fill_exit(exits.idle, EXIT_IDLE, &exits.exit_frame, map_inf);
-	// sl_fill_exit(exits.angry, EXIT_ANGRY, &exits.exit_frame, map_inf);
-	// sl_fill_exit(exits.happy, EXIT_HAPPY, &exits.exit_frame, map_inf);
-	// sl_fill_exit(exits.shy, EXIT_SHY, &exits.exit_frame, map_inf);
-	// sl_fill_exit(exits.ok, EXIT_OK, &exits.exit_frame, map_inf);
-	// sl_fill_exit(exits.cry, EXIT_CRY, &exits.exit_frame, map_inf);
-	// sl_fill_exit(exits.sus, EXIT_SUS, &exits.exit_frame, map_inf);
-	return (exits);
+	free(png);
+	return(players);
 }
 
 int	main(int argc, char **argv)
 {
 	t_map_info	map_info;
 	t_img_stack	*img_stack;
-	// t_img_stack	*player_win;
-	// t_img_stack	*player_nowin;
 	t_img_stack	*floor;
 
 	// write(1, "\E[H\E[2J", 7);
 	if (argc != 2 || !sl_parse_main(argv[1], &map_info))
 		exit (0);
 	img_stack = NULL;
-	// player_win = NULL;
-	// player_nowin = NULL;
 	floor = NULL;
-	// map_info.players->nowin = &player_nowin;
-	// map_info.players->win = &player_win;
 	map_info.img_stack = &img_stack;
 	map_info.total_moves = 0;
 	if (sl_mlx_handler(map_info, &floor) == 0)

@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:45:29 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/10 10:19:40 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/10 15:33:41 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,33 +73,37 @@ void	sl_handle_extra_floor(t_map_info mp_inf, t_img_stack **floor)
 	}
 }
 
-void	sl_anime_player(void *map_inf)
+void	sl_anime_player(void *playersv)
 {
-	t_map_info	*mp_inf;
+	t_players	*players;
 	t_img_stack	*stk;
 
-	mp_inf = (t_map_info *)map_inf;
-	if (mp_inf->players->player_frame % 4 != 0)
+	players = (t_players *)playersv;
+	stk = NULL;
+	if (players->player_frame % 4 != 0)
 	{
-		mp_inf->players->player_frame ++;
+		players->player_frame ++;
 		return ;
 	}
-	if (mp_inf->players->player_frame > 484)
-		mp_inf->players->player_frame = 0;
-	if (mp_inf->players->player_type == 0)
-		stk = sl_link_finder(*mp_inf->players->nowin,
-			mp_inf->players->player_frame / 4);
+	if (players->player_frame > 484)
+		players->player_frame = 0;
+	if (players->player_type == 0)
+		stk = sl_link_finder(*players->nowin,
+			players->player_frame / 4);
 	else
-		stk = sl_link_finder(*mp_inf->players->win,
-			mp_inf->players->player_frame / 4);
-	stk->img->instances->enabled = 0;
-	if (stk->next)
-		stk->next->img->instances->enabled = 1;
-	else if (mp_inf->players->player_type == 0)
-		(*mp_inf->players->nowin)->img->instances->enabled = 1;
-	else if (mp_inf->players->player_type == 1)
-		(*mp_inf->players->win)->img->instances->enabled = 1;
-	mp_inf->players->player_frame ++;
+		stk = sl_link_finder(*players->win,
+			players->player_frame / 4);
+	if (stk->img)
+	{
+		stk->img->instances->enabled = 0;
+		if (stk->next)
+			stk->next->img->instances->enabled = 1;
+		else if (players->player_type == 0)
+			(*players->nowin)->img->instances->enabled = 1;
+		else if (players->player_type == 1)
+			(*players->win)->img->instances->enabled = 1;
+		players->player_frame ++;
+	}
 }
 
 void	sl_anime_exit_stack(t_img_stack **exit, t_map_info *mp_inf)
@@ -147,32 +151,30 @@ int	sl_mlx_handler(t_map_info map_info, t_img_stack **floor)
 {
 	int			x;
 	int			y;
-	t_exits		exits;
-	t_players	players;
+	// t_exits		exits;
+	t_players	*players;
 
 	x = map_info.size.x * 42 + 32;
 	y = map_info.size.y * 42 + 32;
 	map_info.mlx = mlx_init(x, y, "So Long", false);
 	if (!map_info.mlx)
 		return (0);
-	players = sl_players_maker(&map_info);
-	// map_info.players = &players;
+	players = sl_create_players(map_info);
 	sl_create_img(map_info, map_info.img_stack);
 	sl_handle_extra_floor(map_info, floor);
 	sl_img_show(map_info.mlx, map_info, *map_info.img_stack);
-	exits = sl_exits_maker(&map_info);
-	map_info.exits = &exits;
 	
 	mlx_key_hook(map_info.mlx, &sl_single_key_handler, (void *)&map_info);
 	mlx_loop_hook(map_info.mlx, &sl_anime_player, (void *)&map_info);
 	// mlx_loop_hook(map_info.mlx, &sl_anime_exit_main, (void *)&map_info);
+
 	mlx_loop(map_info.mlx);
 	sl_free_t_map_info(&map_info);
 
 	sl_lstclear(map_info.mlx, map_info.img_stack);
 	sl_lstclear(map_info.mlx, floor);
-	sl_lstclear(map_info.mlx, map_info.players->win);
-	sl_lstclear(map_info.mlx, map_info.players->nowin);
+	sl_lstclear(map_info.mlx, players->win);
+	sl_lstclear(map_info.mlx, players->nowin);
 	mlx_terminate(map_info.mlx);
 	return (1);
 }

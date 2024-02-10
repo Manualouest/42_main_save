@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:05 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/10 10:08:49 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/10 14:28:32 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,9 +141,11 @@ char		*sl_wall_finder21(t_map_info *map_info, int x, int y, int xmax);
 char		*sl_wall_finder22(t_map_info *map_info, int x, int y, int xmax);
 char		*sl_wall_finder23(t_map_info *map_info, int x, int y, int xmax);
 
+t_players	*sl_create_players(t_map_info map_info);
+
 char		*sl_exit_finder(t_map_info *map_info);
 t_exits		sl_exits_maker(t_map_info *map_info);
 t_x_y		sl_get_link(t_map_info *map_info, char type);
-t_players	sl_players_maker(t_map_info *map_inf);
+t_players	*sl_players_maker(t_map_info *map_inf);
 
 #endif

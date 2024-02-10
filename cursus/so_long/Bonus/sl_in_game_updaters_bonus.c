@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:39:43 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/10 08:54:11 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/10 12:50:46 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	sl_move_player(t_map_info *mp_inf, int way)
 	tp_link = sl_link_finder(*mp_inf->img_stack, index);
 	if (tp_link->type == 'C')
 		tp_link->img->instances->enabled = 0;
-	if (tp_link->type == 'E')
+	if (mp_inf->map[mp_inf->players->xy.y][mp_inf->players->xy.x] == 'E')
 		index = -1;
 	sl_change_exit(mp_inf, mp_inf->exits->exit_type,
 		mp_inf->exits->exit.x, mp_inf->exits->exit.y);
