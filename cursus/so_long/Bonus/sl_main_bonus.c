@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:16:18 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/10 15:30:08 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/15 20:27:22 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ t_x_y	sl_create_img(t_map_info mp_inf, t_img_stack **img_stk)
 			{
 				if (mp_inf.map_copy[i][ii] == 'P')
 				{
-					pxy.x = 10;
-					pxy.y = 5;
+					pxy.x = ii;
+					pxy.y = i;
 				}
 				sl_add_back(img_stk, &mp_inf, '0', xy);
 			}
@@ -125,6 +125,7 @@ void	sl_custom_addback(t_map_info *map_info, char *png, t_img_stack **lst, char 
 		curr = curr->next;
 	curr->next = node;
 }
+
 #include <stdio.h>
 char	*sl_get_png(char *path, char *tp)
 {
@@ -150,35 +151,115 @@ char	*sl_get_png(char *path, char *tp)
 	return (NULL);
 }
 
-t_players	*sl_create_players(t_map_info map_info)
+void	sl_create_players(t_map_info *map_info, t_gifs *gifs)
 {
-	t_players	*players;
 	char		*png;
 	int			i;
 
-	players = malloc(sizeof(*players));;
-	players->nowin = malloc(sizeof(**players->nowin));
+	gifs->nowin = malloc(sizeof(**gifs->nowin));
+	*gifs->nowin = 0;
+	gifs->win = malloc(sizeof(**gifs->win));
+	*gifs->win = 0;
 	i = 1;
 	png = sl_get_png(PLAYER_UNWIN, ft_itoa(i));
 	while (i++, png != NULL)
 	{
-		sl_custom_addback(&map_info, png, players->nowin, 'P');
+		sl_custom_addback(map_info, png, gifs->nowin, 'P');
 		free(png);
 		png = sl_get_png(PLAYER_UNWIN, ft_itoa(i));
 	}
 	free(png);
-	players->win = malloc(sizeof(**players->win));
-	players->win = NULL;
 	i = 1;
-	png = sl_get_png(PLAYER_UNWIN, ft_itoa(i));
+	png = sl_get_png(PLAYER_WIN, ft_itoa(i));
 	while (i++, png != NULL)
 	{
-		sl_custom_addback(&map_info, png, players->win, 'P');
+		sl_custom_addback(map_info, png, gifs->win, 'P');
 		free(png);
-		png = sl_get_png(PLAYER_UNWIN, ft_itoa(i));
+		png = sl_get_png(PLAYER_WIN, ft_itoa(i));
 	}
 	free(png);
-	return(players);
+}
+
+void	sl_init_exit_stack(t_map_info *map_info, t_img_stack **stk, char *path)
+{
+	char		*png;
+	int			i;
+
+	i = 1;
+	png = sl_get_png(path, ft_itoa(i));
+	while (i++, png != NULL)
+	{
+		sl_custom_addback(map_info, png, stk, 'P');
+		free(png);
+		png = sl_get_png(path, ft_itoa(i));
+	}
+	free(png);
+}
+
+void	sl_create_exits(t_map_info *map_info, t_gifs *gifs)
+{
+	gifs->idle = malloc(sizeof(**gifs->idle));
+	*gifs->idle = 0;
+	gifs->angry = malloc(sizeof(**gifs->angry));
+	*gifs->angry = 0;
+	gifs->happy = malloc(sizeof(**gifs->happy));
+	*gifs->happy = 0;
+	gifs->shy = malloc(sizeof(**gifs->shy));
+	*gifs->shy = 0;
+	gifs->ok = malloc(sizeof(**gifs->ok));
+	*gifs->ok = 0;
+	gifs->cry = malloc(sizeof(**gifs->cry));
+	*gifs->cry = 0;
+	gifs->sus = malloc(sizeof(**gifs->sus));
+	*gifs->sus = 0;
+	sl_init_exit_stack(map_info, gifs->idle, EXIT_IDLE);
+	sl_init_exit_stack(map_info, gifs->angry, EXIT_ANGRY);
+	sl_init_exit_stack(map_info, gifs->happy, EXIT_HAPPY);
+	sl_init_exit_stack(map_info, gifs->shy, EXIT_SHY);
+	sl_init_exit_stack(map_info, gifs->ok, EXIT_OK);
+	sl_init_exit_stack(map_info, gifs->cry, EXIT_CRY);
+	sl_init_exit_stack(map_info, gifs->sus, EXIT_SUS);
+}
+
+void	sl_show_gif(mlx_t *mlx, t_img_stack *img_stk, t_x_y xy)
+{
+	int	tp;
+
+	tp = 0;
+	while (tp++, img_stk && img_stk->next)
+	{
+		mlx_image_to_window(mlx, img_stk->img, xy.x * 42 + 16, xy.y * 42 + 16);
+		img_stk->img->instances->enabled = 0;
+		img_stk = img_stk->next;
+	}
+	if (img_stk)
+	{
+		mlx_image_to_window(mlx, img_stk->img, xy.x * 42 + 16, xy.y * 42 + 16);
+		img_stk->img->instances->enabled = 0;
+	}
+}
+
+t_x_y	sl_get_exit(t_map_info map_info)
+{
+	t_x_y	xy;
+	int		i;
+	int		ii;
+
+	i = -1;
+	while (++i < map_info.size.y)
+	{
+		ii = -1;
+		while (++ii < map_info.size.x)
+		{
+			if (map_info.map[i][ii] == 'E')
+			{
+				xy.x = ii;
+				xy.y = i;
+				break ;
+			}
+		}
+	}
+	return(xy);
 }
 
 int	main(int argc, char **argv)
@@ -194,6 +275,11 @@ int	main(int argc, char **argv)
 	floor = NULL;
 	map_info.img_stack = &img_stack;
 	map_info.total_moves = 0;
+	// map_info.gifs = malloc(sizeof(*map_info.gifs));
+	// map_info.gifs->player_frame = 0;
+	// map_info.gifs->exit_frame = 0;
+	// map_info.gifs->player_type = 0;
+	// map_info.gifs->exit_type = 0;
 	if (sl_mlx_handler(map_info, &floor) == 0)
 		exit(0);
 	return (0);

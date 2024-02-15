@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:21:07 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/10 08:52:36 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/15 18:35:04 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	sl_redo_link(t_img_stack *stk, t_map_info *map_info, char type)
 {
 	t_x_y	player_pos;
 
-	player_pos = map_info->players->xy;
+	player_pos = map_info->gifs->xy;
 	mlx_delete_image(map_info->mlx, stk->img);
 	mlx_delete_texture(stk->texture);
 	stk->texture = mlx_load_png(sl_get_img_path(type, map_info, player_pos));

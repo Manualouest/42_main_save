@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 02:12:20 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/10 08:53:53 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/15 17:23:31 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	sl_is_in_circle(t_map_info map_info, int rad, int ex, int ey)
 	int			px;
 	int			py;
 
-	px = map_info.players->xy.x;
-	py = map_info.players->xy.y;
+	px = map_info.gifs->xy.x;
+	py = map_info.gifs->xy.y;
 	if (((ey - rad <= py && ey + rad >= py) && (ex - (rad / 2) <= px
 				&& ex + (rad / 2) >= px)) || ((ey - (rad / 2) <= py
 				&& ey + (rad / 2) >= py) && (ex - rad <= px && ex + rad >= px))

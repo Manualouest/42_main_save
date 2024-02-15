@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:05 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/10 14:28:32 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/15 20:18:07 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,24 @@ typedef struct s_img_stack
 	struct s_img_stack	*next;
 }						t_img_stack;
 
-typedef struct s_exits
+typedef struct s_gifs
 {
-	int			exit_type;
-	int			exit_frame;
-	t_x_y		exit;
-	t_img_stack	**idle;
-	t_img_stack	**angry;
-	t_img_stack	**happy;
-	t_img_stack	**shy;
-	t_img_stack	**ok;
-	t_img_stack	**cry;
-	t_img_stack	**sus;
-}				t_exits;
-
-typedef struct s_players
-{
-	int			player_type;
-	int			player_frame;
-	t_x_y		xy;
-	t_img_stack	**nowin;
-	t_img_stack	**win;
-}				t_players;
+	int					player_frame;
+	int					player_type;
+	t_x_y				xy;
+	struct s_img_stack	**nowin;
+	struct s_img_stack	**win;
+	int					exit_frame;
+	int					exit_type;
+	t_x_y				exit;
+	struct s_img_stack	**idle;
+	struct s_img_stack	**angry;
+	struct s_img_stack	**happy;
+	struct s_img_stack	**shy;
+	struct s_img_stack	**ok;
+	struct s_img_stack	**cry;
+	struct s_img_stack	**sus;
+}						t_gifs;
 
 typedef struct s_map_info
 {
@@ -78,8 +74,7 @@ typedef struct s_map_info
 	char				**map_copy;
 	mlx_t				*mlx;
 	t_x_y				size;
-	struct s_exits		*exits;
-	struct s_players	*players;
+	struct s_gifs		*gifs;
 	struct s_img_stack	**img_stack;
 }						t_map_info;
 
@@ -141,11 +136,15 @@ char		*sl_wall_finder21(t_map_info *map_info, int x, int y, int xmax);
 char		*sl_wall_finder22(t_map_info *map_info, int x, int y, int xmax);
 char		*sl_wall_finder23(t_map_info *map_info, int x, int y, int xmax);
 
-t_players	*sl_create_players(t_map_info map_info);
-
+t_x_y		sl_get_exit(t_map_info map_info);
+void		sl_create_exits(t_map_info *map_info, t_gifs *gifs);
 char		*sl_exit_finder(t_map_info *map_info);
-t_exits		sl_exits_maker(t_map_info *map_info);
+// t_exits		sl_exits_maker(t_map_info *map_info);
 t_x_y		sl_get_link(t_map_info *map_info, char type);
-t_players	*sl_players_maker(t_map_info *map_inf);
+// t_players	*sl_players_maker(t_map_info *map_inf);
+
+void		sl_create_players(t_map_info *map_info, t_gifs *gifs);
+void		sl_show_gif(mlx_t *mlx, t_img_stack *img_stk, t_x_y xy);
+void		sl_switch_player(t_map_info *map_info);
 
 #endif
