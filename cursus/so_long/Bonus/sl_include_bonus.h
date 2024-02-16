@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:05 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/15 20:18:07 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/16 18:46:56 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_x_y
 
 typedef struct s_img_stack
 {
+	int					is_shown;
 	char				type;
 	mlx_image_t			*img;
 	mlx_texture_t		*texture;
@@ -145,6 +146,6 @@ t_x_y		sl_get_link(t_map_info *map_info, char type);
 
 void		sl_create_players(t_map_info *map_info, t_gifs *gifs);
 void		sl_show_gif(mlx_t *mlx, t_img_stack *img_stk, t_x_y xy);
-void		sl_switch_player(t_map_info *map_info);
+void		sl_switch_player(t_gifs *gifs);
 
 #endif

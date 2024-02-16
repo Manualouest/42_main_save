@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:01 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/10 10:18:48 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/16 18:04:36 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,19 @@ static void	sl_path_check_utils(t_map_info *map_info, int x, int y)
 	map_cpy = map_info->map_copy;
 	width = map_info->size.x;
 	height = map_info->size.y;
+	if (map_info->map_copy[y][x] == 'E')
+	{
+		map_info->map_copy[y][x] = '1';
+		return ;
+	}
 	map_info->map_copy[y][x] = '1';
-	if (y > 1 && map_cpy[y - 1][x] != '1' && map_cpy[y - 1][x] != 'E')
+	if (y > 1 && map_cpy[y - 1][x] != '1')
 		sl_path_check_utils(map_info, x, y - 1);
-	if (x < width - 1 && map_cpy[y][x + 1] != '1' && map_cpy[y][x + 1] != 'E')
+	if (x < width - 1 && map_cpy[y][x + 1] != '1')
 		sl_path_check_utils(map_info, x + 1, y);
-	if (y < height - 1 && map_cpy[y + 1][x] != '1' && map_cpy[y + 1][x] != 'E')
+	if (y < height - 1 && map_cpy[y + 1][x] != '1')
 		sl_path_check_utils(map_info, x, y + 1);
-	if (x > 1 && map_cpy[y][x - 1] != '1' && map_cpy[y][x - 1] != 'E')
+	if (x > 1 && map_cpy[y][x - 1] != '1')
 		sl_path_check_utils(map_info, x - 1, y);
 }
 
@@ -98,7 +103,8 @@ static int	sl_path_check(t_map_info *map_info, char *original_map, t_x_y xy)
 		while (map_info->map_copy[y][++x] != 0)
 		{
 			if (map_info->map_copy[y][x] == 'P'
-				|| map_info->map_copy[y][x] == 'C')
+				|| map_info->map_copy[y][x] == 'C'
+				|| map_info->map_copy[y][x] == 'E')
 				return (0);
 		}
 	}

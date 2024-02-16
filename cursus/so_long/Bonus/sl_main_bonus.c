@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:16:18 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/15 20:27:22 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/16 18:12:43 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	sl_custom_addback(t_map_info *map_info, char *png, t_img_stack **lst, char 
 	node = malloc(sizeof(*node));
 	if (!node)
 		return ;
+	node->is_shown = 0;
 	node->texture = mlx_load_png(png);
 	node->img = mlx_texture_to_image(map_info->mlx, node->texture);
 	node->type = type;

@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:45:29 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/15 22:53:08 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/16 20:04:50 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	sl_win_stop(t_map_info *map_info)
 	emoji[2] = 0x98;
 	emoji[3] = 0x8F;
 	write(1, "\E[H\E[2J", 7);
-	write(1, "W rizz ", 7);
+	write(1, "Good job ", 9);
 	write(1, emoji, 4);
 	free(emoji);
 	write(1, "\n", 1);
@@ -73,12 +73,26 @@ void	sl_handle_extra_floor(t_map_info mp_inf, t_img_stack **floor)
 	}
 }
 
+void	sl_show_png(t_img_stack *stk, t_map_info *map_info, t_x_y xy)
+{
+	mlx_image_to_window(map_info->mlx, stk->img,
+		xy.x * 42 + 16, xy.y * 42 + 16);
+	stk->is_shown = 1;
+}
+
 void	sl_update_pos(t_img_stack *stk, t_img_stack **curr, t_map_info *map_info)
 {
 	if (stk->next)
 		stk = stk->next;
 	else
-		stk = (*curr);
+	{
+		if (map_info->gifs->player_type == 0)
+			stk = (*curr);
+		else
+			stk = sl_link_finder(*curr, 7);
+	}
+	if (stk->is_shown == 0)
+		sl_show_png(stk, map_info, map_info->gifs->xy);
 	stk->img->instances->enabled = 1;
 	if (stk->img->instances->x != map_info->gifs->xy.x)
 		stk->img->instances->x = map_info->gifs->xy.x * 42 + 16;
@@ -93,20 +107,24 @@ void	sl_anime_player(void *mp_info)
 	t_map_info	*map_info;
 
 	map_info = (t_map_info *)mp_info;
-	if (map_info->gifs->player_frame % 4 != 0)
+	if (map_info->gifs->player_frame % 4 == 0)
 	{
-		map_info->gifs->player_frame ++;
-		return ;
+		if (map_info->gifs->player_type == 0)
+			curr = map_info->gifs->nowin;
+		else
+			curr = map_info->gifs->win;
+		if (map_info->gifs->player_frame > ft_lstsize(*curr) * 4
+			&& map_info->gifs->player_type == 0)
+			map_info->gifs->player_frame = 0;
+		else if (map_info->gifs->player_frame > ft_lstsize(*curr) * 4
+			&& map_info->gifs->player_type == 1)
+			map_info->gifs->player_frame = 27;
+		stk = sl_link_finder(*curr, map_info->gifs->player_frame / 4);
+		if (stk->is_shown == 0)
+			sl_show_png(stk, map_info, map_info->gifs->xy);
+		stk->img->instances->enabled = 0;
+		sl_update_pos(stk, curr, map_info);
 	}
-	if (map_info->gifs->player_type == 0)
-		curr = map_info->gifs->nowin;
-	else
-		curr = map_info->gifs->win;
-	if (map_info->gifs->player_frame > ft_lstsize(*curr) * 4)
-		map_info->gifs->player_frame = 1;
-	stk = sl_link_finder(*curr, map_info->gifs->player_frame / 4);
-	stk->img->instances->enabled = 0;
-	sl_update_pos(stk, curr, map_info);
 	map_info->gifs->player_frame ++;
 }
 
@@ -138,18 +156,21 @@ void	sl_anime_exit_main(void *map_info)
 	mp_inf = (t_map_info *)map_info;
 	if (mp_inf->gifs->exit_frame % 4 != 0)
 	{
-		mp_inf->gifs->exit_frame ++;
-		return ;
+		sl_anime_get_exit(&exit, mp_inf);
+		if (mp_inf->gifs->exit_frame > ft_lstsize(*exit) * 4)
+			mp_inf->gifs->exit_frame = 0;
+		stk = sl_link_finder(*exit, mp_inf->gifs->exit_frame / 4);
+		if (stk->is_shown == 0)
+			sl_show_png(stk, mp_inf, mp_inf->gifs->exit);
+		stk->img->instances->enabled = 0;
+		if (stk->next)
+			stk = stk->next;
+		else
+			stk = (*exit);
+		if (stk->is_shown == 0)
+			sl_show_png(stk, mp_inf, mp_inf->gifs->exit);
+		stk->img->instances->enabled = 1;
 	}
-	sl_anime_get_exit(&exit, mp_inf);
-	if (mp_inf->gifs->exit_frame > ft_lstsize(*exit) * 4)
-		mp_inf->gifs->exit_frame = 1;
-	stk = sl_link_finder(*exit, mp_inf->gifs->exit_frame / 4);
-	stk->img->instances->enabled = 0;
-	if (stk->next)
-		stk->next->img->instances->enabled = 1;
-	else
-		(*exit)->img->instances->enabled = 1;
 	mp_inf->gifs->exit_frame ++;
 }
 
@@ -178,16 +199,16 @@ int	sl_mlx_handler(t_map_info map_info, t_img_stack **floor)
 	sl_create_players(&map_info, &gifs);
 	sl_create_exits(&map_info, &gifs);
 	map_info.gifs = &gifs;
-	sl_show_gif(map_info.mlx, *map_info.gifs->win, map_info.gifs->xy);
-	sl_show_gif(map_info.mlx, *map_info.gifs->nowin, map_info.gifs->xy);
+	// sl_show_gif(map_info.mlx, *map_info.gifs->win, map_info.gifs->xy);
+	// sl_show_gif(map_info.mlx, *map_info.gifs->nowin, map_info.gifs->xy);
 
-	sl_show_gif(map_info.mlx, *map_info.gifs->idle, map_info.gifs->exit);
-	sl_show_gif(map_info.mlx, *map_info.gifs->angry, map_info.gifs->exit);
-	sl_show_gif(map_info.mlx, *map_info.gifs->happy, map_info.gifs->exit);
-	sl_show_gif(map_info.mlx, *map_info.gifs->shy, map_info.gifs->exit);
-	sl_show_gif(map_info.mlx, *map_info.gifs->ok, map_info.gifs->exit);
-	sl_show_gif(map_info.mlx, *map_info.gifs->cry, map_info.gifs->exit);
-	sl_show_gif(map_info.mlx, *map_info.gifs->sus, map_info.gifs->exit);
+	// sl_show_gif(map_info.mlx, *map_info.gifs->idle, map_info.gifs->exit);
+	// sl_show_gif(map_info.mlx, *map_info.gifs->angry, map_info.gifs->exit);
+	// sl_show_gif(map_info.mlx, *map_info.gifs->happy, map_info.gifs->exit);
+	// sl_show_gif(map_info.mlx, *map_info.gifs->shy, map_info.gifs->exit);
+	// sl_show_gif(map_info.mlx, *map_info.gifs->ok, map_info.gifs->exit);
+	// sl_show_gif(map_info.mlx, *map_info.gifs->cry, map_info.gifs->exit);
+	// sl_show_gif(map_info.mlx, *map_info.gifs->sus, map_info.gifs->exit);
 	
 	mlx_key_hook(map_info.mlx, &sl_single_key_handler, (void *)&map_info);
 	mlx_loop_hook(map_info.mlx, &sl_anime_player, (void *)&map_info);
@@ -198,8 +219,24 @@ int	sl_mlx_handler(t_map_info map_info, t_img_stack **floor)
 
 	sl_lstclear(map_info.mlx, map_info.img_stack);
 	sl_lstclear(map_info.mlx, floor);
-	// sl_lstclear(map_info.mlx, map_info.gifs->win);
-	// sl_lstclear(map_info.mlx, map_info.gifs->nowin);
+	sl_lstclear(map_info.mlx, map_info.gifs->win);
+	sl_lstclear(map_info.mlx, map_info.gifs->nowin);
+	sl_lstclear(map_info.mlx, map_info.gifs->idle);
+	sl_lstclear(map_info.mlx, map_info.gifs->angry);
+	sl_lstclear(map_info.mlx, map_info.gifs->happy);
+	sl_lstclear(map_info.mlx, map_info.gifs->shy);
+	sl_lstclear(map_info.mlx, map_info.gifs->ok);
+	sl_lstclear(map_info.mlx, map_info.gifs->cry);
+	sl_lstclear(map_info.mlx, map_info.gifs->sus);
+	free(map_info.gifs->win);
+	free(map_info.gifs->nowin);
+	free(map_info.gifs->idle);
+	free(map_info.gifs->angry);
+	free(map_info.gifs->happy);
+	free(map_info.gifs->shy);
+	free(map_info.gifs->ok);
+	free(map_info.gifs->cry);
+	free(map_info.gifs->sus);
 	mlx_terminate(map_info.mlx);
 	return (1);
 }
