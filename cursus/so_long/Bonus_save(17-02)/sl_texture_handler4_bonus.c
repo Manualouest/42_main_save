@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:35:01 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/17 19:48:45 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/09 17:24:57 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*sl_wall_finder18(t_map_info *map_info, int x, int y, int xmax)
 		map_info->map_copy[y][x] = -28;
 		return ("images/wall/28.png");
 	}
-	return (NULL);
+	return (sl_wall_finder19(map_info, x, y, xmax));
 }
 
 char	*sl_wall_finder19(t_map_info *map_info, int x, int y, int xmax)
@@ -59,7 +59,7 @@ char	*sl_wall_finder19(t_map_info *map_info, int x, int y, int xmax)
 		map_info->map_copy[y][x] = -2;
 		return ("images/wall/2.png");
 	}
-	return (NULL);
+	return (sl_wall_finder20(map_info, x, y, xmax));
 }
 
 char	*sl_wall_finder20(t_map_info *map_info, int x, int y, int xmax)
@@ -83,7 +83,7 @@ char	*sl_wall_finder20(t_map_info *map_info, int x, int y, int xmax)
 		map_info->map_copy[y][x] = -10;
 		return ("images/wall/10.png");
 	}
-	return (NULL);
+	return (sl_wall_finder21(map_info, x, y, xmax));
 }
 
 char	*sl_wall_finder21(t_map_info *map_info, int x, int y, int xmax)
@@ -109,7 +109,7 @@ char	*sl_wall_finder21(t_map_info *map_info, int x, int y, int xmax)
 		map_info->map_copy[y][x] = -44;
 		return ("images/wall/44.png");
 	}
-	return (NULL);
+	return (sl_wall_finder22(map_info, x, y, xmax));
 }
 
 char	*sl_wall_finder22(t_map_info *map_info, int x, int y, int xmax)
@@ -135,5 +135,5 @@ char	*sl_wall_finder22(t_map_info *map_info, int x, int y, int xmax)
 		map_info->map_copy[y][x] = -46;
 		return ("images/wall/46.png");
 	}
-	return (NULL);
+	return (sl_wall_finder23(map_info, x, y, xmax));
 }

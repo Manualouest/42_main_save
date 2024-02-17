@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:35:51 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/17 19:48:51 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/10 08:52:19 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ char	*sl_wall_finder23(t_map_info *map_info, int x, int y, int xmax)
 		map_info->map_copy[y][x] = -47;
 		return ("images/wall/47.png");
 	}
-	return (NULL);
+	return ("images/player/player_win.png");
 }
 

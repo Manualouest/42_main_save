@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:05 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/17 19:45:22 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/16 18:46:56 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ typedef struct s_x_y
 typedef struct s_img_stack
 {
 	int					is_shown;
-	int					gif_len;
 	char				type;
-	char				*path;
 	mlx_image_t			*img;
 	mlx_texture_t		*texture;
 	struct s_img_stack	*next;
@@ -115,8 +113,6 @@ int			sl_parse_main(char *map_file, t_map_info *map_info);
 void		sl_redo_link(t_img_stack *stk, t_map_info *map_info, char type);
 char		*sl_get_img_path(char type, t_map_info *map_info, t_x_y coord);
 
-char		*sl_wall_finder_main(t_map_info *map_info, t_x_y coord);
-char		*sl_wall_finder(t_map_info *map_info, int x, int y, int xmax);
 char		*sl_wall_finder1(t_map_info *map_info, int x, int y, int xmax);
 char		*sl_wall_finder2(t_map_info *map_info, int x, int y, int xmax);
 char		*sl_wall_finder3(t_map_info *map_info, int x, int y, int xmax);
@@ -151,7 +147,5 @@ t_x_y		sl_get_link(t_map_info *map_info, char type);
 void		sl_create_players(t_map_info *map_info, t_gifs *gifs);
 void		sl_show_gif(mlx_t *mlx, t_img_stack *img_stk, t_x_y xy);
 void		sl_switch_player(t_gifs *gifs);
-
-void		sl_instant_add_png(t_map_info *map_info, t_img_stack **stk, char *path, int frame);
 
 #endif

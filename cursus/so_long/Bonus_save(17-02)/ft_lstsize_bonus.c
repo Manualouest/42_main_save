@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_texture_handler5_bonus.c                        :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/08 05:35:51 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/17 19:48:51 by mbirou           ###   ########.fr       */
+/*   Created: 2023/11/06 19:26:20 by mbirou            #+#    #+#             */
+/*   Updated: 2023/11/07 12:57:43 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sl_include_bonus.h"
+#include "libft.h"
 
-char	*sl_wall_finder23(t_map_info *map_info, int x, int y, int xmax)
+int	ft_lstsize(t_list *lst)
 {
-	int		ymax;
-	char	**mp;
+	int		i;
+	t_list	*curr;
 
-	ymax = map_info->size.y - 1;
-	mp = map_info->map_copy;
-	if (x > 0 && x < xmax && y > 0 && y < ymax && mp[y - 1][x] > 0
-		&& mp[y][x + 1] != 49 && mp[y + 1][x] != 49 && mp[y][x - 1] > 0)
+	if (lst == NULL)
+		return (0);
+	i = 1;
+	curr = lst;
+	while (curr->next != NULL)
 	{
-		map_info->map_copy[y][x] = -47;
-		return ("images/wall/47.png");
+		i ++;
+		curr = curr->next;
 	}
-	return (NULL);
+	return (i);
 }
-

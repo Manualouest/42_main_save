@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:16:18 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/17 18:59:32 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/16 18:12:43 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,37 +154,45 @@ char	*sl_get_png(char *path, char *tp)
 
 void	sl_create_players(t_map_info *map_info, t_gifs *gifs)
 {
+	char		*png;
+	int			i;
 
 	gifs->nowin = malloc(sizeof(**gifs->nowin));
 	*gifs->nowin = 0;
 	gifs->win = malloc(sizeof(**gifs->win));
 	*gifs->win = 0;
-	sl_instant_add_png(map_info, gifs->nowin, PLAYER_UNWIN, 1);
-	(*gifs->nowin)->gif_len = 120;
-	(*gifs->nowin)->path = PLAYER_UNWIN;
-	sl_instant_add_png(map_info, gifs->win, PLAYER_WIN, 1);
-	(*gifs->win)->gif_len = 19;
-	(*gifs->win)->path = PLAYER_WIN;
-}
-
-void	sl_init_exit_stack(t_map_info *map_info, t_img_stack **stk, char *path, int gif_len)
-{
-	sl_instant_add_png(map_info, stk, path, 1);
-	(*stk)->gif_len = gif_len;
-	(*stk)->path = path;
-}
-
-void	sl_instant_add_png(t_map_info *map_info, t_img_stack **stk, char *path, int frame)
-{
-	char	*png;
-
-	png = sl_get_png(path, ft_itoa(frame));
-	if (png != NULL)
+	i = 1;
+	png = sl_get_png(PLAYER_UNWIN, ft_itoa(i));
+	while (i++, png != NULL)
 	{
-		if (path[7] == 'p')
-			sl_custom_addback(map_info, png, stk, 'P');
-		else
-			sl_custom_addback(map_info, png, stk, 'E');
+		sl_custom_addback(map_info, png, gifs->nowin, 'P');
+		free(png);
+		png = sl_get_png(PLAYER_UNWIN, ft_itoa(i));
+	}
+	free(png);
+	i = 1;
+	png = sl_get_png(PLAYER_WIN, ft_itoa(i));
+	while (i++, png != NULL)
+	{
+		sl_custom_addback(map_info, png, gifs->win, 'P');
+		free(png);
+		png = sl_get_png(PLAYER_WIN, ft_itoa(i));
+	}
+	free(png);
+}
+
+void	sl_init_exit_stack(t_map_info *map_info, t_img_stack **stk, char *path)
+{
+	char		*png;
+	int			i;
+
+	i = 1;
+	png = sl_get_png(path, ft_itoa(i));
+	while (i++, png != NULL)
+	{
+		sl_custom_addback(map_info, png, stk, 'P');
+		free(png);
+		png = sl_get_png(path, ft_itoa(i));
 	}
 	free(png);
 }
@@ -205,13 +213,13 @@ void	sl_create_exits(t_map_info *map_info, t_gifs *gifs)
 	*gifs->cry = 0;
 	gifs->sus = malloc(sizeof(**gifs->sus));
 	*gifs->sus = 0;
-	sl_init_exit_stack(map_info, gifs->idle, EXIT_IDLE, 39);
-	sl_init_exit_stack(map_info, gifs->angry, EXIT_ANGRY, 132);
-	sl_init_exit_stack(map_info, gifs->happy, EXIT_HAPPY, 119);
-	sl_init_exit_stack(map_info, gifs->shy, EXIT_SHY, 23);
-	sl_init_exit_stack(map_info, gifs->ok, EXIT_OK, 0);
-	sl_init_exit_stack(map_info, gifs->cry, EXIT_CRY, 139);
-	sl_init_exit_stack(map_info, gifs->sus, EXIT_SUS, 73);
+	sl_init_exit_stack(map_info, gifs->idle, EXIT_IDLE);
+	sl_init_exit_stack(map_info, gifs->angry, EXIT_ANGRY);
+	sl_init_exit_stack(map_info, gifs->happy, EXIT_HAPPY);
+	sl_init_exit_stack(map_info, gifs->shy, EXIT_SHY);
+	sl_init_exit_stack(map_info, gifs->ok, EXIT_OK);
+	sl_init_exit_stack(map_info, gifs->cry, EXIT_CRY);
+	sl_init_exit_stack(map_info, gifs->sus, EXIT_SUS);
 }
 
 void	sl_show_gif(mlx_t *mlx, t_img_stack *img_stk, t_x_y xy)

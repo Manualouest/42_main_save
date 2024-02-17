@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:39:43 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/17 19:02:49 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/16 19:12:51 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	sl_switch_exit(t_map_info *map_info, int old_type)
 		(map_info->gifs->exit_frame / 4) + 1)->is_shown == 1)
 		sl_link_finder(stk,
 			(map_info->gifs->exit_frame / 4) + 1)->img->instances->enabled = 0;
-	map_info->gifs->exit_frame = 0;
 }
 
 void	sl_change_exit(t_map_info *mp_info, int old_type, int ex, int ey)
@@ -94,7 +93,6 @@ void	sl_switch_player(t_gifs *gifs)
 		(gifs->player_frame / 4) + 1)->is_shown == 1)
 		sl_link_finder(*gifs->nowin,
 			(gifs->player_frame / 4) + 1)->img->instances->enabled = 0;
-	gifs->player_frame = 0;
 }
 
 void	sl_move_player(t_map_info *mp_inf, int way)

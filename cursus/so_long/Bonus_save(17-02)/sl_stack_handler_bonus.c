@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:35:23 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/17 18:39:22 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/16 18:41:54 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	sl_add_back(t_img_stack **lst, t_map_info *inf, char type, t_x_y xy)
 	if (!node)
 		return ;
 	node->is_shown = 1;
-	node->gif_len = 0;
 	node->texture = mlx_load_png(sl_get_img_path(type, inf, xy));
 	node->img = mlx_texture_to_image(inf->mlx, node->texture);
 	node->type = type;

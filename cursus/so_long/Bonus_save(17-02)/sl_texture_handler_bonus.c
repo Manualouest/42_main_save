@@ -6,11 +6,13 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:21:07 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/17 20:01:38 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/15 18:35:04 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sl_include_bonus.h"
+
+char	*sl_wall_finder(t_map_info *map_info, t_x_y coord);
 
 char	*sl_get_img_path(char type, t_map_info *map_info, t_x_y coord)
 {
@@ -18,7 +20,7 @@ char	*sl_get_img_path(char type, t_map_info *map_info, t_x_y coord)
 		return ("images/collectible/collectible.png");
 	if (type == '0')
 		return ("images/floor/floor.png");
-	return (sl_wall_finder_main(map_info, coord));
+	return (sl_wall_finder(map_info, coord));
 }
 
 void	sl_redo_link(t_img_stack *stk, t_map_info *map_info, char type)
@@ -33,69 +35,17 @@ void	sl_redo_link(t_img_stack *stk, t_map_info *map_info, char type)
 	stk->type = type;
 }
 
-void	sl_init_funcs(void **funcs)
+char	*sl_wall_finder(t_map_info *map_info, t_x_y coord)
 {
-	funcs[0] = sl_wall_finder;
-	funcs[0] = sl_wall_finder1;
-	funcs[1] = sl_wall_finder2;
-	funcs[2] = sl_wall_finder3;
-	funcs[3] = sl_wall_finder4;
-	funcs[4] = sl_wall_finder5;
-	funcs[5] = sl_wall_finder6;
-	funcs[6] = sl_wall_finder7;
-	funcs[7] = sl_wall_finder8;
-	funcs[8] = sl_wall_finder9;
-	funcs[9] = sl_wall_finder10;
-	funcs[10] = sl_wall_finder11;
-	funcs[11] = sl_wall_finder12;
-	funcs[12] = sl_wall_finder13;
-	funcs[13] = sl_wall_finder14;
-	funcs[14] = sl_wall_finder15;
-	funcs[15] = sl_wall_finder16;
-	funcs[16] = sl_wall_finder17;
-	funcs[17] = sl_wall_finder18;
-	funcs[18] = sl_wall_finder19;
-	funcs[19] = sl_wall_finder20;
-	funcs[20] = sl_wall_finder21;
-	funcs[21] = sl_wall_finder22;
-	funcs[22] = sl_wall_finder23;
-	funcs[23] = NULL;
-}
-
-char	*sl_call_wall(char *(*f)(t_map_info *, int, int, int),
-	t_map_info *map_info, t_x_y coord)
-{
-	return (f(map_info, coord.x, coord.y,  map_info->size.x - 1));
-}
-
-char	*sl_wall_finder_main(t_map_info *map_info, t_x_y coord)
-{
-	void	**funcs;
-	int		i;
-	char	*tp;
-
-	// i = -1;
-	funcs = malloc(sizeof(void *) * 25);
-	funcs[2] = 0;
-	// while (++i < 50)
-	// 	funcs[i] = malloc(sizeof(void)); //char *(*)(t_map_info *, int, int, int)
-	sl_init_funcs(funcs);
-	i = -1;
-	while(funcs[++i] != NULL)
-	{
-		// tp = sl_call_wall(funcs[i], map_info, coord);
-		tp = ((char *(*)(t_map_info *, int, int, int))funcs[i])(map_info, coord.x, coord.y,  map_info->size.x - 1);
-		if (tp != NULL)
-			return (tp);
-	}
-	return ("images/player/player_win.png");
-}
-
-char	*sl_wall_finder(t_map_info *map_info, int x, int y, int xmax)
-{
+	int		x;
+	int		y;
+	int		xmax;
 	int		ymax;
 	char	**mp;
 
+	x = coord.x;
+	y = coord.y;
+	xmax = map_info->size.x - 1;
 	ymax = map_info->size.y - 1;
 	mp = map_info->map_copy;
 	if (x > 0 && x < xmax && ((mp[y][x - 1] < 0
@@ -105,7 +55,7 @@ char	*sl_wall_finder(t_map_info *map_info, int x, int y, int xmax)
 		map_info->map_copy[y][x] = -8;
 		return ("images/wall/8.png");
 	}
-	return (NULL);
+	return (sl_wall_finder1(map_info, x, y, xmax));
 }
 
 char	*sl_wall_finder1(t_map_info *map_info, int x, int y, int xmax)
@@ -130,7 +80,7 @@ char	*sl_wall_finder1(t_map_info *map_info, int x, int y, int xmax)
 		map_info->map_copy[y][x] = -11;
 		return ("images/wall/11.png");
 	}
-	return (NULL);
+	return (sl_wall_finder2(map_info, x, y, xmax));
 }
 
 char	*sl_wall_finder2(t_map_info *map_info, int x, int y, int xmax)
@@ -155,5 +105,5 @@ char	*sl_wall_finder2(t_map_info *map_info, int x, int y, int xmax)
 		map_info->map_copy[y][x] = -13;
 		return ("images/wall/13.png");
 	}
-	return (NULL);
+	return (sl_wall_finder3(map_info, x, y, xmax));
 }
