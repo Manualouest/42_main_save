@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:45:29 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/17 19:07:19 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/17 23:14:59 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	sl_show_png(t_img_stack *stk, t_map_info *map_info, t_x_y xy)
 void	sl_update_pos(t_img_stack *stk, t_img_stack **curr, t_map_info *map_info)
 {
 	if (ft_lstsize(*curr) <= (*curr)->gif_len)
-		sl_instant_add_png(map_info, curr, (*curr)->path, map_info->gifs->player_frame);
+		sl_instant_add_png(map_info, curr, (*curr)->path, map_info->gifs->player_frame / 4);
 	if (stk->next)
 		stk = stk->next;
 	else
@@ -105,27 +105,27 @@ void	sl_update_pos(t_img_stack *stk, t_img_stack **curr, t_map_info *map_info)
 void	sl_anime_player(void *mp_info)
 {
 	t_img_stack	*stk;
-	t_img_stack	**curr;
+	t_img_stack	**player;
 	t_map_info	*map_info;
 
 	map_info = (t_map_info *)mp_info;
 	if (map_info->gifs->player_frame % 4 == 0)
 	{
 		if (map_info->gifs->player_type == 0)
-			curr = map_info->gifs->nowin;
+			player = map_info->gifs->nowin;
 		else
-			curr = map_info->gifs->win;
-		if (map_info->gifs->player_frame > ft_lstsize(*curr) * 4
+			player = map_info->gifs->win;
+		if (map_info->gifs->player_frame > ((*player)->gif_len + 1) * 4
 			&& map_info->gifs->player_type == 0)
 			map_info->gifs->player_frame = 0;
-		else if (map_info->gifs->player_frame > ft_lstsize(*curr) * 4
+		else if (map_info->gifs->player_frame > (*player)->gif_len * 4
 			&& map_info->gifs->player_type == 1)
-			map_info->gifs->player_frame = 0;
-		stk = sl_link_finder(*curr, map_info->gifs->player_frame / 4);
+			map_info->gifs->player_frame = 28;
+		stk = sl_link_finder(*player, map_info->gifs->player_frame / 4);
 		if (stk->is_shown == 0)
 			sl_show_png(stk, map_info, map_info->gifs->xy);
 		stk->img->instances->enabled = 0;
-		sl_update_pos(stk, curr, map_info);
+		sl_update_pos(stk, player, map_info);
 	}
 	map_info->gifs->player_frame ++;
 }

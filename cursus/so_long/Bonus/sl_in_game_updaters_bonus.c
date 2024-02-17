@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:39:43 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/17 19:02:49 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/17 23:09:07 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,12 @@ void	sl_switch_exit(t_map_info *map_info, int old_type)
 		stk = *map_info->gifs->cry;
 	else
 		stk = *map_info->gifs->sus;
-	if (sl_link_finder(stk, map_info->gifs->exit_frame / 4)->is_shown == 1)
-		sl_link_finder(stk,
-			map_info->gifs->exit_frame / 4)->img->instances->enabled = 0;
-	if (sl_link_finder(stk,
-		(map_info->gifs->exit_frame / 4) + 1)->is_shown == 1)
-		sl_link_finder(stk,
-			(map_info->gifs->exit_frame / 4) + 1)->img->instances->enabled = 0;
+	while (stk)
+	{
+		if (stk->is_shown == 1)
+			stk->img->instances->enabled = 0;
+		stk = stk->next;
+	}
 	map_info->gifs->exit_frame = 0;
 }
 
@@ -85,16 +84,36 @@ void	sl_change_exit(t_map_info *mp_info, int old_type, int ex, int ey)
 
 void	sl_switch_player(t_gifs *gifs)
 {
+	t_img_stack	*stk;
+
+	stk = *gifs->nowin;
 	gifs->player_type = 1;
-	if (sl_link_finder(*gifs->nowin,
-		gifs->player_frame / 4)->is_shown == 1)
-		sl_link_finder(*gifs->nowin,
-			gifs->player_frame / 4)->img->instances->enabled = 0;
-	if (sl_link_finder(*gifs->nowin,
-		(gifs->player_frame / 4) + 1)->is_shown == 1)
-		sl_link_finder(*gifs->nowin,
-			(gifs->player_frame / 4) + 1)->img->instances->enabled = 0;
+	while (stk)
+	{
+		if (stk->is_shown == 1)
+			stk->img->instances->enabled = 0;
+		stk = stk->next;
+	}
 	gifs->player_frame = 0;
+}
+
+
+void	sl_update_c_num(t_map_info *map_info)
+{
+	int	i;
+	int	ii;
+
+	i = -1;
+	map_info->c_num = 0;
+	while (++i < map_info->size.y)
+	{
+		ii = -1;
+		while (++ii < map_info->size.x)
+		{
+			if (map_info->map[i][ii] == 'C')
+				map_info->c_num ++;
+		}
+	}
 }
 
 void	sl_move_player(t_map_info *mp_inf, int way)
@@ -108,9 +127,10 @@ void	sl_move_player(t_map_info *mp_inf, int way)
 	tp_link = sl_link_finder(*mp_inf->img_stack, index);
 	if (tp_link->type == 'C')
 	{
-		mp_inf->c_num --;
+		mp_inf->map[mp_inf->gifs->xy.y][mp_inf->gifs->xy.x] = '0';
 		tp_link->img->instances->enabled = 0;
 	}
+	sl_update_c_num(mp_inf);
 	sl_change_exit(mp_inf, mp_inf->gifs->exit_type,
 		mp_inf->gifs->exit.x, mp_inf->gifs->exit.y);
 	if(mp_inf->c_num == 0 && mp_inf->gifs->player_type == 0)
