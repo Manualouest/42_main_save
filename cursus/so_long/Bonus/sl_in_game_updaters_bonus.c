@@ -6,29 +6,11 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:39:43 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/17 23:09:07 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/18 09:35:02 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sl_include_bonus.h"
-
-void	sl_update_moves(t_map_info *map_info)
-{
-	if (map_info->total_moves > 0)
-		write(1, "\E[H\E[2J", 7);
-	map_info->total_moves ++;
-	write(1, "Moves played: ", 14);
-	ft_putnbr(map_info->total_moves);
-	write(1, "\n", 1);
-	if (map_info->c_num > 0)
-	{
-		write(1, "Flowers left: ", 14);
-		ft_putnbr(map_info->c_num);
-	}
-	else
-		write(1, "GO GIVE THEM NOW!", 17);
-	write(1, "\n", 1);
-}
 
 void	sl_switch_exit(t_map_info *map_info, int old_type)
 {
@@ -97,7 +79,6 @@ void	sl_switch_player(t_gifs *gifs)
 	gifs->player_frame = 0;
 }
 
-
 void	sl_update_c_num(t_map_info *map_info)
 {
 	int	i;
@@ -116,11 +97,40 @@ void	sl_update_c_num(t_map_info *map_info)
 	}
 }
 
-void	sl_move_player(t_map_info *mp_inf, int way)
+void	sl_secure_player(t_map_info *map_info)
+{
+	t_img_stack	*stk;
+
+	if (map_info->gifs->player_type == 0)
+	{
+		stk = sl_link_finder(*map_info->gifs->nowin,
+				map_info->gifs->player_frame);
+		if (stk->is_shown == 1)
+		{
+			stk->img->instances->x = map_info->gifs->xy.x * 42 + 16;
+			stk->img->instances->y = map_info->gifs->xy.y * 42 + 16;
+		}
+	}
+	else
+	{
+		stk = sl_link_finder(*map_info->gifs->win,
+				map_info->gifs->player_frame);
+		if (stk->is_shown == 1)
+		{
+			stk->img->instances->x = map_info->gifs->xy.x * 42 + 16;
+			stk->img->instances->y = map_info->gifs->xy.y * 42 + 16;
+		}
+	}
+}
+
+void	sl_move_player(t_map_info *mp_inf, int way, int rep)
 {
 	t_img_stack	*tp_link;
 	int			index;
 
+	(void)rep;
+	if (!sl_next(mp_inf, way))
+		return ;
 	mp_inf->gifs->xy.x += way % 10;
 	mp_inf->gifs->xy.y += way / 10;
 	index = (mp_inf->gifs->xy.y * mp_inf->size.x) + mp_inf->gifs->xy.x;
@@ -133,9 +143,11 @@ void	sl_move_player(t_map_info *mp_inf, int way)
 	sl_update_c_num(mp_inf);
 	sl_change_exit(mp_inf, mp_inf->gifs->exit_type,
 		mp_inf->gifs->exit.x, mp_inf->gifs->exit.y);
-	if(mp_inf->c_num == 0 && mp_inf->gifs->player_type == 0)
+	if (mp_inf->c_num == 0 && mp_inf->gifs->player_type == 0)
 		sl_switch_player(mp_inf->gifs);
 	sl_update_moves(mp_inf);
 	if (mp_inf->map[mp_inf->gifs->xy.y][mp_inf->gifs->xy.x] == 'E')
 		sl_win_stop(mp_inf);
+	sl_secure_player(mp_inf);
+	index = 0;
 }

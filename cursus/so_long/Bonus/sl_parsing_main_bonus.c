@@ -6,18 +6,19 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:01 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/16 18:04:36 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/18 09:36:24 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sl_include_bonus.h"
 
-static int	sl_ct_util(t_map_info *m_inf, t_parse_util *parse_ut, t_x_y xy, t_x_y *pxy)
+static int	sl_ct_util(t_map_info *m_inf, t_parse_util *parse_ut,
+	t_x_y xy, t_x_y *pxy)
 {
 	t_x_y	new_xy;
 
-	new_xy.x = 10;
-	new_xy.y = 10;
+	new_xy.x = 0;
+	new_xy.y = 0;
 	if (m_inf->map[xy.y][xy.x] == 'E')
 		parse_ut->e_num += 1;
 	else if (m_inf->map[xy.y][xy.x] == 'P')
@@ -25,6 +26,7 @@ static int	sl_ct_util(t_map_info *m_inf, t_parse_util *parse_ut, t_x_y xy, t_x_y
 		parse_ut->p_num += 1;
 		new_xy.x = xy.x;
 		new_xy.y = xy.y;
+		(*pxy) = new_xy;
 	}
 	else if (m_inf->map[xy.y][xy.x] == 'C')
 		m_inf->c_num ++;
@@ -33,7 +35,6 @@ static int	sl_ct_util(t_map_info *m_inf, t_parse_util *parse_ut, t_x_y xy, t_x_y
 		(*pxy) = new_xy;
 		return (0);
 	}
-	(*pxy) = new_xy;
 	return (1);
 }
 
@@ -51,7 +52,8 @@ static int	sl_chk_tiles(t_map_info *m_inf, t_x_y *pxy)
 		xy.x = -1;
 		while (m_inf->map[xy.y][++xy.x] != 0)
 		{
-			if ((xy.y % (m_inf->size.y - 1) == 0 || xy.x % (m_inf->size.x - 1) == 0)
+			if ((xy.y % (m_inf->size.y - 1) == 0
+					|| xy.x % (m_inf->size.x - 1) == 0)
 				&& (m_inf->map[xy.y][xy.x] != '1'))
 				return (2);
 			if (sl_ct_util(m_inf, &parse_util, xy, pxy) != 1)
