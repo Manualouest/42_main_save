@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:05 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/18 11:36:51 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:25:31 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,24 @@ typedef struct s_counter
 	struct s_img_stack	**counter_collect;
 }						t_counter;
 
+typedef struct s_bees
+{
+	char				**path;
+	int					is_angry;
+	int					bee_frame;
+	t_x_y				bee_pos;
+	struct s_img_stack	**img_stack;
+	struct s_bees		*next;
+}						t_bees;
+
+typedef struct s_hive
+{
+	int					bee_count;
+	char				**tp_map;
+	t_x_y				hive_pos;
+	struct s_bees		*bees;
+}						t_hive;
+
 typedef struct s_map_info
 {
 	int					total_moves;
@@ -89,6 +107,7 @@ typedef struct s_map_info
 	mlx_t				*mlx;
 	t_x_y				size;
 	struct s_gifs		*gifs;
+	struct s_hive		*hive;
 	struct s_counter	*counter;
 	struct s_img_stack	**img_stack;
 }						t_map_info;

@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:21:07 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/18 11:44:01 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/21 13:47:58 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,6 @@ void	sl_init_funcs(void **funcs)
 	funcs[24] = NULL;
 }
 
-int	sl_test_return(int num)
-{
-	return (num);
-}
-
 char	*sl_wall_finder_main(t_map_info *map_info, t_x_y coord)
 {
 	int		i;
@@ -83,11 +78,11 @@ char	*sl_wall_finder_main(t_map_info *map_info, t_x_y coord)
 			(map_info, &coord.x, &coord.y, map_info->size.x - 1);
 		if (tp != NULL)
 		{
-			//free funcs here!
+			free(funcs);
 			return (tp);
 		}
 	}
-	//here too !
+	free(funcs);
 	return ("images/player/player_win.png");
 }
 

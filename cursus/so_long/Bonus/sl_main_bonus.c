@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:16:18 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/18 09:45:01 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/21 15:53:18 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,18 +274,22 @@ t_x_y	sl_get_player(t_map_info map_info)
 
 void	sl_init_counter(t_map_info *map_info, t_counter *counter)
 {
+	char	*png;
+
 	counter->move = 0;
 	counter->counter_move = malloc(sizeof(**counter->counter_move));
 	*counter->counter_move = 0;
-	sl_custom_addback(map_info, sl_get_png(COUNTER_MOVE, ft_itoa(0)),
-		counter->counter_move, 'P');
+	png = sl_get_png(COUNTER_MOVE, ft_itoa(0));
+	sl_custom_addback(map_info, png, counter->counter_move, 'P');
+	free(png);
 	mlx_image_to_window(map_info->mlx, (*counter->counter_move)->img, 16, 16);
 	(*counter->counter_move)->is_shown = 1;
 	counter->collect = 0;
 	counter->counter_collect = malloc(sizeof(**counter->counter_collect));
 	*counter->counter_collect = 0;
-	sl_custom_addback(map_info, sl_get_png(COUNTER_COLLECT, ft_itoa(0)),
-		counter->counter_collect, 'P');
+	png = sl_get_png(COUNTER_COLLECT, ft_itoa(0));
+	sl_custom_addback(map_info, png, counter->counter_collect, 'P');
+	free(png);
 	mlx_image_to_window(map_info->mlx, (*counter->counter_collect)->img,
 		map_info->size.x * 42 + 16, map_info->size.y * 42 + 16);
 	(*counter->counter_collect)->is_shown = 1;
