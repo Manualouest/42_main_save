@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:48:04 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/21 18:58:26 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/03/02 20:15:21 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,53 +50,100 @@ char	**sl_map_copy(t_map_info *map_info)
 	return (copy);
 }
 
-int	sl_collectible_path(t_hive *hive, t_x_y start, int way, int way2)
-{ //-1 = O, 1 = E, -10 = N, 10 = S
-	char	**map_cpy;
-	int		width;
-	int		height;
-
-	map_cpy = map_info->map_copy;
-	width = map_info->size.x;
-	height = map_info->size.y;
-	if (map_info->map_copy[y][x] == 'E')
-	{
-		map_info->map_copy[y][x] = '1';
-		return ;
-	}
-	map_info->map_copy[y][x] = '1';
-	if (y > 1 && map_cpy[y - 1][x] != '1')
-		sl_path_check_utils(map_info, x, y - 1);
-	if (x < width - 1 && map_cpy[y][x + 1] != '1')
-		sl_path_check_utils(map_info, x + 1, y);
-	if (y < height - 1 && map_cpy[y + 1][x] != '1')
-		sl_path_check_utils(map_info, x, y + 1);
-	if (x > 1 && map_cpy[y][x - 1] != '1')
-		sl_path_check_utils(map_info, x - 1, y);
-}
-
-t_x_y	sl_place_hive(t_map_info *map_info, t_hive *hive)
+t_x_y	sl_get_hive_pos(t_map_info *map_info)
 {
-	int		i;
-	t_x_y	start;
+	int		x_sum;
+	int		y_sum;
+	t_x_y	pos;
 
-	i = -1;
-	start.x = 0;
-	start.y = 0;
-	while (++i < map_info->c_num)
+	pos.y = 0;
+	x_sum = 0;
+	y_sum = 0;
+	while (++pos.y < map_info->size.y)
 	{
-		while (++start.y < map_info->size.y)
+		pos.x = 0;
+		while (++pos.x < map_info->size.x)
 		{
-			start.x = 0;
-			while (++start.x < map_info->size.x)
+			if (map_info->map[pos.y][pos.x] == 'C')
 			{
-				printf ("%d, %d, %c\n", start.y, start.x, map_info->map[start.y][start.x]);
-				if (map_info->map[start.y][start.x] == 'C')
-					sl_collectible_path(hive, start, 0);
+				x_sum += pos.x;
+				y_sum += pos.y;
 			}
 		}
 	}
-	return (start);
+	pos.x = x_sum / map_info->c_num;
+	pos.y = y_sum / map_info->c_num;
+	return (pos);
+}
+
+t_x_y	sl_place_hive_scanner_horizontal(t_hive *hive, int rad)
+{
+	int		i;
+	int		len;
+	t_x_y	pos;
+
+	i = 0;
+	len = rad * 2 + 1;
+	while (++i <= len)
+	{
+		pos.x = hive->hive_pos.x - (rad - i);
+		pos.y = hive->hive_pos.y - rad;
+		if (pos.x < hive->size.x && pos.x > 0 && pos.y < hive->size.y
+			&& pos.y > 0 && hive->tp_map[pos.y][pos.x] == '0')
+			return (pos);
+		pos.x = hive->hive_pos.x - (rad - i);
+		pos.y = hive->hive_pos.y + rad;
+		if (pos.x < hive->size.x && pos.x > 0 && pos.y < hive->size.y
+			&& pos.y > 0 && hive->tp_map[pos.y][pos.x] == '0')
+			return (pos);
+	}
+	pos.x = 0;
+	pos.y = 0;
+	return (pos);
+}
+
+t_x_y	sl_place_hive_scanner_vertical(t_hive *hive, int rad)
+{
+	int		i;
+	int		len;
+	t_x_y	pos;
+
+	i = 0;
+	len = rad * 2 + 1;
+	while (++i <= len)
+	{
+		pos.x = hive->hive_pos.x - rad;
+		pos.y = hive->hive_pos.y - (rad - i);
+		if (pos.x < hive->size.x && pos.x > 0 && pos.y < hive->size.y
+			&& pos.y > 0 && hive->tp_map[pos.y][pos.x] == '0')
+			return (pos);
+		pos.x = hive->hive_pos.x + rad;
+		pos.y = hive->hive_pos.y - (rad - i);
+		if (pos.x < hive->size.x && pos.x > 0 && pos.y < hive->size.y
+			&& pos.y > 0 && hive->tp_map[pos.y][pos.x] == '0')
+			return (pos);
+	}
+	pos.x = 0;
+	pos.y = 0;
+	return (pos);
+}
+
+void	sl_place_hive(t_hive *hive)
+{
+	int		rad;
+	t_x_y	pos;
+
+	rad = 0;
+	while (++rad < (hive->size.x + hive->size.y))
+	{
+		pos = sl_place_hive_scanner_vertical(hive, rad);
+		if (pos.x != 0 && pos.y != 0)
+			break ;
+		pos = sl_place_hive_scanner_horizontal(hive, rad);
+		if (pos.x != 0 && pos.y != 0)
+			break ;
+	}
+	hive->tp_map[pos.y][pos.x] = 'H';
 }
 
 void	sl_hive_init(t_map_info *map_info, t_hive *hive)
@@ -106,57 +153,34 @@ void	sl_hive_init(t_map_info *map_info, t_hive *hive)
 	else
 		hive->bee_count = 4;
 	hive->tp_map = sl_map_copy(map_info);
-	hive->hive_pos = sl_place_hive(map_info, hive);
+	hive->hive_pos = sl_get_hive_pos(map_info);
+	hive->size = map_info->size;
+	sl_place_hive(hive);
 }
-
 
 int	main(int argc, char **argv)
 {
 	t_map_info	map_info;
 	t_img_stack	*img_stack;
-	t_img_stack	*floor;
+	t_hive		hive;
+	int			i;
 
 	if (argc != 2 || !sl_parse_main(argv[1], &map_info))
-		exit (0);
+		exit(0);
 	img_stack = NULL;
-	floor = NULL;
 	map_info.img_stack = &img_stack;
 	map_info.total_moves = -1;
 	map_info.way = 0;
-	// if (sl_mlx_handler(map_info, &floor) == 0)
-		// exit(0);
-
-	t_hive hive;
 	sl_hive_init(&map_info, &hive);
-	int	i = -1;
-	
+	i = -1;
 	while (++i < map_info.size.y)
-		printf("%s", hive.tp_map[i]);
+	{
+		printf("%s\n", hive.tp_map[i]);
+		free(hive.tp_map[i]);
+	}
+	free(hive.tp_map);
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // void	ft_putnbr(int n)
 // {

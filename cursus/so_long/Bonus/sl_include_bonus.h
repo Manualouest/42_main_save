@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:05 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/21 17:25:31 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/03/02 19:53:21 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_hive
 {
 	int					bee_count;
 	char				**tp_map;
+	t_x_y				size;
 	t_x_y				hive_pos;
 	struct s_bees		*bees;
 }						t_hive;
