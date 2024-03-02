@@ -32,7 +32,8 @@ B_Src = $(addprefix Bonus/,\
 	sl_texture_handler4_bonus.c\
 	sl_texture_handler5_bonus.c\
 	utils_bonus.c\
-	sl_counter_handler.c)
+	sl_counter_handler.c\
+	sl_patrol_setup.c)
 
 Extras = $(addprefix extras/,\
 	get_next_line.c\

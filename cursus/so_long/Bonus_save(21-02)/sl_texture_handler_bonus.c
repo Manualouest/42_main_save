@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:21:07 by mbirou            #+#    #+#             */
-/*   Updated: 2024/03/02 23:08:02 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/18 11:44:01 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ char	*sl_get_img_path(char type, t_map_info *map_info, t_x_y coord)
 		return ("images/collectible/collectible.png");
 	if (type == '0')
 		return ("images/floor/floor.png");
-	if (type == '1')
-		return (sl_wall_finder_main(map_info, coord));
-	return ("images/player/player_win.png");
+	return (sl_wall_finder_main(map_info, coord));
 }
 
 void	sl_redo_link(t_img_stack *stk, t_map_info *map_info, char type)
@@ -64,6 +62,11 @@ void	sl_init_funcs(void **funcs)
 	funcs[24] = NULL;
 }
 
+int	sl_test_return(int num)
+{
+	return (num);
+}
+
 char	*sl_wall_finder_main(t_map_info *map_info, t_x_y coord)
 {
 	int		i;
@@ -80,11 +83,11 @@ char	*sl_wall_finder_main(t_map_info *map_info, t_x_y coord)
 			(map_info, &coord.x, &coord.y, map_info->size.x - 1);
 		if (tp != NULL)
 		{
-			free(funcs);
+			//free funcs here!
 			return (tp);
 		}
 	}
-	free(funcs);
+	//here too !
 	return ("images/player/player_win.png");
 }
 
@@ -96,8 +99,7 @@ char	*sl_wall_finder(t_map_info *map_info, int *x, int *y, int xmax)
 	ymax = map_info->size.y - 1;
 	mp = map_info->map_copy;
 	if (*x > 0 && *x < xmax && ((mp[*y][*x - 1] < 0
-			&& mp[*y][*x + 1] == 49 && (*y == 0
-			|| (*y > 0 && mp[*y - 1][*x] > 0))
+			&& mp[*y][*x + 1] == 49 && (*y == 0 || (*y > 0 && mp[*y - 1][*x] > 0))
 		&& (*y == ymax || (*y < ymax && mp[*y + 1][*x] != 49)))))
 	{
 		map_info->map_copy[*y][*x] = -8;
@@ -148,8 +150,7 @@ char	*sl_wall_finder2(t_map_info *map_info, int *x, int *y, int xmax)
 	}
 	if (*x < xmax && *y > 0 && mp[*y - 1][*x] < 0 && (*y == ymax
 		|| (*y < ymax && mp[*y + 1][*x] != 49)) && (*x == 0 || (*x > 0
-		&& mp[*y][*x - 1] > 0)) && mp[*y][*x + 1] == 49
-		&& mp[*y - 1][*x + 1] > 0)
+		&& mp[*y][*x - 1] > 0)) && mp[*y][*x + 1] == 49 && mp[*y - 1][*x + 1] > 0)
 	{
 		map_info->map_copy[*y][*x] = -13;
 		return ("images/wall/13.png");

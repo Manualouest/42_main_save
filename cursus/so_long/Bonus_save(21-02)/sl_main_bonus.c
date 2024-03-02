@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:16:18 by mbirou            #+#    #+#             */
-/*   Updated: 2024/03/02 22:59:55 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/02/18 09:45:01 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ void	sl_create_img(t_map_info mp_inf, t_img_stack **img_stk)
 		{
 			xy.y = i;
 			xy.x = ii;
-			if (mp_inf.map_copy[i][ii] == 'P' || mp_inf.map_copy[i][ii] == 'E'
-				|| mp_inf.map_copy[i][ii] == 'H')
+			if (mp_inf.map_copy[i][ii] == 'P' || mp_inf.map_copy[i][ii] == 'E')
 			{
 				sl_add_back(img_stk, &mp_inf, '0', xy);
 			}
@@ -275,22 +274,18 @@ t_x_y	sl_get_player(t_map_info map_info)
 
 void	sl_init_counter(t_map_info *map_info, t_counter *counter)
 {
-	char	*png;
-
 	counter->move = 0;
 	counter->counter_move = malloc(sizeof(**counter->counter_move));
 	*counter->counter_move = 0;
-	png = sl_get_png(COUNTER_MOVE, ft_itoa(0));
-	sl_custom_addback(map_info, png, counter->counter_move, 'P');
-	free(png);
+	sl_custom_addback(map_info, sl_get_png(COUNTER_MOVE, ft_itoa(0)),
+		counter->counter_move, 'P');
 	mlx_image_to_window(map_info->mlx, (*counter->counter_move)->img, 16, 16);
 	(*counter->counter_move)->is_shown = 1;
 	counter->collect = 0;
 	counter->counter_collect = malloc(sizeof(**counter->counter_collect));
 	*counter->counter_collect = 0;
-	png = sl_get_png(COUNTER_COLLECT, ft_itoa(0));
-	sl_custom_addback(map_info, png, counter->counter_collect, 'P');
-	free(png);
+	sl_custom_addback(map_info, sl_get_png(COUNTER_COLLECT, ft_itoa(0)),
+		counter->counter_collect, 'P');
 	mlx_image_to_window(map_info->mlx, (*counter->counter_collect)->img,
 		map_info->size.x * 42 + 16, map_info->size.y * 42 + 16);
 	(*counter->counter_collect)->is_shown = 1;
@@ -300,7 +295,6 @@ int	main(int argc, char **argv)
 {
 	t_map_info	map_info;
 	t_img_stack	*img_stack;
-	t_hive		hive;
 	t_img_stack	*floor;
 
 	if (argc != 2 || !sl_parse_main(argv[1], &map_info))
@@ -310,7 +304,6 @@ int	main(int argc, char **argv)
 	map_info.img_stack = &img_stack;
 	map_info.total_moves = -1;
 	map_info.way = 0;
-	sl_hive_init(&map_info, &hive);
 	if (sl_mlx_handler(map_info, &floor) == 0)
 		exit(0);
 	return (0);

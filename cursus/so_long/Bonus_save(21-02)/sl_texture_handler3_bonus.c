@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_texture_handler3_bonus.c                        :+:      :+:    :+:   */
+/*   sl_te*xture_handler3_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/02 23:04:50 by mbirou            #+#    #+#             */
-/*   Updated: 2024/03/02 23:05:39 by mbirou           ###   ########.fr       */
+/*   Created: 2024/02/08 05:34:26 by mbirou            #+#    #+#             */
+/*   Updated: 2024/02/18 11:34:18 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ char	*sl_wall_finder15(t_map_info *map_info, int *x, int *y, int xmax)
 	ymax = map_info->size.y - 1;
 	mp = map_info->map_copy;
 	if (*x < xmax && *y < ymax && *y > 0 && (*x == 0 || (*x > 0
-				&& mp[*y][*x - 1] > 0)) && mp[*y - 1][*x] < 0
-		&& mp[*y + 1][*x] == 49 && mp[*y][*x + 1] == 49
-		&& mp[*y - 1][*x + 1] < 0 && mp[*y + 1][*x + 1] != 49)
+				&& mp[*y][*x - 1] > 0)) && mp[*y - 1][*x] < 0 && mp[*y + 1][*x] == 49
+		&& mp[*y][*x + 1] == 49 && mp[*y - 1][*x + 1] < 0
+		&& mp[*y + 1][*x + 1] != 49)
 	{
 		map_info->map_copy[*y][*x] = -21;
 		return ("images/wall/21.png");
@@ -107,8 +107,8 @@ char	*sl_wall_finder16(t_map_info *map_info, int *x, int *y, int xmax)
 	}
 	if (*x > 0 && *x < xmax && *y < ymax && (*y == 0
 			|| (*y > 0 && mp[*y - 1][*x] > 0)) && mp[*y][*x - 1] < 0
-		&& mp[*y][*x + 1] == 49 && mp[*y + 1][*x] == 49
-		&& mp[*y + 1][*x - 1] != 49 && mp[*y + 1][*x + 1] == 49)
+		&& mp[*y][*x + 1] == 49 && mp[*y + 1][*x] == 49 && mp[*y + 1][*x - 1] != 49
+		&& mp[*y + 1][*x + 1] == 49)
 	{
 		map_info->map_copy[*y][*x] = -24;
 		return ("images/wall/24.png");
@@ -124,9 +124,9 @@ char	*sl_wall_finder17(t_map_info *map_info, int *x, int *y, int xmax)
 	ymax = map_info->size.y - 1;
 	mp = map_info->map_copy;
 	if (*x < xmax && *y > 0 && *y < ymax && (*x == 0 || (*x > 0
-				&& mp[*y][*x - 1] > 0)) && mp[*y - 1][*x] < 0
-		&& mp[*y + 1][*x] == 49 && mp[*y][*x + 1] == 49
-		&& mp[*y - 1][*x + 1] > 0 && mp[*y + 1][*x + 1] == 49)
+				&& mp[*y][*x - 1] > 0)) && mp[*y - 1][*x] < 0 && mp[*y + 1][*x] == 49
+		&& mp[*y][*x + 1] == 49 && mp[*y - 1][*x + 1] > 0
+		&& mp[*y + 1][*x + 1] == 49)
 	{
 		map_info->map_copy[*y][*x] = -25;
 		return ("images/wall/25.png");
