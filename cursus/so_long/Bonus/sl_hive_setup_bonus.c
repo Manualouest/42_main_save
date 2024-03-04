@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sl_patrol_setup.c                                  :+:      :+:    :+:   */
+/*   sl_hive_setup_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:48:04 by mbirou            #+#    #+#             */
-/*   Updated: 2024/03/02 23:02:43 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/03/04 02:05:09 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sl_include_bonus.h"
+
+#include "stdio.h"
 
 t_x_y	sl_get_hive_pos(t_map_info *map_info)
 {
@@ -120,6 +122,8 @@ void	sl_place_hive(t_hive *hive, t_map_info *map_info)
 
 void	sl_hive_init(t_map_info *map_info, t_hive *hive)
 {
+	char	*png;
+
 	if (map_info->c_num <= 8)
 		hive->bee_count = (int)((float)map_info->c_num / 2 + 0.5);
 	else
@@ -127,5 +131,20 @@ void	sl_hive_init(t_map_info *map_info, t_hive *hive)
 	hive->hive_pos = sl_get_hive_pos(map_info);
 	hive->size = map_info->size;
 	sl_place_hive(hive, map_info);
+	hive->honey_level = 1;
+	hive->flowers_brought = 0;
+	hive->hive_frame = 0;
+	hive->hive_bot = malloc(sizeof(**hive->hive_bot));
+	*hive->hive_bot = 0;
+	png = sl_get_png(HIVE_BOT, ft_itoa(1));
+	sl_custom_addback(map_info, png, hive->hive_bot, 'H');
+	// sl_instant_add_png(map_info, hive->hive_bot, HIVE_BOT, 1);
+	hive->hive_top = malloc(sizeof(**hive->hive_top));
+	*hive->hive_top = 0;
+	free(png);
+	png = sl_get_png(HIVE_TOP, ft_itoa(1));
+	// sl_custom_addback(map_info, png, hive->hive_top, 'H');
+	// sl_instant_add_png(map_info, hive->hive_top, HIVE_TOP, 1);
+	free(png);
 	map_info->hive = hive;
 }

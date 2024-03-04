@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 13:23:05 by mbirou            #+#    #+#             */
-/*   Updated: 2024/03/02 22:51:32 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/03/04 01:54:35 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <fcntl.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 
+
 # define EXIT_IDLE "images/exit/exit_idle_bonus/"
 # define EXIT_ANGRY "images/exit/exit_angry_bonus/"
 # define EXIT_HAPPY "images/exit/exit_happy_bonus/"
@@ -24,10 +25,16 @@
 # define EXIT_OK "images/exit/exit_ok_bonus/"
 # define EXIT_CRY "images/exit/exit_cry_bonus/"
 # define EXIT_SUS "images/exit/exit_sus_bonus/"
+
 # define PLAYER_UNWIN "images/player/player_unwin_bonus/"
 # define PLAYER_WIN "images/player/player_win_bonus/"
+
 # define COUNTER_MOVE "images/counter/move/"
 # define COUNTER_COLLECT "images/counter/collect/"
+
+# define HIVE_BOT "images/hive/"
+# define HIVE_TOP "images/hive/dancing_top/"
+
 
 typedef struct s_parse_util
 {
@@ -92,10 +99,15 @@ typedef struct s_bees
 typedef struct s_hive
 {
 	int					bee_count;
+	int					honey_level;
+	int					flowers_brought;
+	int					hive_frame;
 	char				**tp_map;
 	t_x_y				size;
 	t_x_y				hive_pos;
 	struct s_bees		*bees;
+	struct s_img_stack	**hive_bot;
+	struct s_img_stack	**hive_top;
 }						t_hive;
 
 typedef struct s_map_info
@@ -200,6 +212,12 @@ int			sl_base_change(int nbr, char *base);
 
 int			sl_power(int i, int p);
 
+void		sl_show_png(t_img_stack *stk, t_map_info *map_info, t_x_y xy);
+char		*sl_get_png(char *path, char *tp);
+void		sl_custom_addback(t_map_info *map_info, char *png,
+				t_img_stack **lst, char type);
+
 void		sl_hive_init(t_map_info *map_info, t_hive *hive);
+void		sl_animate_hive(void *map_info);
 
 #endif

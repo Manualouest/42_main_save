@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 05:45:29 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/21 16:28:35 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/03/04 02:02:12 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,8 @@ int	sl_mlx_handler(t_map_info map_info, t_img_stack **floor)
 	mlx_key_hook(map_info.mlx, &sl_key_handler, (void *)&map_info);
 	mlx_loop_hook(map_info.mlx, &sl_anime_player, (void *)&map_info);
 	mlx_loop_hook(map_info.mlx, &sl_anime_exit_main, (void *)&map_info);
+	// if (map_info.hive->hive_pos.x != 0)
+	// 	mlx_loop_hook(map_info.mlx, &sl_animate_hive, (void *)&map_info);
 	mlx_loop(map_info.mlx);
 	sl_free_png(&map_info, floor);
 	mlx_terminate(map_info.mlx);

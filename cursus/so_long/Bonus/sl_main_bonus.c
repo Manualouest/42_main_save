@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 15:16:18 by mbirou            #+#    #+#             */
-/*   Updated: 2024/03/02 22:59:55 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/03/04 02:10:21 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ void	sl_custom_addback(t_map_info *map_info, char *png,
 	if (!node)
 		return ;
 	node->is_shown = 0;
-	node->texture = mlx_load_png(png);
+	// node->texture = mlx_load_png(png);
+	node->texture = "test";
 	node->img = mlx_texture_to_image(map_info->mlx, node->texture);
 	node->type = type;
 	node->next = NULL;
@@ -211,10 +212,7 @@ void	sl_create_exits(t_map_info *map_info, t_gifs *gifs)
 
 void	sl_show_gif(mlx_t *mlx, t_img_stack *img_stk, t_x_y xy)
 {
-	int	tp;
-
-	tp = 0;
-	while (tp++, img_stk && img_stk->next)
+	while (img_stk && img_stk->next)
 	{
 		mlx_image_to_window(mlx, img_stk->img, xy.x * 42 + 16, xy.y * 42 + 16);
 		img_stk->img->instances->enabled = 0;
