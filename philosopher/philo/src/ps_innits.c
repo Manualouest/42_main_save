@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 20:32:37 by mbirou            #+#    #+#             */
-/*   Updated: 2024/05/23 12:51:10 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/04 20:25:14 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	ps_innit_philos_stats(t_philos *philos, int id_int, int *stop,
 	{
 		philos->stats->id = id_int + 1;
 		philos->stats->status = THINKING;
-		philos->stats->sc_safety
-			= pthread_mutex_init(&philos->stats->status_check, NULL);
+		// philos->stats->sc_safety
+		// 	= pthread_mutex_init(&philos->stats->status_check, NULL);
 		philos->stats->nb_meals_left = args[4];
 		philos->stats->eat_time = args[2];
 		philos->stats->sleep_time = args[3];
@@ -32,9 +32,11 @@ void	ps_innit_philos_stats(t_philos *philos, int id_int, int *stop,
 	if (philos->fork)
 	{
 		philos->fork->is_free = 1;
-		philos->fork->id = id_int + 1;
-		philos->fork->mt_safety
-			= pthread_mutex_init(&philos->fork->my_fork, NULL);
+		// philos->fork->id = id_int + 1;
+		// philos->fork->mt_safety
+	pthread_mutex_t	status_check;
+	int				sc_safety;
+		// 	= pthread_mutex_init(&philos->fork->my_fork, NULL);
 	}
 	philos->time = NULL;
 	philos->timestamp = NULL;

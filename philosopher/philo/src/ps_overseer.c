@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:43:52 by mbirou            #+#    #+#             */
-/*   Updated: 2024/05/23 13:30:24 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/04 20:25:35 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ps_overseer_loop(t_philos *philos, int *stop, int nb_philos)
 
 	cpy_philos = philos;
 	can_stop = 0;
-	if (pthread_mutex_lock(&cpy_philos->stats->status_check) != 0)
+	if (pthread_mutex_lock(&cpy_philos->mutex->) != 0)
 		*stop = 0;
 	while (cpy_philos->stats && cpy_philos->stats->status != DEAD
 		&& *stop == 1 && philos->safety < 0)

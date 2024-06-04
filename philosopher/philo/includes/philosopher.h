@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 23:30:52 by mbirou            #+#    #+#             */
-/*   Updated: 2024/05/22 23:13:46 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/04 20:25:07 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,12 @@ typedef struct s_time_stuff
 
 typedef struct s_fork
 {
-	pthread_mutex_t	my_fork;
-	int				mt_safety;
-	int				id;
 	int				is_free;
 }					t_fork;
 
 typedef struct s_stats
 {
 	int				id;
-	pthread_mutex_t	status_check;
-	int				sc_safety;
 	t_states		status;
 	int				nb_meals_left;
 	int				eat_time;

@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 23:48:37 by mbirou            #+#    #+#             */
-/*   Updated: 2024/05/23 13:27:37 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/04 20:29:44 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,9 @@ void	ps_write_msg(t_time_stuff *timestamp, t_philos *philo, int msg_id)
 
 	if (pthread_mutex_lock(&philo->mutex->writing_privilege) != 0)
 		return ;
-	if (pthread_mutex_lock(&philo->stats->status_check) != 0)
-		return ;
 	if (*(philo->stats->keep_on) == 0)
 	{
 		pthread_mutex_unlock(&philo->mutex->writing_privilege);
-		pthread_mutex_unlock(&philo->stats->status_check);
 		return ;
 	}
 	gettimeofday(&timestamp->timeval, NULL);
@@ -52,7 +49,6 @@ void	ps_write_msg(t_time_stuff *timestamp, t_philos *philo, int msg_id)
 	ps_find_msg(msg_id);
 	free(text);
 	pthread_mutex_unlock(&philo->mutex->writing_privilege);
-	pthread_mutex_unlock(&philo->stats->status_check);	
 }
 
 void	ps_wait_time(t_philos *philo, int wait)
