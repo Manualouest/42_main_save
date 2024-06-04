@@ -1,0 +1,1 @@
+tokeniser upgrade regarding $ variables, basic parsing, used before exec has been implemented, tokeniser structure moved to a separate header to facilitate parsing
