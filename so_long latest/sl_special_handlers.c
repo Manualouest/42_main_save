@@ -1,0 +1,120 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sl_special_handlers.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/08 05:45:29 by mbirou            #+#    #+#             */
+/*   Updated: 2024/04/09 02:25:51 by mbirou           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "sl_include.h"
+
+void	sl_win_stop(t_map_info *map_info)
+{
+	char	*emoji;
+
+	emoji = malloc(4);
+	emoji[0] = 0xF0;
+	emoji[1] = 0x9F;
+	emoji[2] = 0x98;
+	emoji[3] = 0x8F;
+	write(1, "\E[H\E[2J", 7);
+	write(1, "Good Job ", 9);
+	write(1, emoji, 4);
+	free(emoji);
+	write(1, "\n", 1);
+	write(1, "You finished with ", 18);
+	if (map_info->total_moves < 2147483647)
+	{
+		ft_putnbr(map_info->total_moves);
+		write(1, " moves played\n", 14);
+	}
+	else
+		write(1, "so many moves we couldn't even fit it in an int...\n", 51);
+	mlx_close_window(map_info->mlx);
+}
+
+void	sl_single_key_handler(mlx_key_data_t keydata, void *map_info_void)
+{
+	t_map_info	*mp_inf;
+
+	mp_inf = (t_map_info *)map_info_void;
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+		mlx_close_window(mp_inf->mlx);
+	if (mlx_is_key_down(mp_inf->mlx, MLX_KEY_A) && sl_next(mp_inf, -1))
+		sl_move_player(mp_inf, -1);
+	else if (mlx_is_key_down(mp_inf->mlx, MLX_KEY_D) && sl_next(mp_inf, 1))
+		sl_move_player(mp_inf, 1);
+	else if (mlx_is_key_down(mp_inf->mlx, MLX_KEY_W) && sl_next(mp_inf, -10))
+		sl_move_player(mp_inf, -10);
+	else if (mlx_is_key_down(mp_inf->mlx, MLX_KEY_S) && sl_next(mp_inf, 10))
+		sl_move_player(mp_inf, 10);
+}
+
+void	sl_handle_extra_floor(t_map_info mp_inf, t_img_stack **floor)
+{
+	int			i;
+	int			ii;
+	int			x;
+	int			y;
+
+	i = -1;
+	while (++i < mp_inf.size.y)
+	{
+		ii = -1;
+		while (++ii < mp_inf.size.x)
+		{
+			if (mp_inf.map[i][ii] != '0')
+			{
+				x = ii * 42 + 16;
+				y = i * 42 + 16;
+				sl_add_back(floor, &mp_inf, '0', mp_inf.size);
+				mlx_image_to_window(mp_inf.mlx, ft_lstlast(*floor)->img, x, y);
+			}
+		}
+	}
+}
+
+int	sl_mlx_handler(t_map_info map_info, t_img_stack *floor)
+{
+	int	x;
+	int	y;
+
+	x = map_info.size.x * 42 + 32;
+	y = map_info.size.y * 42 + 32;
+	map_info.mlx = mlx_init(x, y, "So Long", false);
+	if (!map_info.mlx)
+		return (0);
+	sl_handle_extra_floor(map_info, &floor);
+	sl_create_img(map_info, map_info.img_stack);
+	sl_img_show(map_info.mlx, map_info, *map_info.img_stack);
+	mlx_key_hook(map_info.mlx, &sl_single_key_handler, (void *)&map_info);
+	mlx_loop(map_info.mlx);
+	sl_free_t_map_info(&map_info);
+	sl_lstclear(map_info.mlx, map_info.img_stack);
+	sl_lstclear(map_info.mlx, &floor);
+	sl_lstclear(map_info.mlx, map_info.player_img);
+	mlx_terminate(map_info.mlx);
+	return (1);
+}
+
+int	sl_next(t_map_info *map_info, int way)
+{
+	int			index;
+	int			x;
+	int			y;
+	char		link_type;
+
+	x = map_info->player.x;
+	y = map_info->player.y;
+	x += way % 10;
+	y += way / 10;
+	index = (y * map_info->size.x) + x;
+	link_type = sl_link_finder(*map_info->img_stack, index)->type;
+	if (link_type == '1' || (link_type == 'E' && map_info->c_num > 0))
+		return (0);
+	return (1);
+}

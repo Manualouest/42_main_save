@@ -1,0 +1,19 @@
+{
+	"files.associations": {
+		"sl_include_bonus.h": "c",
+		"mlx42.h": "c",
+		"unistd.h": "c",
+		"atomic": "c",
+		"cstdint": "c",
+		"compare": "c",
+		"array": "c",
+		"deque": "c",
+		"string": "c",
+		"unordered_map": "c",
+		"vector": "c",
+		"string_view": "c",
+		"initializer_list": "c",
+		"ranges": "c",
+		"span": "c"
+	}
+}
