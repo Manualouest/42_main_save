@@ -5,138 +5,110 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 14:15:43 by mscheman          #+#    #+#             */
-/*   Updated: 2024/06/01 16:56:10 by mbirou           ###   ########.fr       */
+/*   Created: 2024/06/01 17:43:44 by mbirou            #+#    #+#             */
+/*   Updated: 2024/06/04 19:06:43 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <tokeniser.h>
 
-static char	**heredoc_lst_to_tab(t_list *lst);
-
-char	**ms_heredoc(char *limiter)
+static char	*ms_get_name(int fd)
 {
-	t_list	*tab;
-	char	**ret;
+	char	*name;
+
+	name = ft_calloc(sizeof(char), 11);
+	name[10] = 0;
+	read(fd, name, 10);
+	return (name);
+}
+
+static char	*ms_gen_filename(void)
+{
+	char	*name;
+	int		fd;
+	int		rd_num;
+
+	rd_num = open("/dev/urandom", O_RDONLY);
+	if (rd_num == -1)
+		return (NULL);
+	name = ms_get_name(rd_num);
+	fd = access(name, F_OK);
+	while (fd != -1)
+	{
+		free(name);
+		name = ms_get_name(rd_num);
+		fd = access(name, F_OK);
+	}
+	close(rd_num);
+	if (fd != -1)
+	{
+		free(name);
+		return (NULL);
+	}
+	return (name);
+}
+
+char	*ms_heredoc(char *limiter, t_cmd *cmd, int fake)
+{
+	int		fd;
+	char	*filename;
 	char	*input;
 
 	input = readline(HEREDOC_PROMPT);
-	tab = NULL;
+	filename = ms_gen_filename();
+	fd = open(filename, S_IRWXU | O_RDWR | O_APPEND | O_CREAT);
+	if (fd == -1)
+		return (NULL);
 	while (input && (ft_strlen(limiter) != ft_strlen(input)
 			|| (ft_strncmp(input, limiter, ft_strlen(input)) != 0)))
 	{
-		ft_lstadd_back(&tab, ft_lstnew(input));
+		if (!fake)
+		{
+			write(fd, input, ft_strlen(input));
+			write(fd, "\n", 1);
+		}
 		input = readline(HEREDOC_PROMPT);
 	}
-	if (input)
-		free(input);
-	input = NULL;
-	ft_lstadd_back(&tab, ft_lstnew(input));
-	ret = heredoc_lst_to_tab(tab);
-	return (ret);
+	if (cmd->fd_in == 0)
+		cmd->fd_in = fd;
+	if (cmd->fd_in != 0 || fake)
+		close(fd);
+	free(input);
+	return (filename);
 }
 
-static char	**heredoc_lst_to_tab(t_list *lst)
+
+char	*ms_launch_heredoc(t_cmd *cmd)
 {
-	t_list	*tmp;
-	char	**tab;
+	char	*filename;
 	int		i;
 
-	i = ft_lstsize(lst);
-	tab = ft_calloc(i, sizeof(char *));
-	i = 0;
-	while (lst)
+	i = -1;
+	filename = NULL;
+	while (cmd->args[++i])
 	{
-		tab[i] = lst->content;
-		i++;
-		tmp = lst;
-		lst = lst->next;
-		free(tmp);
-	}
-	return (tab);
-}
-
-void	ms_free_end_heredoc(t_command *cmd, t_params *prev, t_params *tp_param)
-{
-	if (prev)
-	{
-		free(prev->next);
-		prev->next = NULL;
-	}
-	else if (!cmd->params->text)
-	{
-		free(cmd->params);
-		cmd->params = NULL;
-	}
-	else if (cmd->params->next && cmd->params->next->text)
-	{
-		while (tp_param && tp_param->next && tp_param->next->text)
-			tp_param = tp_param->next;
-		free(tp_param->next);
-		tp_param->next = NULL;
-	}
-	else
-	{
-		free(cmd->params->next);
-		cmd->params->next = NULL;
-	}
-}
-
-void	ms_fill_params_heredoc(t_command *cmd, t_params *params, char **doc,
-			int line_i)
-{
-	char		*item;
-	t_params	*prev;
-	int			doc_i;
-
-	prev = NULL;
-	doc_i = -1;
-	while (doc[++doc_i] && (!cmd->params->text
-			|| (cmd->params->text && doc_i > 0)))
-	{
-		line_i = 0;
-		params->quote_level = 4;
-		item = ms_get_next_param(doc[doc_i], &line_i, 4, line_i);
-		while (item && ft_strlen(item) > 0)
+		if (!ft_strncmp(cmd->args[i], "<<", 2))
 		{
-			prev = ms_setup_params_text_and_symbol(params, item);
-			params->quote_level = 4;
-			params = params->next;
-			free(item);
-			item = ms_get_next_param(doc[doc_i], &line_i, 4, line_i);
+			if (filename)
+				ms_remove_heredoc(-1, filename);
+			if (cmd->args[i + 1])
+				filename = ms_heredoc(cmd->args[i + 1], cmd, 0);
+			else
+				return (NULL);
+			ms_move_args_front(&cmd->args, i + 1);
+			ms_move_args_front(&cmd->args, i);
+			i --;
 		}
-		free(item);
 	}
-	ms_free_end_heredoc(cmd, prev, cmd->params);
-	params = cmd->params;
+	return (filename);
 }
 
-void	ms_launch_heredoc(t_command *cmd, t_params *params,
-			char *line, int *main_index)
+void	ms_remove_heredoc(int fd, char *filename)
 {
-	char		**heredoc;
-	char		*limiter;
-	int			i;
-
-	limiter = ms_get_next_item(line, main_index);
-	heredoc = ms_heredoc(limiter);
-	free(limiter);
-	i = -1;
-	if (cmd->builtins == NO_CMD && (ms_is_line_done(line, *main_index, NULL)
-			|| ((line[*main_index] && line[*main_index] == '|')
-				|| (line[*main_index] && line[*main_index + 1]
-					&& line[*main_index + 1] == '|'))))
-		ms_fill_params_heredoc(cmd, params, heredoc, 0);
-	i = -1;
-	while (heredoc[++i])
-		free(heredoc[i]);
-	free(heredoc);
-	if (line[*main_index] && line[*main_index + 1]
-		&& line[*main_index] == ' ')
-		*main_index = *main_index + 1;
-	if (cmd->builtins != NO_CMD
-		|| ((line[*main_index] && line[*main_index] != '|')
-			&& (line[*main_index] && line[*main_index + 1]
-				&& line[*main_index + 1] != '|')))
-		ms_fill_params(cmd, params, line, main_index);
+	if (fd != -1)
+		close(fd);
+	if (filename)
+		unlink(filename);
+	free(filename);
+	filename = NULL;
 }

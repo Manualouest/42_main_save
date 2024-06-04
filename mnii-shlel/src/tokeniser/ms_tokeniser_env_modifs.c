@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 02:24:56 by mbirou            #+#    #+#             */
-/*   Updated: 2024/05/27 16:57:05 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/04 18:08:36 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	ms_replace_env(t_params *param, t_params *next_param,
 	param->type = STRING;
 	free(param->text);
 	env_name = ms_get_env_content(param, next_param);
-	write(1, env_name, ft_strlen(env_name));
 	if (env_name[0] != '?' && env_find(env, env_name))
 		env_len = ft_strlen(env_find(env, env_name)->info.content) + 1;
 	else if (env_name[0] != '?')

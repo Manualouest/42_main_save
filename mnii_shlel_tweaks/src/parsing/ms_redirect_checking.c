@@ -6,13 +6,13 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:41:06 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/01 16:54:39 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/04 19:22:29 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <parsing.h>
 
-static void	ms_move_args_front(char ***args, int i)
+void	ms_move_args_front(char ***args, int i)
 {
 	while (args[0][i])
 	{
@@ -43,13 +43,14 @@ static void	ms_cleanup(t_cmd *cmd)
 	{
 		if (!ft_strncmp(cmd->args[i], "", 1))
 			ms_move_args_front(&cmd->args, i);
-		if (cmd->args[i] && !ft_strncmp(cmd->args[i], "<", 1)
-			&& cmd->args[i + 1] && ft_strncmp(cmd->args[i], "<<", 2) != 0)
+		if (cmd->args[i] && cmd->args[i + 1]
+			&& (!ft_strncmp(cmd->args[i], "<", 1)
+				|| !ft_strncmp(cmd->args[i], "<<", 2)))
 		{
 			start = -1;
 			while (cmd->args[i + 1][++start] && cmd->args[i + 1][start] == ' ')
 				;
-			len = start;
+			len = start - 1;
 			while (cmd->args[i + 1][++len] && cmd->args[i + 1][len] != ' ')
 				;
 			tp_char = ft_substr(cmd->args[i + 1], start, len - 1);
@@ -67,7 +68,8 @@ static void	ms_input_handler(t_cmd *cmd)
 	ms_cleanup(cmd);
 	while (cmd->args[++i] && cmd->error_id == NO_ERROR)
 	{
-		if (ft_strncmp(cmd->args[i], "<", 1) == 0 && cmd->args[i + 1])
+		if (!ft_strncmp(cmd->args[i], "<", 1)
+			&& ft_strncmp(cmd->args[i], "<<", 2) != 0 && cmd->args[i + 1])
 		{
 			if (cmd->fd_in != -1)
 				close(cmd->fd_in);
@@ -92,7 +94,7 @@ static void	ms_redirect_opener(t_cmd *cmd, int i)
 	{
 		if (cmd->fd_out != -1)
 			close(cmd->fd_out);
-		cmd->fd_out = open(cmd->args[i + 1], O_APPEND | O_CREAT);
+		cmd->fd_out = open(cmd->args[i + 1], O_APPEND | O_CREAT | S_IRWXU);
 		if (cmd->fd_out == -1)
 			cmd->error_id = BAD_APPEND;
 	}
@@ -100,7 +102,7 @@ static void	ms_redirect_opener(t_cmd *cmd, int i)
 	{
 		if (cmd->fd_out != -1)
 			close(cmd->fd_out);
-		cmd->fd_out = open(cmd->args[i + 1], O_WRONLY | O_CREAT);
+		cmd->fd_out = open(cmd->args[i + 1], O_WRONLY | O_CREAT | S_IRWXU);
 		if (cmd->fd_out == -1)
 			cmd->error_id = BAD_REDIRECT;
 	}

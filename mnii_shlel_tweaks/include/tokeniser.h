@@ -29,6 +29,13 @@ void		ms_pipes_free_main(t_pipes *pipes);
 // ms_tokeniser_env_modifs.c
 void		ms_make_env_easier(t_params *main_params, char **envp);
 
+// ms_tokeniser_redirect_cleaner.c
+void		trim_redirect_spaces(t_command *command);
+void		ms_trim_get_start_length(int *start, int *length, int way,
+				t_params *param);
+t_params	*ms_trim_spaces(t_params *param, int way, t_params *prev_param,
+				t_command *command);
+
 // ms_structure_translator.c
 void		ms_translate_to_cmd(t_cmd *cmd, t_pipes *main);
 
@@ -36,10 +43,11 @@ void		ms_translate_to_cmd(t_cmd *cmd, t_pipes *main);
 void		ms_free_cmd(t_cmd *cmd);
 
 // ms_heredoc.c
-void		ms_launch_heredoc(t_command *cmd, t_params *params,
-				char *line, int *main_index);
+char		*ms_launch_heredoc(t_cmd *cmd);
+void		ms_remove_heredoc(int fd, char *filename);
 
 // ms_tokeniser_trimmer.c
 void		ms_cut_spaces(t_command *cmd, t_params *param);
+void		ms_quote_remover(t_command *cmd, t_params *param, int i);
 
 #endif

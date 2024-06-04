@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 14:33:15 by mscheman          #+#    #+#             */
-/*   Updated: 2024/06/01 17:13:07 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/04 19:10:33 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	ms_exec(t_cmd *to_exec, char **envp, t_env_handler *path)
 {
 	t_cmd	*cmd;
 	int		edge[2];
+	
+	char	*heredoc;
 
 	cmd = to_exec;
 	cmd_iter(cmd, ms_exec_initfds);
@@ -39,8 +41,14 @@ void	ms_exec(t_cmd *to_exec, char **envp, t_env_handler *path)
 	ms_exec_redirectupdate(cmd, edge[0], edge[1]);
 	while (cmd)
 	{
+		
+		heredoc = ms_launch_heredoc(cmd);
+
 		exec_cmd(cmd, envp, path);
-		close(cmd->fd_in);
+		
+		ms_remove_heredoc(cmd->fd_in, heredoc);
+		
+		// close(cmd->fd_in);
 		close(cmd->fd_out);
 		cmd = cmd->next;
 	}

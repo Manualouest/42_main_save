@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:11:10 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/01 16:43:52 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/04 18:17:13 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ static void	ms_copy_without_end_space(char **list, char *text, int size)
 			list[0][i] = text[i];
 			i++;
 		}
-		if (size != 0)
-			list[0][i] = 0;
 	}
 	else if (size <= 0)
 		list[0] = 0;
@@ -85,7 +83,7 @@ static char	**ms_translate_params(t_params *main_params, char *cmd)
 			ft_strlcpy(args[i], param->text, ft_strlen(param->text) + 1);
 		else
 			ms_copy_without_end_space(&args[i], param->text,
-				ft_strlen(param->text));
+				ft_strlen(param->text) - 1);
 		param = param->next;
 	}
 	write(1, "\n", 1);

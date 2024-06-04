@@ -6,41 +6,40 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 17:43:44 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/01 19:49:52 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/04 19:06:43 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <tokeniser.h>
 
+static char	*ms_get_name(int fd)
+{
+	char	*name;
+
+	name = ft_calloc(sizeof(char), 11);
+	name[10] = 0;
+	read(fd, name, 10);
+	return (name);
+}
+
 static char	*ms_gen_filename(void)
 {
 	char	*name;
 	int		fd;
-	int		len;
+	int		rd_num;
 
-	name = ft_calloc(sizeof(char), 2);
-	name[0] = '0';
-	len = 0;
+	rd_num = open("/dev/urandom", O_RDONLY);
+	if (rd_num == -1)
+		return (NULL);
+	name = ms_get_name(rd_num);
 	fd = access(name, F_OK);
-	while (fd != -1 && len < 255)
+	while (fd != -1)
 	{
-		if (len == 0 && name[len] + 1 > '9')
-		{
-			len = ft_strlen(name) + 1;
-			free(name);
-			name = ft_calloc(sizeof(char), (len + 1));
-			while (--len >= 0)
-				name[len] = '0';
-		}
-		if (++name[len] > '9' && --len >= 0)
-		{
-			name[len]++;
-			while (name[++len])
-				name[len] = '0';
-			len --;
-		}
+		free(name);
+		name = ms_get_name(rd_num);
 		fd = access(name, F_OK);
 	}
+	close(rd_num);
 	if (fd != -1)
 	{
 		free(name);
@@ -92,16 +91,13 @@ char	*ms_launch_heredoc(t_cmd *cmd)
 		{
 			if (filename)
 				ms_remove_heredoc(-1, filename);
-			if (cmd->args[i + 1] || !cmd->args[i + 2])
-			{
+			if (cmd->args[i + 1])
 				filename = ms_heredoc(cmd->args[i + 1], cmd, 0);
-				ms_move_args_front(&cmd->args, i + 1);
-				ms_move_args_front(&cmd->args, i);
-			}
-			else if (cmd->args[i + 1])
-				filename = ms_heredoc(cmd->args[i + 1], cmd, 1);
 			else
 				return (NULL);
+			ms_move_args_front(&cmd->args, i + 1);
+			ms_move_args_front(&cmd->args, i);
+			i --;
 		}
 	}
 	return (filename);

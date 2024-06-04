@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:41:06 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/01 19:45:40 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/04 19:20:13 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	ms_cleanup(t_cmd *cmd)
 			start = -1;
 			while (cmd->args[i + 1][++start] && cmd->args[i + 1][start] == ' ')
 				;
-			len = start;
+			len = start - 1;
 			while (cmd->args[i + 1][++len] && cmd->args[i + 1][len] != ' ')
 				;
 			tp_char = ft_substr(cmd->args[i + 1], start, len - 1);
