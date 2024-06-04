@@ -9,3 +9,12 @@
 [branch "main"]
 	remote = origin
 	merge = refs/heads/main
+[branch "mathieu"]
+	remote = origin
+	merge = refs/heads/mathieu
+[branch "mathieu2"]
+	remote = origin
+	merge = refs/heads/mathieu2
+[branch "manu"]
+	remote = origin
+	merge = refs/heads/manu

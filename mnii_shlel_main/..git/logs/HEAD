@@ -1,3 +1,12 @@
 0000000000000000000000000000000000000000 6e755ecfa29a183ac4a685cb6d26415552544b54 Manutea Birou <mbirou@2G1.42angouleme.fr> 1716801558 +0200	clone: from github.com:Manualouest/mnii-shlel.git
 6e755ecfa29a183ac4a685cb6d26415552544b54 0466a811d28b80e4e952ec6e960a42f53e37670f Manutea Birou <mbirou@2G1.42angouleme.fr> 1716804740 +0200	commit: merged the two parts
 0466a811d28b80e4e952ec6e960a42f53e37670f cb6ab155e4536260a8144ff3e94c9317ec3b2ef0 Manutea Birou <mbirou@2G1.42angouleme.fr> 1716805273 +0200	commit: tweaks
+cb6ab155e4536260a8144ff3e94c9317ec3b2ef0 561a75082eb222aa2828218cde1d1ca1687fc22a Manutea Birou <mbirou@2F1.42angouleme.fr> 1717526892 +0200	checkout: moving from main to mathieu
+561a75082eb222aa2828218cde1d1ca1687fc22a 561a75082eb222aa2828218cde1d1ca1687fc22a Manutea Birou <mbirou@2F1.42angouleme.fr> 1717526904 +0200	checkout: moving from mathieu to mathieu
+561a75082eb222aa2828218cde1d1ca1687fc22a 8f2f6539d3901acef52d14cf77d305fc99323049 Manutea Birou <mbirou@2F1.42angouleme.fr> 1717526948 +0200	pull: Fast-forward
+8f2f6539d3901acef52d14cf77d305fc99323049 c7731d15143da45d6b159829d644415eb2ef9f85 Manutea Birou <mbirou@2F1.42angouleme.fr> 1717526964 +0200	checkout: moving from mathieu to mathieu2
+c7731d15143da45d6b159829d644415eb2ef9f85 c7731d15143da45d6b159829d644415eb2ef9f85 Manutea Birou <mbirou@2F1.42angouleme.fr> 1717526974 +0200	checkout: moving from mathieu2 to mathieu2
+c7731d15143da45d6b159829d644415eb2ef9f85 c7731d15143da45d6b159829d644415eb2ef9f85 Manutea Birou <mbirou@2F1.42angouleme.fr> 1717526981 +0200	checkout: moving from mathieu2 to mathieu2
+c7731d15143da45d6b159829d644415eb2ef9f85 ae89f3e9ac1115659d12490485d18a10462adc2c Manutea Birou <mbirou@2F1.42angouleme.fr> 1717527018 +0200	checkout: moving from mathieu2 to manu
+ae89f3e9ac1115659d12490485d18a10462adc2c c7731d15143da45d6b159829d644415eb2ef9f85 Manutea Birou <mbirou@2F1.42angouleme.fr> 1717527026 +0200	checkout: moving from manu to mathieu2
+c7731d15143da45d6b159829d644415eb2ef9f85 cb6ab155e4536260a8144ff3e94c9317ec3b2ef0 Manutea Birou <mbirou@2F1.42angouleme.fr> 1717527447 +0200	checkout: moving from mathieu2 to main

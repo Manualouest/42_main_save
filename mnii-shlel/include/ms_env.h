@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handling.c                                  :+:      :+:    :+:   */
+/*   ms_env.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mscheman <mscheman@student.42angouleme.f>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 11:36:06 by mbirou            #+#    #+#             */
-/*   Updated: 2024/05/27 11:36:19 by mbirou           ###   ########.fr       */
+/*   Created: 2024/05/04 18:48:06 by mscheman          #+#    #+#             */
+/*   Updated: 2024/05/04 18:56:34 by mscheman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mnii_shlel.h>
+#ifndef MS_ENV_H
+# define MS_ENV_H
 
-void	ms_sig_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_redisplay();
-		rl_replace_line("", 0);
-		g_signal = 130;
-	}
-}
+int		tablen(char **tab);
+char	**tab_append(char **tab, char *add, int pos);
+void	tab_replace(char **tab, char *old, char *new);
+char	**tab_clone(char **tab);
+char	*envp_find(char **envp, char *name);
+
+#endif

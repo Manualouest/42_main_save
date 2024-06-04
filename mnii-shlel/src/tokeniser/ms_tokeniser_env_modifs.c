@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 02:24:56 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/04 18:08:36 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/04 20:54:41 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*ms_get_env_content(t_params *prev, t_params *param)
 }
 
 static void	ms_replace_env(t_params *param, t_params *next_param,
-			t_env_handler	*env)
+			char **envp)
 {
 	char	*env_name;
 	int		env_len;
@@ -44,14 +44,14 @@ static void	ms_replace_env(t_params *param, t_params *next_param,
 	param->type = STRING;
 	free(param->text);
 	env_name = ms_get_env_content(param, next_param);
-	if (env_name[0] != '?' && env_find(env, env_name))
-		env_len = ft_strlen(env_find(env, env_name)->info.content) + 1;
+	if (env_name[0] != '?' && envp_find(envp, env_name))
+		env_len = ft_strlen(envp_find(envp, env_name)) + 1;
 	else if (env_name[0] != '?')
 		env_len = 0;
 	if (env_name[0] != '?' && env_len > 0)
 	{
 		param->text = malloc(sizeof(char) * env_len);
-		ft_strlcpy(param->text, (env_find(env, env_name))->info.content,
+		ft_strlcpy(param->text, envp_find(envp, env_name),
 			env_len);
 	}
 	else if (env_name[0] != '?')
@@ -66,9 +66,7 @@ void	ms_make_env_easier(t_params *main_params, char **envp)
 {
 	t_params		*copy_params;
 	t_params		*tp_params;
-	t_env_handler	*env;
 
-	env = setup_env_struct(envp);
 	copy_params = main_params;
 	tp_params = NULL;
 	while (copy_params != NULL)
@@ -76,8 +74,7 @@ void	ms_make_env_easier(t_params *main_params, char **envp)
 		if (copy_params->symbol == DOLLAR && copy_params->next
 			&& copy_params->next->type == STRING
 			&& copy_params->next->text)
-			ms_replace_env(copy_params, copy_params->next, env);
+			ms_replace_env(copy_params, copy_params->next, envp);
 		copy_params = copy_params->next;
 	}
-	envclear(&env, free);
 }

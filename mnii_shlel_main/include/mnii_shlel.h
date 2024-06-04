@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:32:41 by mscheman          #+#    #+#             */
-/*   Updated: 2024/05/27 17:28:04 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/05/27 11:44:42 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@
 # include <signal.h>
 # include <errno.h>
 # include <termios.h>
-# include <stdio.h>
 
 # include <tokeniser_struct.h>
-# include <ms_env_handler.h>
 # include <tokeniser.h>
 # include <parsing.h>
+# include <ms_env_handler.h>
 
 # include <ms_env_handler.h>
 # include <ms_error.h>
@@ -45,9 +44,9 @@
 
 extern int g_signal;
 
-# define PROMPT_CONST "\001\033[1;31m\002mnii \001\033[1;35m\002shlel:"
-# define PROMPT_USER " \001\033[1;36m\002$\001\033[0;0m\002  "
-# define HEREDOC_PROMPT "\001\033[1;36m\002heredco > \001\033[0;0m\002"
+# define PROMPT_CONST "\033[1;31mmnii \033[1;35mshlel:"
+# define PROMPT_USER " \033[1;36m\n$\033[0;0m  "
+# define HEREDOC_PROMPT "\033[1;36mheredco > \033[0;0m"
 
 
 void	builtin_env(t_env_handler *env);

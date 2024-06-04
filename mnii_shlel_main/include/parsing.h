@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 00:03:14 by mbirou            #+#    #+#             */
-/*   Updated: 2024/05/27 15:25:55 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/05/17 16:57:42 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,5 @@ void	ms_unset_pre_parsing(t_command *command);
 void	ms_exit_pre_parsing(t_command *command);
 
 char	*ms_create_proper_file_path(t_command *command);
-
-void	ms_redirect_handler(t_cmd *cmd);
 
 #endif
