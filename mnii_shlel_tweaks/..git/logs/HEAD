@@ -1,3 +1,4 @@
 0000000000000000000000000000000000000000 cb6ab155e4536260a8144ff3e94c9317ec3b2ef0 Manutea Birou <mbirou@2E3.42angouleme.fr> 1716824902 +0200	clone: from github.com:Manualouest/mnii-shlel.git
 cb6ab155e4536260a8144ff3e94c9317ec3b2ef0 cb6ab155e4536260a8144ff3e94c9317ec3b2ef0 Manutea Birou <mbirou@2E3.42angouleme.fr> 1716824925 +0200	checkout: moving from main to tweaked_main
 cb6ab155e4536260a8144ff3e94c9317ec3b2ef0 83bb8116fb004d49e2802d2908ee53e3cb4b99c4 Manutea Birou <mbirou@2E3.42angouleme.fr> 1716825057 +0200	commit: added tweaks, made a new branch to not destroy the main merge
+83bb8116fb004d49e2802d2908ee53e3cb4b99c4 706e0c10b58b55ce981bd494fdec21537d994f52 Manutea Birou <mbirou@1D6.42angouleme.fr> 1717522663 +0200	commit: latest part on my side added

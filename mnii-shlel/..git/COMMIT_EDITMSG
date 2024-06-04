@@ -1,1 +1,1 @@
-redirect working, heredoc updated, need to redo the remove of quotes
+now properly removing quotes, heredoc file creation updated, fixed redirect
