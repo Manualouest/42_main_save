@@ -1,0 +1,13 @@
+0000000000000000000000000000000000000000 502869cd35a024b82ad83f4fd07bb18a75bb3439 Manutea Birou <mbirou@2G4.42angouleme.fr> 1715949920 +0200	clone: from github.com:Manualouest/philosopher.git
+502869cd35a024b82ad83f4fd07bb18a75bb3439 33e2d48954e1b19f7e15cdaca24f84edb7700e41 Manutea Birou <mbirou@2G4.42angouleme.fr> 1715949989 +0200	commit: proper version
+33e2d48954e1b19f7e15cdaca24f84edb7700e41 09553e6528110a3af0b32389bf51988de1cc4157 Manutea Birou <mbirou@2G2.42angouleme.fr> 1715966857 +0200	commit: cleaning up git
+09553e6528110a3af0b32389bf51988de1cc4157 b58a72383263bd4fcee461a81ea9df47ef78fce3 Manutea Birou <mbirou@2G2.42angouleme.fr> 1715967266 +0200	revert: Revert "cleaning up git"
+b58a72383263bd4fcee461a81ea9df47ef78fce3 a06a866dfa0921bacfae31f6202f2163b58e6654 Manutea Birou <mbirou@2G2.42angouleme.fr> 1715967624 +0200	commit: revert
+a06a866dfa0921bacfae31f6202f2163b58e6654 c3866ad9fcd0794d098625fde5f36dfe46045b9f Manutea Birou <mbirou@2G2.42angouleme.fr> 1715982654 +0200	commit: working on brain of philosopher, mainly pushing for save
+c3866ad9fcd0794d098625fde5f36dfe46045b9f e37ddf25c573d221f25808375633990459e3982e Manutea Birou <mbirou@3E4.42angouleme.fr> 1716000514 +0200	commit: philosopher is done
+e37ddf25c573d221f25808375633990459e3982e 501cefb7e4fa6238859c557b5ba64056a233bd06 Manutea Birou <mbirou@3E4.42angouleme.fr> 1716005324 +0200	commit: no more leaks, it's finished unless an error is found
+501cefb7e4fa6238859c557b5ba64056a233bd06 e0ac1aa752dc763f8d5ebb06ef35fdfa33761b99 Manutea Birou <mbirou@3E4.42angouleme.fr> 1716005369 +0200	commit: forgot to delete a file
+e0ac1aa752dc763f8d5ebb06ef35fdfa33761b99 01707ad25c861254b9e047704485075b5eba01f7 Manutea Birou <mbirou@3E4.42angouleme.fr> 1716005685 +0200	commit: confusion on the subject, all good now
+01707ad25c861254b9e047704485075b5eba01f7 153f0ace01c39219b15ebc931ef70f759e2252d5 Manutea Birou <mbirou@2G2.42angouleme.fr> 1716142385 +0200	commit: fixed not working for odd number of philo by imposing minimum wait time, also time now starts at 0
+153f0ace01c39219b15ebc931ef70f759e2252d5 c489a9af4e7edf362e142d6464b04394b5b871a1 Manutea Birou <mbirou@2G4.42angouleme.fr> 1716226870 +0200	commit: every malloc, mutex_init and thread_create are protected with error messages, also moved the files to the proper folder
+c489a9af4e7edf362e142d6464b04394b5b871a1 350a62be902b9286855322c59dfa8afdaa76eac5 Manutea Birou <mbirou@2G4.42angouleme.fr> 1716476656 +0200	commit: gotta redo how they gie and disapear to lock it into a new function
