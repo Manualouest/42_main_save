@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:42:42 by mbirou            #+#    #+#             */
-/*   Updated: 2024/05/20 19:24:01 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/07 22:22:14 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,7 @@ static void	ps_free_inner_philo(t_philos *philo)
 		if (philo && philo->stats)
 			free(philo->stats);
 		if (philo && philo->fork)
-		{
-			pthread_mutex_destroy(&philo->fork->my_fork);
 			free(philo->fork);
-		}
 		if (philo && philo->time)
 			free(philo->time);
 		if (philo && philo->timestamp)
@@ -86,9 +83,10 @@ void	ps_free_everything(t_philos *philos, int *args
 	}
 	if (mutex_list && args && time)
 	{
-		pthread_mutex_destroy(&mutex_list->checking_privilege);
-		pthread_mutex_destroy(&mutex_list->writing_privilege);
+		pthread_mutex_destroy(&mutex_list->checking);
+		pthread_mutex_destroy(&mutex_list->writing);
 	}
+	pthread_mutex_destroy(&philos->status);
 	if (mutex_list)
 		free(mutex_list);
 	if (args)
@@ -97,4 +95,21 @@ void	ps_free_everything(t_philos *philos, int *args
 		ps_free_inner_philo(philos);
 	if (time)
 		free(time);
+}
+
+int	ps_check_for_death(t_philos *philo)
+{
+	struct s_time_stuff	timestamp;
+
+	gettimeofday(&timestamp.timeval, NULL);
+	if (((((philo->timestamp->timeval.tv_sec - 1 - philo->time->timeval.tv_sec)
+					* 1000000) + (1000000 - philo->time->timeval.tv_usec)
+				+ philo->timestamp->timeval.tv_usec) / 1000)
+		>= philo->stats->death_time)
+	{
+		// ps_write_msg(philo->timestamp, philo, 0);
+		ps_philo_status(philo, DEAD);
+		return (0);
+	}
+	return (1);
 }

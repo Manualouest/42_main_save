@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 23:30:52 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/04 20:25:07 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/07 22:23:49 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ typedef struct s_stats
 
 typedef struct s_mutex
 {
-	pthread_mutex_t	checking_privilege;
-	int				cp_safety;
-	pthread_mutex_t	writing_privilege;
-	int				wp_safety;
+	pthread_mutex_t	checking;
+	int				c_safety;
+	pthread_mutex_t	writing;
+	int				w_safety;
 }					t_mutex;
 
 typedef struct s_philos
@@ -71,6 +71,8 @@ typedef struct s_philos
 	struct s_time_stuff	*timestamp;
 	struct s_time_stuff	*waitstamp;
 	struct s_mutex		*mutex;
+	pthread_mutex_t		status;
+	int					s_safety;
 }					t_philos;
 
 // ps_utils.c
@@ -78,6 +80,7 @@ int			ps_strlen(const char *s);
 long int	ps_atoi(const char *nptr);
 void		ps_free_everything(t_philos *philos, int *args,
 				t_time_stuff *time, t_mutex *mutex_list);
+int			ps_check_for_death(t_philos *philo);
 
 // ps_parsing.c
 int			ps_input_parsing(int nb_params, char **params);
@@ -90,18 +93,20 @@ void		ps_add_time_structs(t_philos *origine, t_philos *philo,
 
 // ps_philosopher_brain.c
 void		*ps_philosopher_brain(void *vd_philo);
-void		ps_unlock_forks(t_philos *philo);
+int			ps_philo_status(t_philos *philo, int new);
 
 // ps_brain_utils.c
-void		ps_write_msg(t_time_stuff *timestamp, t_philos *philo, int msg_id);
-void		ps_wait_time(t_philos *philo, int wait);
+void		ps_write_msg(t_time_stuff *timestamp, t_philos *philo, int msg_id,
+				int backdoor);
+void		ps_wait_time(t_philos *philo, int wait, int reason);
 void		ps_make_philo_sleep(t_philos *philo);
-void		ps_check_for_death(t_philos *philo);
+int			ps_meal_check(t_philos *philo, int ate);
 
 // ps_itoa.c
 char		*ps_itoa(long int n);
 
 // ps_overseer.c
+int			ps_is_alive(t_philos *philos);
 void		ps_overseer_loop(t_philos *philos, int *stop, int nb_philos);
 void		ps_start_threads(t_philos *philos, t_time_stuff *start_time,
 				int *stop, int nb_philos);

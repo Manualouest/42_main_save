@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:38:46 by mbirou            #+#    #+#             */
-/*   Updated: 2024/05/22 20:39:49 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/07 20:16:23 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void	ps_innit_mutex_list(t_mutex *mutex_list)
 {
 	if (mutex_list)
 	{
-		mutex_list->cp_safety = pthread_mutex_init(&mutex_list
-				->checking_privilege, NULL);
-		mutex_list->wp_safety = pthread_mutex_init(&mutex_list
-				->writing_privilege, NULL);
+		mutex_list->c_safety = pthread_mutex_init(&mutex_list
+				->checking, NULL);
+		mutex_list->w_safety = pthread_mutex_init(&mutex_list
+				->writing, NULL);
 	}
 }
 

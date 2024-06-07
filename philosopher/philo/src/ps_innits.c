@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 20:32:37 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/04 20:25:14 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/07 20:17:36 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,13 @@ void	ps_innit_philos_stats(t_philos *philos, int id_int, int *stop,
 		philos->stats->death_time = args[1];
 		philos->stats->keep_on = stop;
 	}
+	philos->s_safety = pthread_mutex_init(&philos->status, NULL);
 	philos->fork = malloc(sizeof(*(philos->fork)));
 	if (philos->fork)
 	{
 		philos->fork->is_free = 1;
 		// philos->fork->id = id_int + 1;
 		// philos->fork->mt_safety
-	pthread_mutex_t	status_check;
-	int				sc_safety;
 		// 	= pthread_mutex_init(&philos->fork->my_fork, NULL);
 	}
 	philos->time = NULL;

@@ -6,11 +6,24 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 18:43:52 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/04 20:25:35 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/07 22:33:58 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosopher.h>
+
+int	ps_is_alive(t_philos *philos)
+{
+	if (pthread_mutex_lock(&philos->status) != 0)
+		return (0);
+	if (philos->stats->status == DEAD)
+	{
+		pthread_mutex_unlock(&philos->status);
+		return (0);
+	}
+	pthread_mutex_unlock(&philos->status);
+	return (1);
+}
 
 void	ps_join_threads(t_philos *philos)
 {
@@ -46,28 +59,31 @@ void	ps_overseer_loop(t_philos *philos, int *stop, int nb_philos)
 
 	cpy_philos = philos;
 	can_stop = 0;
-	if (pthread_mutex_lock(&cpy_philos->mutex->) != 0)
-		*stop = 0;
-	while (cpy_philos->stats && cpy_philos->stats->status != DEAD
-		&& *stop == 1 && philos->safety < 0)
+	(void)stop;
+	while (1)
 	{
-		if (cpy_philos->stats->nb_meals_left == 0)
-			can_stop ++;
-		else
-			can_stop = 0;
-		pthread_mutex_unlock(&cpy_philos->stats->status_check);
-		if (cpy_philos->next)
+		while (cpy_philos && cpy_philos->stats && ps_is_alive(cpy_philos) && ps_check_for_death(cpy_philos) && philos->safety < 0)
+		{
+			if (ps_meal_check(cpy_philos, 0) == 0)
+				can_stop ++;
+			else
+				can_stop = 0;
+			if (can_stop == nb_philos + 1)
+				break ;
 			cpy_philos = cpy_philos->next;
-		else
-			cpy_philos = philos;
-		usleep(5);
-		if (pthread_mutex_lock(&cpy_philos->stats->status_check) != 0)
-			*stop = 0;
-		if (can_stop == nb_philos + 1)
+		}
+		if (cpy_philos && !ps_is_alive(cpy_philos))
 			break ;
+		cpy_philos = philos;
+		usleep(256);
 	}
-	*stop = 0;
-	pthread_mutex_unlock(&cpy_philos->stats->status_check);
+	ps_write_msg(cpy_philos->timestamp, cpy_philos, 0, 1);
+	cpy_philos = philos;
+	while (cpy_philos)
+	{
+		ps_philo_status(cpy_philos, DEAD);
+		cpy_philos = cpy_philos->next;
+	}
 	cpy_philos = philos;
 	ps_join_threads(cpy_philos);
 }
@@ -85,10 +101,9 @@ void	ps_check_mutex_errors(t_philos *philos)
 			write(2, "Malloc failed.\n", 15);
 			philos->mutex_stop = 1;
 		}
-		if ((cpy_philos->mutex && (cpy_philos->mutex->cp_safety != 0
-					|| cpy_philos->mutex->wp_safety != 0))
-			|| (cpy_philos->fork && cpy_philos->fork->mt_safety != 0)
-			|| (cpy_philos->stats && cpy_philos->stats->sc_safety != 0))
+		if (cpy_philos->mutex && (cpy_philos->mutex->c_safety != 0
+			|| cpy_philos->mutex->w_safety != 0
+			|| cpy_philos->s_safety != 0))
 		{
 			write(2, "Mutex failed.\n", 14);
 			philos->mutex_stop = 1;
