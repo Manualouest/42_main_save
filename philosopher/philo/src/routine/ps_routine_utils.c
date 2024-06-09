@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 19:51:41 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/09 21:12:19 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/09 22:24:18 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,21 @@ void	ps_check_death(t_philos *philo)
 	if (((time.tv_sec * 1000) + (time.tv_usec / 1000))
 		- ((philo->last_eat.tv_sec * 1000) + (philo->last_eat.tv_usec / 1000))
 		> philo->die)
+	{
+		pthread_mutex_lock(&philo->shared_mutex->writing_lock);
+		write(1, "\n", 1);
+		ps_putnbr(((time.tv_sec * 1000) + (time.tv_usec / 1000))
+		- ((philo->last_eat.tv_sec * 1000) + (philo->last_eat.tv_usec / 1000)));
+		write(1, "\n", 1);
+		ps_putnbr(((time.tv_sec * 1000) + (time.tv_usec / 1000)));
+		write(1, "\n", 1);
+		ps_putnbr(((philo->last_eat.tv_sec * 1000) + (philo->last_eat.tv_usec / 1000)));
+		write(1, "\n", 1);
+		ps_putnbr(philo->start);
+		write(1, "\n", 1);
+		pthread_mutex_unlock(&philo->shared_mutex->writing_lock);
 		ps_status_update(philo, 0);
+	}
 }
 
 int	ps_meal_update(t_philos *philo, int inter)

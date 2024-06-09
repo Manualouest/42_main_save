@@ -6,13 +6,11 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:45:54 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/09 21:11:25 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/09 22:05:02 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosopher.h>
-
-#include <stdio.h>
 
 int	main(int argc, char **argv)
 {
