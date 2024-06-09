@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/09 15:53:54 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/09 21:48:11 by mbirou           ###   ########.fr       */
+/*   Created: 2024/05/16 15:47:14 by mbirou            #+#    #+#             */
+/*   Updated: 2024/05/18 04:52:53 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 void	ps_write_errors(int errors)
 {
 	write(2, "Error\n", 6);
+	if ((errors >> 5) & 1)
+	{
+		write(2, "Number of philosophers is too high", 34);
+		write(2, ", program would've crash.\n", 26);
+	}
 	if ((errors >> 4) & 1)
 		write(2, "Invalid number of philosophers.\n", 32);
 	if ((errors >> 3) & 1)
@@ -37,6 +42,8 @@ int	ps_input_parsing(int nb_params, char **params)
 		write(2, "Error\nInvalid number of parameters.\n", 36);
 		return (0);
 	}
+	if (ps_atoi(params[1]) > 200)
+		errors = ((errors >> 5) + 1) << 5;
 	if (ps_atoi(params[1]) < 1)
 		errors = ((errors >> 4) + 1) << 4;
 	if (ps_atoi(params[2]) < 0 || ps_atoi(params[2]) > 2147483647)
@@ -45,25 +52,11 @@ int	ps_input_parsing(int nb_params, char **params)
 		errors = ((errors >> 2) + 1) << 2;
 	if (ps_atoi(params[4]) < 0 || ps_atoi(params[4]) > 2147483647)
 		errors = ((errors >> 1) + 1) << 1;
-	if (nb_params == 6 && (ps_atoi(params[5]) < 1
+	if (nb_params == 6 && (ps_atoi(params[5]) < 0
 			|| ps_atoi(params[5]) > 2147483647))
 		errors = ((errors >> 0) + 1) << 0;
 	if (errors == 0)
 		return (1);
 	ps_write_errors(errors);
-	return (0);
-}
-
-int	ps_are_mutexs_good(t_mutex *mutexs, t_philos *philos)
-{
-	t_philos	*cpy_philos;
-
-	if (mutexs && !(!mutexs->wl_safety && !mutexs->cl_safety))
-		return (0);
-	cpy_philos = philos;
-	while (cpy_philos && !cpy_philos->sc_safety)
-		cpy_philos = cpy_philos->next;
-	if (!cpy_philos)
-		return (1);
 	return (0);
 }

@@ -6,13 +6,13 @@ INCLUDES = includes/
 
 SRC_DIR = src/
 SRC_FILES = ps_main.c\
-			ps_parsing.c\
 			ps_utils.c\
-			ps_free.c\
-			ps_inits.c\
+			ps_parsing.c\
+			ps_innits.c\
+			ps_itoa.c\
 			ps_overseer.c\
-			routine/ps_routine_main.c\
-			routine/ps_routine_utils.c
+			philosopher_brain/ps_philosopher_brain.c\
+			philosopher_brain/ps_brain_utils.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 
