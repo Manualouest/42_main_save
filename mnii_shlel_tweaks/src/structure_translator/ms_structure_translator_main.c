@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:11:10 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/04 18:17:13 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/10 18:20:33 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,17 @@ static char	**ms_translate_params(t_params *main_params, char *cmd)
 	args[0] = cmd;
 	while (param != NULL && ++i <= len)
 	{
-		args[i] = malloc(sizeof(char) * (ft_strlen(param->text) + 1));
-		if (param->next != NULL)
+		if (param->text)
+			args[i] = malloc(sizeof(char) * (ft_strlen(param->text) + 1));
+		if (param->text && param->next != NULL)
 			ft_strlcpy(args[i], param->text, ft_strlen(param->text) + 1);
-		else
+		else if (param->text)
 			ms_copy_without_end_space(&args[i], param->text,
 				ft_strlen(param->text) - 1);
+		else
+			args[i] = NULL;
 		param = param->next;
 	}
-	write(1, "\n", 1);
 	return (args);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:41:06 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/04 19:22:29 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/10 18:14:56 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	ms_cleanup(t_cmd *cmd)
 	char	*tp_char;
 
 	i = -1;
-	while (cmd->args[++i])
+	while (cmd->args && cmd->args[++i])
 	{
 		if (!ft_strncmp(cmd->args[i], "", 1))
 			ms_move_args_front(&cmd->args, i);
@@ -66,7 +66,7 @@ static void	ms_input_handler(t_cmd *cmd)
 
 	i = -1;
 	ms_cleanup(cmd);
-	while (cmd->args[++i] && cmd->error_id == NO_ERROR)
+	while (cmd->args && cmd->args[++i] && cmd->error_id == NO_ERROR)
 	{
 		if (!ft_strncmp(cmd->args[i], "<", 1)
 			&& ft_strncmp(cmd->args[i], "<<", 2) != 0 && cmd->args[i + 1])
@@ -119,7 +119,7 @@ void	ms_redirect_handler(t_cmd *cmd)
 
 	i = -1;
 	ms_input_handler(cmd);
-	while (cmd->args[++i] && cmd->error_id == NO_ERROR)
+	while (cmd->args && cmd->args[++i] && cmd->error_id == NO_ERROR)
 	{
 		if (cmd->args[i][0] &&
 			ft_strncmp(cmd->args[i], ">", 1) == 0 && cmd->args[i + 1])

@@ -29,16 +29,20 @@ SRC_NAME +=	tokeniser/ms_tokeniser_cmd.c\
 SRC_NAME +=	structure_translator/ms_structure_translator_main.c\
 			structure_translator/ms_cmd_free.c
 
-SRC_NAME +=	env_handler/ms_env_var.c \
-			env_handler/ms_env_utils_1.c \
-			env_handler/ms_env_utils_2.c \
-			env_handler/ms_env_builtins.c
-SRC_NAME += commands/ms_exit.c \
-			commands/ms_echo.c \
-			commands/ms_cd.c
+SRC_NAME += builtins/ms_cd.c \
+			builtins/ms_pwd.c \
+			builtins/ms_echo.c \
+			builtins/ms_env.c \
+			builtins/ms_exit.c \
+			builtins/ms_unset.c \
+			builtins/ms_export.c \
+			builtins/ms_export_noarg.c
+SRC_NAME += env/ms_tab_tools.c
 SRC_NAME += execution/ms_exec.c \
+			execution/ms_exec_pipe.c \
 			execution/ms_exec_utils.c \
-			execution/ms_exec_initfds.c 
+			execution/ms_exec_initfds.c \
+			execution/ms_exec_builtins.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
 

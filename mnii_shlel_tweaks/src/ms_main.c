@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:28:23 by mscheman          #+#    #+#             */
-/*   Updated: 2024/06/01 17:01:13 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/10 18:06:09 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ int g_signal = 0;
 static char *setup_prompt(char *dir);
 static char	*read_term(void);
 
-void	free_tab(void **tab)
-{
-	int i;
+// void	free_tab(void **tab)
+// {
+// 	int i;
 
-	i = 0;
-	if (!tab || !tab[i])
-		return ;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-}
+// 	i = 0;
+// 	if (!tab || !tab[i])
+// 		return ;
+// 	while (tab[i])
+// 		free(tab[i++]);
+// 	free(tab);
+// }
 
 void	error_log(char *msg)
 {
@@ -38,31 +38,55 @@ void	error_log(char *msg)
 	write(STDERR_FILENO, "\033[0m", 4);
 }
 
+void	exec_launcher(t_cmd *cmd, char ***ms_env)
+{
+	t_cmd	*cpy_cmd;
+
+	cpy_cmd = cmd;
+	while (cpy_cmd)
+	{
+		if (strncmp(cpy_cmd->args[0], "cd", 2) == 0)
+			builtin_cd(tablen(cpy_cmd->args), cpy_cmd->args, *ms_env);
+		if (strncmp(cpy_cmd->args[0], "echo", 4) == 0)
+			builtin_echo(cpy_cmd->args);
+		if (strncmp(cpy_cmd->args[0], "env", 4) == 0)
+			builtin_env(*ms_env);
+		if (strncmp(cpy_cmd->args[0], "pwd", 3) == 0)
+			builtin_pwd();
+		if (strncmp(cpy_cmd->args[0], "exit", 4) == 0)
+			builtin_exit(cmd, tablen(cpy_cmd->args), cpy_cmd->args, *ms_env);
+		if (strncmp(cpy_cmd->args[0], "unset", 5) == 0)
+			builtin_unset(tablen(cpy_cmd->args), cpy_cmd->args, ms_env);
+		if (strncmp(cpy_cmd->args[0], "export", 5) == 0)
+			builtin_export(tablen(cpy_cmd->args), cpy_cmd->args, ms_env);
+		cpy_cmd = cpy_cmd->next;
+	}
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
     (void)argc, (void)argv;
 
-	t_env_handler	*env;
+	char			**ms_env;
 	char			*input;
 	t_cmd			*cmd;
 
 	signal(SIGINT, ms_sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 	input = NULL;
-	env = setup_env_struct(envp);
+	ms_env = tab_clone(envp);
 	while (1)
 	{
 		input = read_term();
 		if (!input)
 			break ;
 		cmd = ms_tokeniser_main(input, envp);
-		ms_exec(cmd, envp, env_find(env, "PATH"));
+		exec_launcher(cmd, &ms_env);
 		ms_free_cmd(cmd);
 		free(input);
 		g_signal = 0;
 	}
-	// builtin_export(env, NULL);
-	envclear(&env, free);
+	free_tab((void **)ms_env);
 	rl_clear_history();
 	return 0;
 }

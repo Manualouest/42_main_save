@@ -32,15 +32,13 @@
 # include <signal.h>
 # include <errno.h>
 # include <termios.h>
-# include <stdio.h>
 
 # include <tokeniser_struct.h>
-# include <ms_env_handler.h>
+# include <ms_env.h>
 # include <tokeniser.h>
 # include <parsing.h>
 
-# include <ms_env_handler.h>
-# include <ms_error.h>
+# include <ms_builtins.h>
 # include <ms_execution.h>
 
 extern int g_signal;
@@ -50,14 +48,7 @@ extern int g_signal;
 # define HEREDOC_PROMPT "\001\033[1;36m\002heredco > \001\033[0;0m\002"
 
 
-void	builtin_env(t_env_handler *env);
-int		builtin_export(t_env_handler *env, t_env_str *params);
-void	builtin_pwd(void);
-int		builtin_unset(t_env_handler *env, char **names);
-void	builtin_exit(int exit_no);
-void	ms_echo(char *params[]);
-void	ms_cd(char *param, t_env_handler *env);
-
+void	error_log(char *msg);
 void	ms_sig_handler(int sig);
 
 #endif

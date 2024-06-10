@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 17:29:10 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/04 18:37:54 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/10 18:11:40 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	ms_quote_remover(t_command *cmd, t_params *params, int i)
 	(void)i;
 	while (params)
 	{
-		if ((params->text[0] == '"' || params->text[0] == '\'')
+		if (params->text && params->text[0]
+			&& (params->text[0] == '"' || params->text[0] == '\'')
 			&& ft_strlen(params->text) == 1)
 		{
 			if (prev)
