@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 17:08:02 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/04 18:35:05 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/13 15:20:51 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,13 @@ int	main(int argc, char **argv, char **envp)
 		if (a && a != NULL)
 		{
 			full_line = ms_tokeniser_main(a, envp);
-			ms_cmd_test_printer(full_line);
-			ms_free_cmd(full_line);
+			if (full_line)
+			{
+				ms_cmd_test_printer(full_line);
+				ms_free_cmd(full_line);
+			}
+			else
+				printf("Malloc failed\n");
 			// ms_pipe_test_printer(full_line);
 		}
 		else
@@ -249,13 +254,13 @@ void	ms_cmd_test_printer(t_cmd *full_line)
 {
 	t_cmd	*cmd;
 	int		i;
-	char	*heredoc;
+	// char	*heredoc;
 
 	cmd = full_line;
 	while (cmd != NULL)
 	{
 
-		heredoc = ms_launch_heredoc(cmd);
+		// heredoc = ms_launch_heredoc(cmd);
 
 		write(1, "____________________________\n\n", 29);
 		write(1, "	fd_in: ", 8);
@@ -277,12 +282,13 @@ void	ms_cmd_test_printer(t_cmd *full_line)
 		}
 		write(1, "\n", 1);
 		write(1, "	pid: ", 6);
+		cmd->pid = 0;
 		ft_putnbr_fd(cmd->pid, 1);
 		write(1, "\n", 1);
 		if (cmd->next == NULL)
 			write(1, "____________________________\n\n", 29);
 
-		ms_remove_heredoc(-1, heredoc);
+		// ms_remove_heredoc(-1, heredoc);
 
 		cmd = cmd->next;
 	}

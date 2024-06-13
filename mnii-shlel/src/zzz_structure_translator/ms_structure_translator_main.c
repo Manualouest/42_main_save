@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 18:11:10 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/12 13:55:19 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/12 18:41:22 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,21 @@ static char	**ms_translate_params(t_params *main_params, char *cmd)
 	args[0] = cmd;
 	while (param != NULL && ++i <= len)
 	{
-		if (param->text)
+		printf("len: %d, text: |%s|\n", len, param->text);
+		if (ft_strlen(param->text) > 0)
+		{
 			args[i] = malloc(sizeof(char) * (ft_strlen(param->text) + 1));
-		if (param->text && param->next != NULL)
-			ft_strlcpy(args[i], param->text, ft_strlen(param->text) + 1);
-		else if (param->text)
-			ms_copy_without_end_space(&args[i], param->text,
-				ft_strlen(param->text) - 1);
-		else
-			args[i] = NULL;
-		param = param->next;
+			if (param->next != NULL)
+				ft_strlcpy(args[i], param->text, ft_strlen(param->text) + 1);
+			else
+				ms_copy_without_end_space(&args[i], param->text,
+					ft_strlen(param->text));
+		}
+		if (param->next)
+			param = param->next;
 	}
+	args[i - (ft_strlen(param->text) == 0)] = 0;
+	write(1, "\n", 1);
 	return (args);
 }
 

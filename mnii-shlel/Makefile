@@ -19,18 +19,12 @@ SRC_NAME +=	parsing/ms_parsing_pre_execheck_main.c\
 			parsing/ms_params_pre_execheck.c\
 			parsing/ms_redirect_checking.c
 
-SRC_NAME +=	tokeniser/ms_tokeniser_cmd.c\
-			tokeniser/ms_tokeniser_main.c\
-			tokeniser/ms_tokeniser_params.c\
-			tokeniser/ms_tokeniser_utils.c\
-			tokeniser/ms_tokeniser_free.c\
-			tokeniser/ms_tokeniser_env_modifs.c\
-			tokeniser/ms_tokeniser_redirect_cleaner.c\
-			tokeniser/ms_heredoc.c\
-			tokeniser/ms_token_trimmer.c
+SRC_NAME +=	tokeniser/ms_tokeniser_main.c\
+			tokeniser/ms_first_setup.c\
+			tokeniser/ms_setups_utils.c\
+			tokeniser/ms_second_setup.c
 
 SRC_NAME +=	structure_translator/ms_structure_translator_main.c\
-			structure_translator/ms_cmd_free.c
 
 SRC_NAME += env/ms_tab_tools.c
 

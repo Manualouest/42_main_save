@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 21:32:54 by mscheman          #+#    #+#             */
-/*   Updated: 2024/06/10 18:05:24 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/12 14:36:15 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	builtin_exit(t_cmd *cmd, int argc, char **argv, char **envp)
 	int	error_code;
 
 	error_code = check(argc, argv);
-	printf("exit\n");
+	if (cmd->first->next == NULL)
+		printf("exit\n");
+	printf("g_signal = %d\n", g_signal);
 	if (error_code == -1)
 		return (EXIT_FAILURE);
 	else if (error_code == 1)
@@ -28,10 +30,14 @@ int	builtin_exit(t_cmd *cmd, int argc, char **argv, char **envp)
 		g_signal = ft_atoi(argv[1]);
 	else
 		g_signal = 0;
+	printf("argv[1] = %s\n", argv[1]);
+	printf("g_signal = %d\n", g_signal);
 	// free_tab((void **)argv);
 	free_tab((void **)envp);
 	ms_free_cmd(cmd);
-	exit(g_signal);
+	if (cmd->first->next == NULL)
+		exit(g_signal);
+	return (g_signal);
 }
 
 static int	check(int argc, char **argv)

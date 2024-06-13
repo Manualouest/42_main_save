@@ -83,6 +83,7 @@ typedef struct	s_cmd
 	char			**args;
 	pid_t			pid;
 	struct s_cmd	*next;
+	struct s_cmd	*first;
 }					t_cmd;
 
 #endif

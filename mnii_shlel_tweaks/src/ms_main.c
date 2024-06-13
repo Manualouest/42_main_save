@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:28:23 by mscheman          #+#    #+#             */
-/*   Updated: 2024/06/10 18:06:09 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/12 13:36:47 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,31 +38,6 @@ void	error_log(char *msg)
 	write(STDERR_FILENO, "\033[0m", 4);
 }
 
-void	exec_launcher(t_cmd *cmd, char ***ms_env)
-{
-	t_cmd	*cpy_cmd;
-
-	cpy_cmd = cmd;
-	while (cpy_cmd)
-	{
-		if (strncmp(cpy_cmd->args[0], "cd", 2) == 0)
-			builtin_cd(tablen(cpy_cmd->args), cpy_cmd->args, *ms_env);
-		if (strncmp(cpy_cmd->args[0], "echo", 4) == 0)
-			builtin_echo(cpy_cmd->args);
-		if (strncmp(cpy_cmd->args[0], "env", 4) == 0)
-			builtin_env(*ms_env);
-		if (strncmp(cpy_cmd->args[0], "pwd", 3) == 0)
-			builtin_pwd();
-		if (strncmp(cpy_cmd->args[0], "exit", 4) == 0)
-			builtin_exit(cmd, tablen(cpy_cmd->args), cpy_cmd->args, *ms_env);
-		if (strncmp(cpy_cmd->args[0], "unset", 5) == 0)
-			builtin_unset(tablen(cpy_cmd->args), cpy_cmd->args, ms_env);
-		if (strncmp(cpy_cmd->args[0], "export", 5) == 0)
-			builtin_export(tablen(cpy_cmd->args), cpy_cmd->args, ms_env);
-		cpy_cmd = cpy_cmd->next;
-	}
-}
-
 int	main(int argc, char *argv[], char *envp[])
 {
     (void)argc, (void)argv;
@@ -80,8 +55,8 @@ int	main(int argc, char *argv[], char *envp[])
 		input = read_term();
 		if (!input)
 			break ;
-		cmd = ms_tokeniser_main(input, envp);
-		exec_launcher(cmd, &ms_env);
+		cmd = ms_tokeniser_main(input, ms_env);
+		ms_exec(cmd, ms_env, cmd->next != NULL);
 		ms_free_cmd(cmd);
 		free(input);
 		g_signal = 0;
