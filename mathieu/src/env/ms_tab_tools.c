@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_tab_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mscheman <mscheman@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:20:59 by mscheman          #+#    #+#             */
-/*   Updated: 2024/05/04 18:56:52 by mscheman         ###   ########.fr       */
+/*   Updated: 2024/06/10 17:58:12 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	free_tab(void **tab)
 	int i;
 
 	i = 0;
-	if (!tab || !tab[i])
+	if (!tab)
 		return ;
 	while (tab[i])
 	{

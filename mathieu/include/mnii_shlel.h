@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:32:41 by mscheman          #+#    #+#             */
-/*   Updated: 2024/05/28 15:09:12 by mscheman         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:28:04 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,19 @@
 # include <termios.h>
 
 # include <tokeniser_struct.h>
+# include <ms_env.h>
 # include <tokeniser.h>
 # include <parsing.h>
-# include <ms_execution.h>
+
 # include <ms_builtins.h>
-# include <ms_env.h>
+# include <ms_execution.h>
 
 extern int g_signal;
 
-# define RED "\033[1;31m"
-# define PRP "\033[1;35m"
-# define CYA "\033[1;36m"
-# define WHT "\033[0;0m"
+# define PROMPT_CONST "\001\033[1;31m\002mnii \001\033[1;35m\002shlel:"
+# define PROMPT_USER " \001\033[1;36m\002$\001\033[0;0m\002  "
+# define HEREDOC_PROMPT "\001\033[1;36m\002heredco > \001\033[0;0m\002"
 
-# define PROMPT_CONST RED"mnii"PRP"shlel"
-# define PROMPT_USER CYA"$ "WHT
-# define HEREDOC_PROMPT CYA"mheredco > "WHT
 
 void	error_log(char *msg);
 void	ms_sig_handler(int sig);

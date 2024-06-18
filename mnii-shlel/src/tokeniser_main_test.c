@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 17:08:02 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/13 15:20:51 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/18 01:30:45 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,26 +92,28 @@ void	ms_pipes_test_printer_find_error(int cmd, int cmd_errno)
 
 	if (cmd == NO_ERROR && cmd_errno == 0)
 		write(1, ": NO_ERROR", 10);
-	else if (cmd == BAD_CMD)
-		write(1, ": BAD_CMD", 9);
+	// else if (cmd == BAD_CMD)
+	// 	write(1, ": BAD_CMD", 9);
 	else if (cmd == BAD_PIPE)
 		write(1, ": BAD_PIPE", 10);
 	else if (cmd == BAD_QUOTE)
 		write(1, ": BAD_QUOTE", 11);
-	else if (cmd == EMPTY_ARG)
-		write(1, ": EMPTY_ARG", 11);
-	else if (cmd == TOO_MANY_ARGUMENT)
-		write(1, ": TOO_MANY_ARGUMENT", 19);
-	else if (cmd == BAD_PARAM)
-		write(1, ": BAD_PARAM", 11);
-	else if (cmd == BAD_INPUT)
-		write(1, ": BAD_INPUT", 11);
-	else if (cmd == BAD_HEREDOC)
-		write(1, ": BAD_HEREDOC", 13);
-	else if (cmd == BAD_REDIRECT)
-		write(1, ": BAD_REDIRECT", 14);
-	else if (cmd == BAD_APPEND)
-		write(1, ": BAD_APPEND", 12);
+	else if (cmd == BAD_FILE)
+		write(1, ": BAD_FILE", 10);
+	// else if (cmd == EMPTY_ARG)
+	// 	write(1, ": EMPTY_ARG", 11);
+	// else if (cmd == TOO_MANY_ARGUMENT)
+	// 	write(1, ": TOO_MANY_ARGUMENT", 19);
+	// else if (cmd == BAD_PARAM)
+	// 	write(1, ": BAD_PARAM", 11);
+	// else if (cmd == BAD_INPUT)
+	// 	write(1, ": BAD_INPUT", 11);
+	// else if (cmd == BAD_HEREDOC)
+	// 	write(1, ": BAD_HEREDOC", 13);
+	// else if (cmd == BAD_REDIRECT)
+	// 	write(1, ": BAD_REDIRECT", 14);
+	// else if (cmd == BAD_APPEND)
+	// 	write(1, ": BAD_APPEND", 12);
 	else
 	{
 		error_char = strerror(cmd_errno);
@@ -145,26 +147,28 @@ void	ms_test_printer_find_error(int error, int cmd_errno)
 
 	if (error == NO_ERROR && cmd_errno == 0)
 		write(1, "NO_ERROR\n", 9);
-	else if (error == BAD_CMD)
-		write(1, "BAD_CMD\n", 8);
+	// else if (error == BAD_CMD)
+	// 	write(1, "BAD_CMD\n", 8);
 	else if (error == BAD_PIPE)
 		write(1, "BAD_PIPE\n", 9);
 	else if (error == BAD_QUOTE)
 		write(1, "BAD_QUOTE\n", 10);
-	else if (error == EMPTY_ARG)
-		write(1, "EMPTY_ARG\n", 10);
-	else if (error == TOO_MANY_ARGUMENT)
-		write(1, "TOO_MANY_ARGUMENT\n", 18);
-	else if (error == BAD_PARAM)
-		write(1, "BAD_PARAM\n", 10);
-	else if (error == BAD_INPUT)
-		write(1, "BAD_INPUT\n", 10);
-	else if (error == BAD_HEREDOC)
-		write(1, "BAD_HEREDOC\n", 12);
-	else if (error == BAD_REDIRECT)
-		write(1, "BAD_REDIRECT\n", 13);
-	else if (error == BAD_APPEND)
-		write(1, "BAD_APPEND\n", 11);
+	else if (error == BAD_FILE)
+		write(1, "BAD_FILE\n", 9);
+	// else if (error == EMPTY_ARG)
+	// 	write(1, "EMPTY_ARG\n", 10);
+	// else if (error == TOO_MANY_ARGUMENT)
+	// 	write(1, "TOO_MANY_ARGUMENT\n", 18);
+	// else if (error == BAD_PARAM)
+	// 	write(1, "BAD_PARAM\n", 10);
+	// else if (error == BAD_INPUT)
+	// 	write(1, "BAD_INPUT\n", 10);
+	// else if (error == BAD_HEREDOC)
+	// 	write(1, "BAD_HEREDOC\n", 12);
+	// else if (error == BAD_REDIRECT)
+	// 	write(1, "BAD_REDIRECT\n", 13);
+	// else if (error == BAD_APPEND)
+	// 	write(1, "BAD_APPEND\n", 11);
 	else
 	{
 		error_char = strerror(cmd_errno);
@@ -266,9 +270,13 @@ void	ms_cmd_test_printer(t_cmd *full_line)
 		write(1, "	fd_in: ", 8);
 		ft_putnbr_fd(cmd->fd_in, 1);
 		write(1, "\n", 1);
+		if (cmd->fd_in > 0)
+			close(cmd->fd_in);
 		write(1, "	fd_out: ", 9);
 		ft_putnbr_fd(cmd->fd_out, 1);
 		write(1, "\n", 1);
+		if (cmd->fd_out > 1)
+			close(cmd->fd_out);
 		write(1, "	error", 6);
 		ms_pipes_test_printer_find_error(cmd->error_id, 0);
 		write(1, "\n", 1);

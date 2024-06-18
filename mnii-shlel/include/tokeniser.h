@@ -30,7 +30,8 @@ void		ms_do_env(char **arg, char **envp);
 void		ms_remove_quotes(char **arg);
 void		ms_setup_round_two(t_cmd *cmd, char **envp);
 
-
+// ms_redirect_append_setup.c
+void		ms_redirect_append_setup(t_cmd *cmd);
 
 
 

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokeniser_struct.h                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 11:24:30 by mbirou            #+#    #+#             */
-/*   Updated: 2024/05/27 11:24:33 by mbirou           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef TOKENISER_STRUCT_H
 # define TOKENISER_STRUCT_H
 
@@ -46,16 +34,9 @@ typedef enum e_symbols
 typedef enum e_cmd_errors
 {
 	NO_ERROR,
-	BAD_CMD,
 	BAD_PIPE,
 	BAD_QUOTE,
-	EMPTY_ARG,
-	TOO_MANY_ARGUMENT,
-	BAD_PARAM,
-	BAD_INPUT,
-	BAD_HEREDOC,
-	BAD_REDIRECT,
-	BAD_APPEND
+	BAD_FILE
 }	t_cmd_errors;
 
 typedef	struct	s_pipes
@@ -95,6 +76,7 @@ typedef struct	s_cmd
 	char			**args;
 	pid_t			pid;
 	struct s_cmd	*next;
+	struct s_cmd	*first;
 }					t_cmd;
 
 #endif

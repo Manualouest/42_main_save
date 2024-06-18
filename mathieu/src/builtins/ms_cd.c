@@ -67,15 +67,8 @@ static void	error(int error)
 static char	*get_pwd(void)
 {
 	char	*path;
-	int		i;
 
-	i = 0;
-	path = NULL;
-	while (path == NULL)
-	{
-		i++;
-		path = getcwd(NULL, i);
-	}
+	path = getcwd(NULL, 0);
 	return (path);
 }
 

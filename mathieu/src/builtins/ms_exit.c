@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 21:32:54 by mscheman          #+#    #+#             */
-/*   Updated: 2024/05/01 17:01:06 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/12 14:36:15 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 static int	check(int argc, char **argv);
 
-int	builtin_exit(int argc, char **argv, char **envp)
+int	builtin_exit(t_cmd *cmd, int argc, char **argv, char **envp)
 {
-	int	error_code;
+	int		error_code;
+	bool	should_exit;
 
 	error_code = check(argc, argv);
-	printf("exit\n");
+	if (cmd->first->next == NULL)
+		printf("exit\n");
 	if (error_code == -1)
 		return (EXIT_FAILURE);
 	else if (error_code == 1)
@@ -28,9 +30,15 @@ int	builtin_exit(int argc, char **argv, char **envp)
 		g_signal = ft_atoi(argv[1]);
 	else
 		g_signal = 0;
-	free_tab((void **)argv);
-	free_tab((void **)envp);
-	exit(g_signal);
+	should_exit = (cmd->first->next == NULL);
+	if (cmd->next == NULL)
+	{
+		free_tab((void **)envp);
+		ms_free_cmd(cmd->first);
+	}
+	if (should_exit)
+		exit(g_signal);
+	return (g_signal);
 }
 
 static int	check(int argc, char **argv)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mscheman <mscheman@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 21:33:36 by mscheman          #+#    #+#             */
-/*   Updated: 2024/04/26 21:33:36 by mscheman         ###   ########.fr       */
+/*   Updated: 2024/06/10 18:15:13 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ int	builtin_echo(char **argv)
 	bool	print_endl;
 	int		i;
 
+	if (!argv || !argv[1])
+	{
+		printf("\n");
+		return (EXIT_SUCCESS);
+	}
 	print_endl = (ft_strncmp(argv[1], "-n", 2) == 0);
 	i = print_endl;
 	while (true)

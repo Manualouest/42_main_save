@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ms_exec_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mscheman <mscheman@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 18:33:01 by mscheman          #+#    #+#             */
-/*   Updated: 2024/05/07 18:33:01 by mscheman         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:33:04 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mnii_shlel.h>
 
+static void	wait_childs(t_cmd *childs);
 static char	*try_path(t_cmd *cmd, char *env_path);
 
 void	ms_exec_pipe(t_cmd *to_exec, char **env)
 {
-	int	status;
+	t_cmd	*first;
 
+	first = to_exec->first;
 	if (ms_setup_pipes(to_exec))
 	{
 		error_log("couldnt setup the pipes");
@@ -28,12 +30,9 @@ void	ms_exec_pipe(t_cmd *to_exec, char **env)
 		child_exec(to_exec, env);
 		to_exec = to_exec->next;
 	}
-	waitpid(-1, &status, 0);
-	if (WIFEXITED(status))
-		g_signal = WEXITSTATUS(status);
 	ms_exec_closefds(to_exec);
+	wait_childs(first);
 	cmd_clear(&to_exec, free_tab);
-	free_tab((void **)env);
 }
 
 void	ms_child_getpath(t_cmd *cmd, char *env_path)
@@ -49,6 +48,22 @@ void	ms_child_getpath(t_cmd *cmd, char *env_path)
 		return ;
 	free(cmd->args[0]);
 	cmd->args[0] = expected_path; 
+}
+
+static void	wait_childs(t_cmd *childs)
+{
+	int	status;
+
+	while (childs)
+	{
+		if (!ms_is_builtin(childs))
+		{
+			waitpid(childs->pid, &status, 0);
+			if (WIFEXITED(status))
+				g_signal = WEXITSTATUS(status);
+		}
+		childs = childs->next;
+	}
 }
 
 static char	*try_path(t_cmd *cmd, char *env_path)

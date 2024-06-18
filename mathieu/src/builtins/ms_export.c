@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mscheman <mscheman@student.42angouleme.f>  +#+  +:+       +#+        */
+/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:06:15 by mscheman          #+#    #+#             */
-/*   Updated: 2024/05/01 17:06:15 by mscheman         ###   ########.fr       */
+/*   Updated: 2024/06/10 17:53:40 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	add_to_envp(char ***envp, char *to_add)
 
 	old = find_similar(*envp, to_add);
 	if (!old)
-		*envp = tab_append(*envp, to_add, 0);
+		envp[0] = tab_append(envp[0], to_add, 0);
 	else
 		tab_replace(*envp, old, to_add);
 }

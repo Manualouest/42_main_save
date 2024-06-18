@@ -34,16 +34,9 @@ typedef enum e_symbols
 typedef enum e_cmd_errors
 {
 	NO_ERROR,
-	BAD_CMD,
 	BAD_PIPE,
 	BAD_QUOTE,
-	EMPTY_ARG,
-	TOO_MANY_ARGUMENT,
-	BAD_PARAM,
-	BAD_INPUT,
-	BAD_HEREDOC,
-	BAD_REDIRECT,
-	BAD_APPEND
+	BAD_FILE
 }	t_cmd_errors;
 
 typedef	struct	s_pipes

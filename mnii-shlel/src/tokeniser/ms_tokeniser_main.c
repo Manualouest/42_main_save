@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:48:35 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/13 21:12:07 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/18 00:59:40 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@ void	ms_free_cmd(t_cmd *cmd)
 	while (cmd != NULL)
 	{
 		i = -1;
-		while (cmd->args[++i] != 0)
+		if (cmd->args)
+		{
+			while (cmd->args[++i] != 0)
+				free(cmd->args[i]);
 			free(cmd->args[i]);
-		free(cmd->args[i]);
-		free(cmd->args);
+			free(cmd->args);
+		}
 		tp_cmd = cmd->next;
 		free(cmd);
 		cmd = tp_cmd;

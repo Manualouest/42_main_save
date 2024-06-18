@@ -12,19 +12,20 @@ LIBFT_A = $(INCLUDES)libft/libft.a
 SRC_DIR = src/
 SRC_NAME = tokeniser_main_test.c
 
-SRC_NAME +=	parsing/ms_parsing_pre_execheck_main.c\
-			parsing/ms_cd_pre_execheck.c\
-			parsing/ms_unset_pre_execheck.c\
-			parsing/ms_exit_pre_execheck.c\
-			parsing/ms_params_pre_execheck.c\
-			parsing/ms_redirect_checking.c
+# SRC_NAME +=	parsing/ms_parsing_pre_execheck_main.c\
+# 			parsing/ms_cd_pre_execheck.c\
+# 			parsing/ms_unset_pre_execheck.c\
+# 			parsing/ms_exit_pre_execheck.c\
+# 			parsing/ms_params_pre_execheck.c\
+# 			parsing/ms_redirect_checking.c
 
 SRC_NAME +=	tokeniser/ms_tokeniser_main.c\
 			tokeniser/ms_first_setup.c\
 			tokeniser/ms_setups_utils.c\
-			tokeniser/ms_second_setup.c
+			tokeniser/ms_second_setup.c\
+			tokeniser/ms_redirect_append_setup.c
 
-SRC_NAME +=	structure_translator/ms_structure_translator_main.c\
+# SRC_NAME +=	structure_translator/ms_structure_translator_main.c\
 
 SRC_NAME += env/ms_tab_tools.c
 

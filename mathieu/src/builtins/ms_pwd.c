@@ -15,15 +15,8 @@
 int	builtin_pwd(void)
 {
 	char	*path;
-	int		i;
-
-	i = 0;
-	path = NULL;
-	while (path == NULL)
-	{
-		i++;
-		path = getcwd(NULL, i);
-	}
+	
+	path = getcwd(NULL, 0);
 	printf("%s\n", path);
 	free(path);
 	return (EXIT_FAILURE);

@@ -12,3 +12,6 @@
 [branch "mathieu2"]
 	remote = origin
 	merge = refs/heads/mathieu2
+[branch "tweaked_main"]
+	remote = origin
+	merge = refs/heads/tweaked_main

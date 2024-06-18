@@ -12,22 +12,11 @@ SRC_DIR = src/
 SRC_NAME = ms_main.c\
 			signal_handling.c
 
-SRC_NAME +=	parsing/ms_parsing_pre_execheck_main.c\
-			parsing/ms_cd_pre_execheck.c\
-			parsing/ms_unset_pre_execheck.c\
-			parsing/ms_exit_pre_execheck.c\
-			parsing/ms_params_pre_execheck.c\
-			parsing/ms_redirect_checking.c
-SRC_NAME +=	tokeniser/ms_tokeniser_cmd.c\
-			tokeniser/ms_tokeniser_main.c\
-			tokeniser/ms_tokeniser_params.c\
-			tokeniser/ms_tokeniser_utils.c\
-			tokeniser/ms_tokeniser_free.c\
-			tokeniser/ms_tokeniser_env_modifs.c\
-			tokeniser/ms_heredoc.c\
-			tokeniser/ms_token_trimmer.c
-SRC_NAME +=	structure_translator/ms_structure_translator_main.c\
-			structure_translator/ms_cmd_free.c
+SRC_NAME +=	tokeniser/ms_tokeniser_main.c\
+			tokeniser/ms_first_setup.c\
+			tokeniser/ms_setups_utils.c\
+			tokeniser/ms_second_setup.c\
+			tokeniser/ms_redirect_append_setup.c
 
 SRC_NAME += builtins/ms_cd.c \
 			builtins/ms_pwd.c \
