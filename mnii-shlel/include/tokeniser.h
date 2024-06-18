@@ -27,7 +27,7 @@ int			ms_has_dollar(char *arg);
 char		*ms_setup_env(char *tp_env, char **arg, int env_start,
 				int env_len);
 void		ms_do_env(char **arg, char **envp);
-void		ms_remove_quotes(char **arg);
+void		ms_remove_quotes(t_cmd *cmd, char **arg);
 void		ms_setup_round_two(t_cmd *cmd, char **envp);
 
 // ms_redirect_append_setup.c

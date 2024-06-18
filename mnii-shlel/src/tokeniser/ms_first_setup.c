@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:03:47 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/18 04:08:13 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/18 19:22:11 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ms_nb_params(char *line, int index, int *line_index)
 	return (nb_params);
 }
 
-int	ms_get_cut_len(char *line, int main_index, int main_index_save,
+int	ms_get_cut_len(char *line, int index, int index_save,
 		int *cut_len)
 {
 	int	len;
@@ -46,25 +46,24 @@ int	ms_get_cut_len(char *line, int main_index, int main_index_save,
 
 	len = 0;
 	quote_level = 0;
-	while (line[main_index] && line[main_index] == ' ')
-		main_index ++;
-	main_index_save = main_index;
-	if (main_index >= (int)ft_strlen(line))
+	while (line[index] && line[index] == ' ')
+		index ++;
+	index_save = index;
+	if (index >= (int)ft_strlen(line))
 		return (-1);
-	while (line[main_index])
+	while (line[index])
 	{
-		quote_level = ms_change_quote_level(line, main_index, quote_level);
-		if ((line[main_index] == ' ' || line[main_index] == '|')
-			&& quote_level == 0)
+		quote_level = ms_change_quote_level(line, index, quote_level);
+		if ((line[index] == ' ' || line[index] == '|') && quote_level == 0)
 			break ;
 		else
 		{
 			len ++;
-			main_index ++;
+			index ++;
 		}
 	}
 	*cut_len = len;
-	return (main_index_save);
+	return (index_save);
 }
 
 char	**ms_cut_text(char *line)
@@ -79,7 +78,7 @@ char	**ms_cut_text(char *line)
 	args_index = -1;
 	cut_len = 0;
 	max_args = ms_nb_params(line, -1, &line_index);
-	args = malloc(sizeof(char *) * (max_args + 2));
+	args = ft_calloc(sizeof(char *), (max_args + 2));
 	if (!args)
 		return (NULL);
 	args[max_args + 1] = 0;

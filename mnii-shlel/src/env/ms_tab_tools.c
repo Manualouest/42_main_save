@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:20:59 by mscheman          #+#    #+#             */
-/*   Updated: 2024/06/18 01:53:26 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/18 19:43:37 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,30 @@ int	tablen(char **tab)
 	return (i);
 }
 
-char	**tab_append(char **tab, char *add, int pos)
+char    **tab_append(char **tab, char *add, int pos)
 {
-	char	**dup;
-	int		i;
+    char    **dup;
+    int        i;
 
-	i = 0;
-	if (pos == -1)
-		pos = tablen(tab);
-	dup = malloc(sizeof(char *) * (tablen(tab) + 1));
-	while (tab[i])
-	{
-		if (i == pos)
-			dup[i] = add;
-		else
-			dup[i + (pos > i)] = tab[i];
-		i++;
-	}
-	free(tab);
-	return (dup);
+    i = 0;
+    if (pos == -1)
+        pos = tablen(tab);
+    dup = malloc(sizeof(char *) * (tablen(tab) + 2));
+    while (tab[i])
+    {
+        if (i == pos)
+            dup[i] = add;
+        else
+            dup[i] = tab[i - (i > pos)];
+        i++;
+    }
+    if (i == pos)
+        dup[i] = add;
+    else
+        dup[i] = tab[i - (i > pos)];
+    dup[i + 1] = NULL;
+    free(tab);
+    return (dup);
 }
 
 void	tab_replace(char **tab, char *old, char *new)
