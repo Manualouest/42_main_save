@@ -93,14 +93,12 @@ void	ms_cmd_test_printer(t_cmd *full_line)
 		ft_putnbr_fd(cmd->pid, 1);
 		write(1, "\n", 1);
 		if (cmd->next == NULL)
-			write(1, "____________________________\n\n", 29);
+			write(1, "____________________________\n", 29);
+		else
+			write(1, "\n", 1);
 
 		// ms_remove_heredoc(-1, heredoc);
 
 		cmd = cmd->next;
-		write(1, "\n", 1);
 	}
-	write(1, "\n", 1);
-	write(1, "\n", 1);
-	write(1, "\n", 1);
 }

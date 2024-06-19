@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:03:47 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/18 19:22:11 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/19 17:42:22 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	**ms_cut_text(char *line)
 void	ms_misc_params_setup(t_cmd *cmd)
 {
 	cmd->fd_in = 0;
-	cmd->fd_out = 0; // put to 1 after redirect if redirect not conclusive
+	cmd->fd_out = 1; // put to 1 after redirect if redirect not conclusive
 	cmd->error_id = NO_ERROR;
 }
 

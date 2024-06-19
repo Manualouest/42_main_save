@@ -31,7 +31,7 @@ int	builtin_exit(t_cmd *cmd, int argc, char **argv, char **envp)
 	else
 		g_signal = 0;
 	should_exit = (cmd->first->next == NULL);
-	if (cmd->next == NULL)
+	if (cmd && cmd->next == NULL)
 	{
 		free_tab((void **)envp);
 		ms_free_cmd(cmd->first);
@@ -49,7 +49,7 @@ static int	check(int argc, char **argv)
 		return (EXIT_SUCCESS);
 	if (argc > 2)
 	{
-		error_log("too many arguments");
+		error_log("too many arguments\n");
 		return (-1);
 	}
 	i = 0;
@@ -57,7 +57,7 @@ static int	check(int argc, char **argv)
 	{
 		if (ft_isdigit(argv[1][i]) != 1)
 		{
-			error_log("numeric argument required");
+			error_log("numeric argument required\n");
 			return (EXIT_FAILURE);
 		}
 		i++;

@@ -21,19 +21,19 @@ int			ms_go_to_pipe(char *line, int *main_index);
 int			ms_is_there_pipe(char *line, int index);
 int			ms_change_quote_level(char *line, int index, int old_quote_level);
 char		*ms_tripple_join(char *first, char *second, char *third);
+int			ms_has_dollar(char *arg);
 
 // ms_second_setup.c
-int			ms_has_dollar(char *arg);
-char		*ms_setup_env(char *tp_env, char **arg, int env_start,
-				int env_len);
-void		ms_do_env(char **arg, char **envp);
-void		ms_remove_quotes(char **arg);
+void		ms_remove_hiders(t_cmd *cmd, int arg_i);
 void		ms_setup_round_two(t_cmd *cmd, char **envp);
 
-// ms_redirect_append_setup.c
-void		ms_redirect_append_setup(t_cmd *cmd);
+// ms_in_out_file_setup.c
+void		ms_in_out_files_setup(t_cmd *cmd);
 
-
-
+// ms_file_setp_utils.c
+int			ms_is_file_real(char *filename);
+void		ms_separate_symbols_base(t_cmd *cmd);
+char		**ms_remove_filename(char **args, int elem_index);
+int			ms_opens(t_cmd *cmd, char *filename, int is_created, int kind);
 
 #endif

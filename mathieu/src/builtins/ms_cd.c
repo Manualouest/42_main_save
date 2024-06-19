@@ -53,15 +53,15 @@ static void	check(int argc, char **envp)
 static void	error(int error)
 {
 	if (error == -1)
-		error_log("too many arguments");
+		error_log("too many arguments\n");
 	if (error == -2)
-		error_log("cannot find HOME");
+		error_log("cannot find HOME\n");
 	if (error == ENOTDIR)
-		error_log("path is not a directory");
+		error_log("path is not a directory\n");
 	if (error == ENOENT)
-		error_log("directory not found");
+		error_log("directory not found\n");
 	if (error == EACCES)
-		error_log("permission denied");
+		error_log("permission denied\n");
 }
 
 static char	*get_pwd(void)

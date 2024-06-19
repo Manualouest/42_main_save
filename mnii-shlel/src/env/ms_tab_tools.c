@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:20:59 by mscheman          #+#    #+#             */
-/*   Updated: 2024/06/18 19:43:37 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/19 16:21:24 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,30 @@ int	tablen(char **tab)
 	return (i);
 }
 
-char    **tab_append(char **tab, char *add, int pos)
+char	**tab_append(char **tab, char *add, int pos)
 {
-    char    **dup;
-    int        i;
+	char	**dup;
+	int		i;
 
-    i = 0;
-    if (pos == -1)
-        pos = tablen(tab);
-    dup = malloc(sizeof(char *) * (tablen(tab) + 2));
-    while (tab[i])
-    {
-        if (i == pos)
-            dup[i] = add;
-        else
-            dup[i] = tab[i - (i > pos)];
-        i++;
-    }
-    if (i == pos)
-        dup[i] = add;
-    else
-        dup[i] = tab[i - (i > pos)];
-    dup[i + 1] = NULL;
-    free(tab);
-    return (dup);
+	i = 0;
+	if (pos == -1)
+		pos = tablen(tab);
+	dup = malloc(sizeof(char *) * (tablen(tab) + 2));
+	while (tab[i])
+	{
+		if (i == pos)
+			dup[i] = add;
+		else
+			dup[i] = tab[i - (i > pos)];
+		i++;
+	}
+	if (i == pos)
+		dup[i] = add;
+	else
+		dup[i] = tab[i - (i > pos)];
+	dup[i + 1] = NULL;
+	free(tab);
+	return (dup);
 }
 
 void	tab_replace(char **tab, char *old, char *new)
@@ -83,11 +83,16 @@ char	**tab_clone(char **tab)
 char	*envp_find(char **envp, char *name)
 {
 	int	i;
+	int	name_len;
 
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], name, ft_strlen(name)) == 0)
+		name_len = -1;
+		while (envp[i] && envp[i][++name_len] && envp[i][name_len] != '=')
+			;
+		if (ft_strncmp(envp[i], name, ft_strlen(name)) == 0
+			&& (int)ft_strlen(name) == name_len)
 			return (envp[i]);
 		i++;
 	}
@@ -96,7 +101,7 @@ char	*envp_find(char **envp, char *name)
 
 void	free_tab(void **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!tab || !tab[i])

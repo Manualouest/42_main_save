@@ -6,13 +6,18 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 17:08:02 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/18 01:30:45 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/19 21:35:27 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mnii_shlel.h>
 
 // clear; valgrind --show-leak-kinds=all --leak-check=full --suppressions=ms.supp ./minishell
+
+// echo > test0 >test1 > test2> >test3>test4>test5
+// echo > test0 >test1 > test2> >test3>test4>test5 "<he>>hes<<sd>sdf"
+// echo >test1>test2>test3>>test4 << test5<test6>test7
+// echo "$HOME" '$HOME' $HOME "$" " $" "$ " " $ " $""$ $ $?
 
 void	ms_pipe_test_printer(t_pipes *full_line);
 void	ms_cmd_test_printer(t_cmd *full_line);

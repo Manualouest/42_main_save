@@ -49,7 +49,7 @@ int	main(int argc, char *argv[], char *envp[])
 		cmd = ms_tokeniser_main(input, ms_env);
 		if (cmd)
 		{
-			ms_cmd_test_printer(cmd);
+			//ms_cmd_test_printer(cmd);
 			ms_exec(cmd, &ms_env, cmd->next != NULL);
 			ms_free_cmd(cmd);
 		}

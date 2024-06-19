@@ -36,7 +36,8 @@ typedef enum e_cmd_errors
 	NO_ERROR,
 	BAD_PIPE,
 	BAD_QUOTE,
-	BAD_FILE
+	BAD_FILE,
+	BAD_HEREDOC
 }	t_cmd_errors;
 
 typedef	struct	s_pipes

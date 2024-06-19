@@ -40,7 +40,7 @@ void	child_exec(t_cmd *to_exec, char **env)
 		return ;
 	to_exec->pid = fork();
 	if (to_exec->pid < -1)
-		error_log("fork failed");
+		error_log("fork failed\n");
 	if (to_exec->pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
@@ -48,27 +48,24 @@ void	child_exec(t_cmd *to_exec, char **env)
 		ms_child_getpath(to_exec, envp_find(env, "PATH"));
 		if (dup2(to_exec->fd_in , STDIN_FILENO) == -1)
 		{
-			error_log("fd_in");
+			error_log("fd_in\n");
 			exit(EXIT_FAILURE);
 		}
 		if (dup2(to_exec->fd_out , STDOUT_FILENO) == -1)
 		{
-			error_log("fd_out");
+			error_log("fd_out\n");
 			exit(EXIT_FAILURE);
 		}
 		ms_exec_closefds(to_exec);
 		if (exec_pipe_builtin(to_exec, env) != -1)
-			return ;
+			exit(g_signal);
 		execve(to_exec->args[0], to_exec->args, env);
 		ms_free_cmd(to_exec->first);
 		free_tab((void **)env);
-		printf("%p", to_exec->first);
-		error_log("bozo\n");
+		error_log("bozo");
 		exit(EXIT_FAILURE);
 	}
 }
-
-
 
 static int	exec_pipe_builtin(t_cmd *to_exec, char **env)
 {

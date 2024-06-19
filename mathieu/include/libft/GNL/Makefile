@@ -21,16 +21,16 @@ GNL_OBJ = $(GNL:.c=.o)
 NAME = libftgnl.a
 
 %.o:%.c
-	cc $(CC_FLAGS) $< -c -o $@
+	@cc $(CC_FLAGS) $< -c -o $@
 
 $(NAME): $(GNL_OBJ)
-	ar rcs $(NAME) $(GNL_OBJ)
+	@ar rcs $(NAME) $(GNL_OBJ)
 
 clean:
-	rm -f $(GNL_OBJ)
+	@rm -f $(GNL_OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 all: $(NAME)
 

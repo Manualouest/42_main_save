@@ -22,7 +22,7 @@ void	ms_exec_pipe(t_cmd *to_exec, char **env)
 	first = to_exec->first;
 	if (ms_setup_pipes(to_exec))
 	{
-		error_log("couldnt setup the pipes");
+		error_log("couldnt setup the pipes\n");
 		return ;
 	}
 	while (to_exec)
