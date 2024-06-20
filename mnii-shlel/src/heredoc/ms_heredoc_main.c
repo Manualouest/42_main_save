@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 22:57:30 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/19 23:57:11 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/20 00:19:58 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ int	ms_is_last_heredoc(char **args)
 	i = -1;
 	while (args[++i])
 	{
-		
+		if (!ft_strncmp(cmd->args[i], "<<", 2) && ft_strlen(cmd->args[i]) == 2)
+			return (0);
 	}
+	return (1);
 }
 
 char	*ms_launch_heredoc(t_cmd *cmd)
@@ -28,16 +30,15 @@ char	*ms_launch_heredoc(t_cmd *cmd)
 	int	i;
 
 	i = -1;
-	while (cmd->args[++i] && cmd->error_id == NO_ERROR)
+	while (cmd->args[++i])
 	{
 		if (!ft_strncmp(cmd->args[i], "<<", 2) && ft_strlen(cmd->args[i]) == 2)
 		{
 			if (cmd->args[i + 1])
 			{
-				if (ms_is_last_heredoc())
+				if (ms_is_last_heredoc(cmd->args[i + 1]))
+					ms_do_heredoc(cmd->args[i + 1]);
 			}
-			else
-				cmd->error_id = BAD_HEREDOC;
 		}
 	}
 }

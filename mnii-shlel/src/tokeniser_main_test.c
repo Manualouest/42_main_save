@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 17:08:02 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/19 21:35:27 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/20 01:39:30 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 // echo > test0 >test1 > test2> >test3>test4>test5
 // echo > test0 >test1 > test2> >test3>test4>test5 "<he>>hes<<sd>sdf"
+// echo > test0 >test1 > test2> ">test3" >test4>test5 "<he>>hes<<sd>sdf"
 // echo >test1>test2>test3>>test4 << test5<test6>test7
 // echo "$HOME" '$HOME' $HOME "$" " $" "$ " " $ " $""$ $ $?
 

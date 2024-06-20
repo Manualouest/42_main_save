@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:00:56 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/19 21:44:48 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/20 21:04:46 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ char	*ms_setup_env(char *tp_env, char **arg, int env_start, int env_len)
 	env_content = ft_substr(tp_env, index + 1, ft_strlen(tp_env));
 	new_arg = ms_tripple_join(ft_substr(arg[0], 0, env_start), env_content,
 			ft_strdup(&arg[0][env_start + env_len]));
-	free(env_content);
-	free(arg[0]);
+	if (env_content)
+		free(env_content);
+	if (arg[0])
+		free(arg[0]);
 	return (new_arg);
 }
 
@@ -91,14 +93,14 @@ void	ms_hide_quotes(t_cmd *cmd, char **arg)
 
 	index = -1;
 	has_pair = 0;
-	target_quote = '0';
+	target_quote = -3;
 	while (arg[0][++index])
 	{
-		if ((target_quote == '0' && (arg[0][index] == '\''
+		if ((target_quote == -3 && (arg[0][index] == '\''
 				|| arg[0][index] == '"')) || arg[0][index] == target_quote)
 		{
 			if (has_pair)
-				target_quote = '0';
+				target_quote = -3;
 			else
 				target_quote = arg[0][index];
 			if (has_pair)

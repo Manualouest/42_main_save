@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:01:47 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/19 21:30:33 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/20 18:56:26 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,12 @@ char	*ms_tripple_join(char *first, char *second, char *third)
 
 	f_s_joined = ft_strjoin(first, second);
 	full_join = ft_strjoin(f_s_joined, third);
-	free(first);
-	free(third);
-	free(f_s_joined);
+	if (first)
+		free(first);
+	if (third)
+		free(third);
+	if (f_s_joined)
+		free(f_s_joined);
 	return (full_join);
 }
 

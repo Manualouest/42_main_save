@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:59:36 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/19 21:03:14 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/20 13:08:59 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,18 @@ int	ms_is_file_real(char *filename)
 	DIR	*dir;
 	int	fd;
 
+	if (filename[0] == -1 && (filename[1] == '<' || filename[1] == '>'))
+		return (-3);
 	if (!filename)
 		return (-2);
-	dir = opendir(filename);
+	dir = opendir(&filename[(filename[0] < 0)]);
 	if (dir)
 	{
 		closedir(dir);
 		return (-1);
 	}
-	fd = open(filename, O_RDONLY);
+	printf("filename: |%s|\n",&filename[(filename[0] < 0)]);
+	fd = open(&filename[(filename[0] < 0)], O_RDONLY);
 	if (fd != -1)
 	{
 		close(fd);
@@ -56,22 +59,24 @@ void	ms_separate_symbols_base(t_cmd *cmd)
 {
 	int		i;
 	int		len;
+	int		quote;
 	t_cmd	*cpy_cmd;
 
 	cpy_cmd = cmd;
+	quote = 0;
 	while (cpy_cmd)
 	{
 		i = -1;
-		while (cpy_cmd->args[i + (i == -1)] && cpy_cmd->args[++i]
-			&& cpy_cmd->args[i][0] != -1 && cpy_cmd->args[i][0] != -2)
+		while (cpy_cmd->args[i + (i == -1)] && cpy_cmd->args[++i])
 		{
 			len = -1;
 			while (cpy_cmd->args[i] && cpy_cmd->args[i][++len])
 			{
-				if ((len == 0 || (len == 1 && (cpy_cmd->args[i][len - 1] == '<'
+				quote = ms_change_quote_level(cpy_cmd->args[i], len, quote);
+				if (((len == 0 || (len == 1 && (cpy_cmd->args[i][len - 1] == '<'
 							|| cpy_cmd->args[i][len - 1] == '>')))
 					&& (cpy_cmd->args[i][len] == '<'
-						|| cpy_cmd->args[i][len] == '>'))
+						|| cpy_cmd->args[i][len] == '>')) || quote != 0)
 					continue ;
 				ms_do_separation(cpy_cmd, &len, &i);
 			}
@@ -100,21 +105,21 @@ char	**ms_remove_filename(char **args, int elem_index)
 
 int	ms_opens(t_cmd *cmd, char *filename, int is_created, int kind)
 {
-	if (kind)
+	if (kind == 1)
 	{
-		if (!is_created)
+		if (is_created == 0)
 			return (open(filename, O_CREAT | O_APPEND, S_IRWXU));
-		else if (is_created)
+		else if (is_created == 1)
 			return (open(filename, O_APPEND));
 		else
 			cmd->error_id = BAD_FILE;
 		return (-1);
 	}
-	else if (!kind)
+	else if (kind == 0)
 	{
-		if (!is_created)
+		if (is_created == 0)
 			return (open(filename, O_CREAT | O_WRONLY, S_IRWXU));
-		else if (is_created)
+		else if (is_created == 1)
 			return (open(filename, O_WRONLY));
 		else
 			cmd->error_id = BAD_FILE;
@@ -124,5 +129,6 @@ int	ms_opens(t_cmd *cmd, char *filename, int is_created, int kind)
 		return (open(filename, O_RDONLY));
 	else
 		cmd->error_id = BAD_FILE;
+	printf("|%s|\n", filename);
 	return (-1);
 }

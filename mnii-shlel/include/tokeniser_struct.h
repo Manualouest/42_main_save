@@ -1,6 +1,21 @@
 #ifndef TOKENISER_STRUCT_H
 # define TOKENISER_STRUCT_H
 
+# define MS_TOO_MUCH_ARG "too much arguments when executing minishell"
+# define MS_FAIL_STRUCT "failed to creat malloc minishell's struct"
+# define MS_NO_END_QUOTE "there's a quote unclosed"
+# define MS_SYNTAX_ERROR "syntax error near unexpected token"
+# define MS_MALLOC_ERROR "failed to use malloc()"
+# define MS_AMBIGOUS_REDIR "ambiguous redirect"
+# define MS_PIPE_ERROR "failed to creat a pipe"
+# define MS_FORK_ERROR "failed to use fork()"
+# define MS_NO_CMD "command not found"
+# define MS_DUP_ERROR "failed to use dup2()"
+# define MS_NOT_VALID_ID "not a valid identifier"
+# define MS_TOO_MANY_ARGS "too many arguments"
+# define MS_NUM_ARG_REQUIRED "numeric argument required"
+# define MS_FAIL_HEREDOC "here-document delimited by end-of-file "
+
 typedef enum e_type
 {
 	SYMBOL,
