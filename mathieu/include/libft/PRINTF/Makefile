@@ -22,17 +22,17 @@ NAME = libftprintf.a
 CC_FLAGS = -Wall -Werror -Wextra
 
 %.o:%.c
-	@cc $(CC_FLAGS) $< -c -o $@
+	cc $(CC_FLAGS) $< -c -o $@
 
 $(NAME): $(OBJS)
-	@ar rcs $(NAME) $(OBJS)
+	ar rcs $(NAME) $(OBJS)
 
 clean:
-	@rm -f $(OBJS)
+	rm -f $(OBJS)
 
 fclean: clean
-	@rm -f $(NAME)
-
+	rm -f $(NAME)
+	
 all: $(NAME)
 
 re: fclean all

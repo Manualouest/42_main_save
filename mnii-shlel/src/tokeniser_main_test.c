@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 17:08:02 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/20 01:39:30 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/21 21:03:18 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 // echo > test0 >test1 > test2> ">test3" >test4>test5 "<he>>hes<<sd>sdf"
 // echo >test1>test2>test3>>test4 << test5<test6>test7
 // echo "$HOME" '$HOME' $HOME "$" " $" "$ " " $ " $""$ $ $?
+// echo hi | <'test7' cat
 
 void	ms_pipe_test_printer(t_pipes *full_line);
 void	ms_cmd_test_printer(t_cmd *full_line);
@@ -55,11 +56,12 @@ int	main(int argc, char **argv, char **envp)
 			full_line = ms_tokeniser_main(a, envp);
 			if (full_line)
 			{
-				ms_cmd_test_printer(full_line);
+				if (full_line->error_id == NO_ERROR)
+					ms_cmd_test_printer(full_line);
 				ms_free_cmd(full_line);
 			}
 			else
-				printf("Malloc failed\n");
+				ms_handle_errors(NULL, -1, MS_FAIL_STRUCT, NULL);
 			// ms_pipe_test_printer(full_line);
 		}
 		else
@@ -258,6 +260,28 @@ void	ms_pipe_test_printer(t_pipes *full_line)
 	}
 }
 
+void	ms_test_in_file(int fd)
+{
+	char	*buffer;
+	int		len_read;
+
+	buffer = ft_calloc(sizeof(char),  100);
+	if (!buffer)
+		return ;
+	len_read = read(fd, buffer, 99);
+	if (!buffer)
+		return ;
+	write(1, "		found: ", 9);
+	write(1, buffer, len_read);
+	write(1, "\n", 1);
+	free(buffer);
+}
+
+void	ms_test_out_file(int fd)
+{
+	write(fd, "test1\n", 6);
+	write(fd, "test2\n", 6);
+}
 
 
 void	ms_cmd_test_printer(t_cmd *full_line)
@@ -277,16 +301,25 @@ void	ms_cmd_test_printer(t_cmd *full_line)
 		ft_putnbr_fd(cmd->fd_in, 1);
 		write(1, "\n", 1);
 		if (cmd->fd_in > 0)
+		{
+			ms_test_in_file(cmd->fd_in);
 			close(cmd->fd_in);
+		}
 		write(1, "	fd_out: ", 9);
 		ft_putnbr_fd(cmd->fd_out, 1);
 		write(1, "\n", 1);
 		if (cmd->fd_out > 1)
+		{
+
+			ms_test_out_file(cmd->fd_out);
 			close(cmd->fd_out);
+		}
 		write(1, "	error", 6);
 		ms_pipes_test_printer_find_error(cmd->error_id, 0);
 		write(1, "\n", 1);
 		write(1, "	line: ", 7);
+		ft_putnbr_fd((long int)cmd->args, 1);
+		write(1, " ", 1);
 		i = -1;
 		while (cmd->args[++i])
 		{

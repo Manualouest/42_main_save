@@ -6,11 +6,11 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 22:57:30 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/20 00:19:58 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:18:03 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <tokeniser>
+#include <tokeniser.h>
 
 int	ms_is_last_heredoc(char **args)
 {
@@ -41,4 +41,5 @@ char	*ms_launch_heredoc(t_cmd *cmd)
 			}
 		}
 	}
+	return (NULL);
 }

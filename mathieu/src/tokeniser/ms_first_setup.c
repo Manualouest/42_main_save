@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:03:47 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/19 17:42:22 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:57:56 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	**ms_cut_text(char *line)
 	args_index = -1;
 	cut_len = 0;
 	max_args = ms_nb_params(line, -1, &line_index);
-	args = ft_calloc(sizeof(char *), (max_args + 2));
+	args = ft_calloc(sizeof(char *), (max_args + 3));
 	if (!args)
 		return (NULL);
 	args[max_args + 1] = 0;
@@ -94,11 +94,12 @@ char	**ms_cut_text(char *line)
 	return (args);
 }
 
-void	ms_misc_params_setup(t_cmd *cmd)
+void	ms_misc_params_setup(t_cmd *cmd, t_cmd *first_cmd)
 {
 	cmd->fd_in = 0;
-	cmd->fd_out = 1; // put to 1 after redirect if redirect not conclusive
+	cmd->fd_out = 1;
 	cmd->error_id = NO_ERROR;
+	cmd->first = first_cmd;
 }
 
 void	ms_base_setup(t_cmd *cmd, char *line)
@@ -111,7 +112,7 @@ void	ms_base_setup(t_cmd *cmd, char *line)
 	index = 0;
 	while (cpy)
 	{
-		ms_misc_params_setup(cpy);
+		ms_misc_params_setup(cpy, cmd);
 		old_index = index;
 		cpy->args = ms_cut_text(ft_substr(line, old_index,
 					ms_go_to_pipe(line, &index) - old_index));

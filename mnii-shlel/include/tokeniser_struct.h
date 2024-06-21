@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokeniser_struct.h                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/21 18:07:16 by mbirou            #+#    #+#             */
+/*   Updated: 2024/06/21 18:07:55 by mbirou           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TOKENISER_STRUCT_H
 # define TOKENISER_STRUCT_H
 
@@ -39,10 +51,10 @@ typedef enum e_symbols
 	NO_SYMBOL,
 	QUOTE,
 	DOUBLE_QUOTE,
-	INPUT,// <
-	HEREDOC,// <<
-	REDIRECT,// >
-	APPEND,// >>
+	INPUT,
+	HEREDOC,
+	REDIRECT,
+	APPEND,
 	DOLLAR
 }	t_symbols;
 
@@ -55,7 +67,7 @@ typedef enum e_cmd_errors
 	BAD_HEREDOC
 }	t_cmd_errors;
 
-typedef	struct	s_pipes
+typedef struct s_pipes
 {
 	struct s_command	*command;
 	struct s_pipes		*right;
@@ -84,7 +96,7 @@ typedef struct s_params
 	struct s_params	*next;
 }				t_params;
 
-typedef struct	s_cmd
+typedef struct s_cmd
 {
 	int				fd_in;
 	int				fd_out;

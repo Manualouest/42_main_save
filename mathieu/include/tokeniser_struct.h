@@ -1,5 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokeniser_struct.h                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/21 18:07:16 by mbirou            #+#    #+#             */
+/*   Updated: 2024/06/21 18:07:55 by mbirou           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TOKENISER_STRUCT_H
 # define TOKENISER_STRUCT_H
+
+# define MS_TOO_MUCH_ARG "too much arguments when executing minishell"
+# define MS_FAIL_STRUCT "failed to creat malloc minishell's struct"
+# define MS_NO_END_QUOTE "there's a quote unclosed"
+# define MS_SYNTAX_ERROR "syntax error near unexpected token"
+# define MS_MALLOC_ERROR "failed to use malloc()"
+# define MS_AMBIGOUS_REDIR "ambiguous redirect"
+# define MS_PIPE_ERROR "failed to creat a pipe"
+# define MS_FORK_ERROR "failed to use fork()"
+# define MS_NO_CMD "command not found"
+# define MS_DUP_ERROR "failed to use dup2()"
+# define MS_NOT_VALID_ID "not a valid identifier"
+# define MS_TOO_MANY_ARGS "too many arguments"
+# define MS_NUM_ARG_REQUIRED "numeric argument required"
+# define MS_FAIL_HEREDOC "here-document delimited by end-of-file "
 
 typedef enum e_type
 {
@@ -24,10 +51,10 @@ typedef enum e_symbols
 	NO_SYMBOL,
 	QUOTE,
 	DOUBLE_QUOTE,
-	INPUT,// <
-	HEREDOC,// <<
-	REDIRECT,// >
-	APPEND,// >>
+	INPUT,
+	HEREDOC,
+	REDIRECT,
+	APPEND,
 	DOLLAR
 }	t_symbols;
 
@@ -36,10 +63,11 @@ typedef enum e_cmd_errors
 	NO_ERROR,
 	BAD_PIPE,
 	BAD_QUOTE,
-	BAD_FILE
+	BAD_FILE,
+	BAD_HEREDOC
 }	t_cmd_errors;
 
-typedef	struct	s_pipes
+typedef struct s_pipes
 {
 	struct s_command	*command;
 	struct s_pipes		*right;
@@ -68,7 +96,7 @@ typedef struct s_params
 	struct s_params	*next;
 }				t_params;
 
-typedef struct	s_cmd
+typedef struct s_cmd
 {
 	int				fd_in;
 	int				fd_out;

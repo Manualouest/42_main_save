@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mscheman <mscheman@student.42.fr>          +#+  +:+       +#+         #
+#    By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/01 14:21:30 by mscheman          #+#    #+#              #
-#    Updated: 2024/03/12 00:55:29 by mscheman         ###   ########.fr        #
+#    Updated: 2024/05/30 01:14:43 by mbirou           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,49 +74,48 @@ GNL_OBJ =	get_next_line_bonus.o \
 
 NAME = libft.a
 
-COMPIL_FLAGS += -Wall -Wextra -Werror -c
+COMPIL_FLAGS += -Wall -Wextra -Werror -c -g
 
 %.o:%.c
-	@cc $(CC_FLAGS) $< -c -o $@
+	cc $(CC_FLAGS) $< -c -o $@
 
 $(NAME): $(LIBFT_OBJ)
-	@ar rcs $(NAME) $(LIBFT_OBJ)
+	ar rcs $(NAME) $(LIBFT_OBJ)
 
 clean:
-	@rm -f $(LIBFT_OBJ)
-	@rm -f $(LIST_OBJ)
-	@make clean -C ./PRINTF
-	@make clean -C ./GNL
+	rm -f $(LIBFT_OBJ)
+	rm -f $(LIST_OBJ)
+	make clean -C ./PRINTF
+	make clean -C ./GNL
 
 fclean: clean
-	@make fclean -C ./PRINTF
-	@make fclean -C ./GNL
-	@rm -f $(NAME)
+	make fclean -C ./PRINTF
+	make fclean -C ./GNL
+	rm -f $(NAME)
 
 all: $(NAME)
 
 re: fclean all
 
 list: $(LIST_OBJ)
-	@ar rcs $(NAME) $(LIST_OBJ)
+	ar rcs $(NAME) $(LIST_OBJ)
 
 print: $(NAME)
-	@make -C ./PRINTF
-	@mv PRINTF/$(PRINTF_LIB) -t .
-	@ar x $(PRINTF_LIB)
-	@ar rcs $(NAME) $(PRINTF_OBJ)
-	@rm -f $(PRINTF_OBJ)
-	@mv $(PRINTF_LIB) -t PRINTF/
+	make -C ./PRINTF
+	mv PRINTF/$(PRINTF_LIB) -t .
+	ar x $(PRINTF_LIB)
+	ar rcs $(NAME) $(PRINTF_OBJ)
+	rm -f $(PRINTF_OBJ)
+	mv $(PRINTF_LIB) -t PRINTF/
 
 
 gnl: $(NAME)
-	@make -C ./GNL
-	@mv GNL/$(GNL_LIB) -t .
-	@ar x $(GNL_LIB)
-	@ar rcs $(NAME) $(GNL_OBJ)
-	@rm -f $(GNL_OBJ)
-	@mv $(GNL_LIB) -t GNL/
+	make -C ./GNL
+	mv GNL/$(GNL_LIB) -t .
+	ar x $(GNL_LIB)
+	ar rcs $(NAME) $(GNL_OBJ) 
+	rm -f $(GNL_OBJ)
+	mv $(GNL_LIB) -t GNL/
 
 full: print gnl list $(LIBFT_OBJ)
-	@ar rcs $(NAME) $(LIBFT_OBJ)
-	@echo "\033[1;33m Library" $(NAME) "created"
+	ar rcs $(NAME) $(LIBFT_OBJ)

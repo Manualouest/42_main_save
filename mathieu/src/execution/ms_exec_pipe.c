@@ -15,7 +15,7 @@
 static void	wait_childs(t_cmd *childs);
 static char	*try_path(t_cmd *cmd, char *env_path);
 
-void	ms_exec_pipe(t_cmd *to_exec, char **env)
+void	ms_exec_pipe(t_cmd *to_exec, char ***env)
 {
 	t_cmd	*first;
 
@@ -30,9 +30,9 @@ void	ms_exec_pipe(t_cmd *to_exec, char **env)
 		child_exec(to_exec, env);
 		to_exec = to_exec->next;
 	}
-	ms_exec_closefds(to_exec);
+	ms_exec_closefds(first);
 	wait_childs(first);
-	cmd_clear(&to_exec, free_tab);
+	ms_free_cmd(to_exec);
 }
 
 void	ms_child_getpath(t_cmd *cmd, char *env_path)
@@ -56,12 +56,9 @@ static void	wait_childs(t_cmd *childs)
 
 	while (childs)
 	{
-		if (!ms_is_builtin(childs))
-		{
-			waitpid(childs->pid, &status, 0);
-			if (WIFEXITED(status))
-				g_signal = WEXITSTATUS(status);
-		}
+		waitpid(childs->pid, &status, 0);
+		if (WIFEXITED(status))
+			g_signal = WEXITSTATUS(status);
 		childs = childs->next;
 	}
 }
@@ -92,3 +89,5 @@ static char	*try_path(t_cmd *cmd, char *env_path)
 	free_tab((void **)tab_path);
 	return (tmp);
 }
+
+

@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:59:36 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/20 13:08:59 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/21 21:51:32 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	ms_is_file_real(char *filename)
 		closedir(dir);
 		return (-1);
 	}
-	printf("filename: |%s|\n",&filename[(filename[0] < 0)]);
 	fd = open(&filename[(filename[0] < 0)], O_RDONLY);
 	if (fd != -1)
 	{
@@ -35,54 +34,6 @@ int	ms_is_file_real(char *filename)
 		return (1);
 	}
 	return (0);
-}
-
-static void	ms_do_separation(t_cmd *cmd, int *len, int *i)
-{
-	char	*tp_char;
-
-	if ((*len > 0 && (cmd->args[*i][*len - 1] == '<'
-			|| cmd->args[*i][*len - 1] == '>'))
-			|| (cmd->args[*i][*len] == '<' || cmd->args[*i][*len] == '>'))
-	{
-		cmd->args = tab_append(cmd->args,
-				ft_substr(cmd->args[*i], 0, *len), *i);
-		*i = *i + 1;
-		tp_char = ft_substr(cmd->args[*i], *len, ft_strlen(cmd->args[*i]));
-		free(cmd->args[*i]);
-		cmd->args[*i] = tp_char;
-		*len = 0;
-	}
-}
-
-void	ms_separate_symbols_base(t_cmd *cmd)
-{
-	int		i;
-	int		len;
-	int		quote;
-	t_cmd	*cpy_cmd;
-
-	cpy_cmd = cmd;
-	quote = 0;
-	while (cpy_cmd)
-	{
-		i = -1;
-		while (cpy_cmd->args[i + (i == -1)] && cpy_cmd->args[++i])
-		{
-			len = -1;
-			while (cpy_cmd->args[i] && cpy_cmd->args[i][++len])
-			{
-				quote = ms_change_quote_level(cpy_cmd->args[i], len, quote);
-				if (((len == 0 || (len == 1 && (cpy_cmd->args[i][len - 1] == '<'
-							|| cpy_cmd->args[i][len - 1] == '>')))
-					&& (cpy_cmd->args[i][len] == '<'
-						|| cpy_cmd->args[i][len] == '>')) || quote != 0)
-					continue ;
-				ms_do_separation(cpy_cmd, &len, &i);
-			}
-		}
-		cpy_cmd = cpy_cmd->next;
-	}
 }
 
 char	**ms_remove_filename(char **args, int elem_index)
@@ -108,11 +59,11 @@ int	ms_opens(t_cmd *cmd, char *filename, int is_created, int kind)
 	if (kind == 1)
 	{
 		if (is_created == 0)
-			return (open(filename, O_CREAT | O_APPEND, S_IRWXU));
+			return (open(filename, O_CREAT | O_APPEND | O_WRONLY, S_IRWXU));
 		else if (is_created == 1)
-			return (open(filename, O_APPEND));
+			return (open(filename, O_APPEND | O_WRONLY));
 		else
-			cmd->error_id = BAD_FILE;
+			ms_handle_errors(cmd, BAD_FILE, MS_SYNTAX_ERROR, filename);
 		return (-1);
 	}
 	else if (kind == 0)
@@ -122,13 +73,29 @@ int	ms_opens(t_cmd *cmd, char *filename, int is_created, int kind)
 		else if (is_created == 1)
 			return (open(filename, O_WRONLY));
 		else
-			cmd->error_id = BAD_FILE;
+			ms_handle_errors(cmd, BAD_FILE, MS_SYNTAX_ERROR, filename);
 		return (-1);
 	}
 	if (is_created)
 		return (open(filename, O_RDONLY));
 	else
-		cmd->error_id = BAD_FILE;
-	printf("|%s|\n", filename);
+		ms_handle_errors(cmd, BAD_FILE, MS_SYNTAX_ERROR, filename);
 	return (-1);
+}
+
+void	ms_handle_errors(t_cmd *cmd, int error_id, char *error, char *token)
+{
+	if (cmd)
+		cmd->error_id = error_id;
+	write(2, error, ft_strlen(error));
+	if (error_id > 0)
+	{
+		write(2, " '", 2);
+		if (token)
+			write(2, token, ft_strlen(token));
+		else
+			write(2, "newline", 7);
+		write(2, "'", 1);
+	}
+	write(2, "\n", 1);
 }

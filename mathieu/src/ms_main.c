@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 14:28:23 by mscheman          #+#    #+#             */
-/*   Updated: 2024/06/18 04:18:31 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/21 19:50:03 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 // clear; valgrind --show-leak-kinds=all --leak-check=full --suppressions=ms.supp ./minishell
 void	ms_cmd_test_printer(t_cmd *full_line);
-
-
 
 int g_signal = 0;
 
@@ -49,10 +47,13 @@ int	main(int argc, char *argv[], char *envp[])
 		cmd = ms_tokeniser_main(input, ms_env);
 		if (cmd)
 		{
-			//ms_cmd_test_printer(cmd);
-			ms_exec(cmd, &ms_env, cmd->next != NULL);
+			// ms_cmd_test_printer(cmd);
+			if (cmd->error_id == NO_ERROR)
+				ms_exec(cmd, &ms_env, cmd->next != NULL);
 			ms_free_cmd(cmd);
 		}
+		else
+			ms_handle_errors(NULL, -1, MS_FAIL_STRUCT, NULL);
 		free(input);
 	}
 	free_tab((void **)ms_env);

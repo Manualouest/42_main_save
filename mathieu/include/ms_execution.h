@@ -14,9 +14,9 @@
 # define MS_EXECUTION_H
 
 void	ms_exec(t_cmd *to_exec, char ***env, bool is_pipe);
-void	child_exec(t_cmd *to_exec, char **env);
-void	ms_exec_pipe(t_cmd *to_exec, char **env);
-int		ms_exec_builtin(t_cmd *to_exec, char **env);
+void	child_exec(t_cmd *to_exec, char ***env);
+void	ms_exec_pipe(t_cmd *to_exec, char ***env);
+int		ms_exec_builtin(t_cmd *to_exec, char ***env);
 bool	ms_is_builtin(t_cmd *cmd);
 void	ms_child_getpath(t_cmd *cmd, char *env_path);
 
