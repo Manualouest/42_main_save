@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:01:47 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/21 20:11:01 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/23 17:42:40 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ int	ms_change_quote_level(char *line, int index, int old_quote_level)
 	else if ((line[index] == '\'' || line[index] == -2)
 		&& old_quote_level == 1)
 		return (0);
+	if (line[index] == -3 && old_quote_level == 0)
+		return (3);
+	else if (line[index] == -3 && old_quote_level == 3)
+		return (0);
+
 	return (old_quote_level);
 }
 
@@ -65,31 +70,11 @@ char	*ms_tripple_join(char *first, char *second, char *third, int frees)
 	full_join = ft_strjoin(f_s_joined, third);
 	if (first && frees % 1000 >= 100)
 		free(first);
-	if (second && frees % 100 >= 10)
+	if (second 	&& frees % 100 >= 10)
 		free(second);
 	if (third && frees % 10 == 1)
 		free(third);
 	if (f_s_joined)
 		free(f_s_joined);
 	return (full_join);
-}
-
-int	ms_has_dollar(char *arg)
-{
-	int	index;
-	int	quote_level;
-
-	quote_level = 0;
-	index = -1;
-	if (!arg)
-		return (0);
-	while (arg[++index])
-	{
-		quote_level = ms_change_quote_level(arg, index, quote_level);
-		if (quote_level != 1 && arg[index] == '$' && arg[index + 1]
-			&& arg[index + 1] != ' ' && arg[index + 1] != -1
-			&& arg[index + 1] != -2)
-			return (1);
-	}
-	return (0);
 }

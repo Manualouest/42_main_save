@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 22:57:30 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/21 15:18:03 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/23 19:15:24 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ms_is_last_heredoc(char **args)
 	i = -1;
 	while (args[++i])
 	{
-		if (!ft_strncmp(cmd->args[i], "<<", 2) && ft_strlen(cmd->args[i]) == 2)
+		if (!ft_strncmp(args[i], "<<", 2) && ft_strlen(args[i]) == 2)
 			return (0);
 	}
 	return (1);
@@ -34,9 +34,9 @@ char	*ms_launch_heredoc(t_cmd *cmd)
 	{
 		if (!ft_strncmp(cmd->args[i], "<<", 2) && ft_strlen(cmd->args[i]) == 2)
 		{
-			if (cmd->args[i + 1])
+			if (cmd->args[i + 1] != 0)
 			{
-				if (ms_is_last_heredoc(cmd->args[i + 1]))
+				if (ms_is_last_heredoc(&cmd->args[i + 1]))
 					ms_do_heredoc(cmd->args[i + 1]);
 			}
 		}

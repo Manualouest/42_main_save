@@ -22,6 +22,7 @@ SRC_NAME = tokeniser_main_test.c
 SRC_NAME +=	tokeniser/ms_tokeniser_main.c\
 			tokeniser/ms_first_setup.c\
 			tokeniser/ms_setups_utils.c\
+			tokeniser/ms_env_checking.c\
 			tokeniser/ms_second_setup.c\
 			tokeniser/ms_in_out_file_setup.c\
 			tokeniser/ms_file_setup_utils.c\

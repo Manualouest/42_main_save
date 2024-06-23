@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:00:31 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/21 20:45:09 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/23 19:11:23 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ char	*ms_clean_filename(char	*old_name)
 	char	*tp_arg;
 
 	i = -1;
-	name = ft_calloc(sizeof(char), ft_strlen(&old_name[(i == 0)]) + 2);
-	name[0] = (char)(-1 - (i == 0));
+	name = ft_calloc(sizeof(char), ft_strlen(old_name) + 2);
+	name[0] = (char)(-1);
 	ft_strlcat(&name[1], &old_name[(i == 0)],
 		ft_strlen(&old_name[(i == 0)]) + 2);
 	while (name[++i])
 	{
-		if (name[i] == -1 || name[i] == -2)
+		if (name[i] < 0 || name[0] == 4)
 		{
 			tp_str = ft_substr(name, 0, i);
 			tp_arg = ft_strjoin(tp_str, &name[i + 1]);
@@ -86,6 +86,7 @@ char	*ms_clean_filename(char	*old_name)
 			i -= 1;
 		}
 	}
+	printf("pre filename: |%s|%d, %c\n", name, (int)name[0], name[0]);
 	return (name);
 }
 
@@ -132,7 +133,7 @@ void	ms_remove_hiders(t_cmd *cmd, int arg_i)
 			i = -1;
 			while (cmd->args[arg_i][++i])
 			{
-				if (cmd->args[arg_i][i] == -1 || cmd->args[arg_i][i] == -2)
+				if (cmd->args[arg_i][i] < 0)
 				{
 					tp_char = ft_substr(cmd->args[arg_i], 0, i);
 					tp_arg = ft_strjoin(tp_char, &cmd->args[arg_i][i + 1]);

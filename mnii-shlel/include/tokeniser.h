@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:07:08 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/21 19:10:15 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/23 18:54:42 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int			ms_is_there_pipe(char *line, int index);
 int			ms_change_quote_level(char *line, int index, int old_quote_level);
 char		*ms_tripple_join(char *first, char *second, char *third,
 				int frees);
+
+// ms_env_checking.c
 int			ms_has_dollar(char *arg);
 
 // ms_second_setup.c
