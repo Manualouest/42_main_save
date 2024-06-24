@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 17:08:02 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/21 21:03:18 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/24 14:04:04 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 // echo hi | <'test7' cat
 
 void	ms_pipe_test_printer(t_pipes *full_line);
-void	ms_cmd_test_printer(t_cmd *full_line);
+void	ms_cmd_test_printer(t_cmd *full_line, char **envp);
 
 int	g_signal = 0;
 
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 			if (full_line)
 			{
 				if (full_line->error_id == NO_ERROR)
-					ms_cmd_test_printer(full_line);
+					ms_cmd_test_printer(full_line, envp);
 				ms_free_cmd(full_line);
 			}
 			else
@@ -272,8 +272,9 @@ void	ms_test_in_file(int fd)
 	if (!buffer)
 		return ;
 	write(1, "		found: ", 9);
+	write(1, "|", 1);
 	write(1, buffer, len_read);
-	write(1, "\n", 1);
+	write(1, "|\n", 2);
 	free(buffer);
 }
 
@@ -284,18 +285,20 @@ void	ms_test_out_file(int fd)
 }
 
 
-void	ms_cmd_test_printer(t_cmd *full_line)
+void	ms_cmd_test_printer(t_cmd *full_line, char **envp)
 {
 	t_cmd	*cmd;
 	int		i;
 	// char	*heredoc;
 
 	cmd = full_line;
+	(void)envp;
+	// heredoc = NULL;
 	while (cmd != NULL)
 	{
 
-		// heredoc = ms_launch_heredoc(cmd);
-
+		// heredoc = ms_launch_heredoc(cmd, envp);
+		// ms_launch_heredoc(cmd, envp);
 		write(1, "____________________________\n\n", 29);
 		write(1, "	fd_in: ", 8);
 		ft_putnbr_fd(cmd->fd_in, 1);
@@ -335,8 +338,7 @@ void	ms_cmd_test_printer(t_cmd *full_line)
 		if (cmd->next == NULL)
 			write(1, "____________________________\n\n", 29);
 
-		// ms_remove_heredoc(-1, heredoc);
-
+		// heredoc = ms_remove_heredoc(heredoc);
 		cmd = cmd->next;
 	}
 }

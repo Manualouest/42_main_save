@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:07:08 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/23 18:54:42 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/24 13:54:30 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 # define TOKENISER_H
 
 # include <mnii_shlel.h>
+
+
+void		ms_test_in_file(int fd);
+
+
+
+
 
 // ms_tokeniser_main.c
 void		*ms_free_cmd(t_cmd *cmd);
@@ -41,9 +48,9 @@ void		ms_remove_hiders(t_cmd *cmd, int arg_i);
 void		ms_setup_round_two(t_cmd *cmd, char **envp);
 
 // ms_in_out_file_setup.c
-void		ms_in_out_files_setup(t_cmd *cmd);
+void		ms_in_out_files_setup(t_cmd *cmd, char **envp);
 
-// ms_file_setp_utils.c
+// ms_file_setup_utils.c
 int			ms_is_file_real(char *filename);
 char		**ms_remove_filename(char **args, int elem_index);
 int			ms_opens(t_cmd *cmd, char *filename, int is_created, int kind);
@@ -55,5 +62,10 @@ void		ms_separate_symbols_base(t_cmd *cmd);
 char		*ms_clean_filename(char	*old_name);
 void		ms_hide_quotes(t_cmd *cmd, char **arg);
 void		ms_remove_hiders(t_cmd *cmd, int arg_i);
+
+// ms_heredoc_main.c
+void		ms_launch_heredoc(t_cmd *cmd, char ***args, char **envp,
+				int *index);
+// void		*ms_remove_heredoc(char *filename);
 
 #endif

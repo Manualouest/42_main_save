@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:00:56 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/23 19:00:51 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/24 11:26:10 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,32 +138,9 @@ void	ms_setup_round_two(t_cmd *cmd, char **envp)
 			if (!ft_strchr(cpy_cmd->args[args_index], (char)(-1))
 				&& !ft_strchr(cpy_cmd->args[args_index], (char)(-2)))
 				ms_hide_quotes(cpy_cmd, &cpy_cmd->args[args_index]);
-			
-			printf("after hider: ");
-			int i = -1;
-			while (cpy_cmd->args[++i])
-				printf("|%s|, ", cpy_cmd->args[i]);
-			printf("\n");
-			
 			while (cpy_cmd->args && ms_has_dollar(cpy_cmd->args[args_index]))
-			{
-				
-				printf("before env: ");
-				i = -1;
-				while (cpy_cmd->args[++i])
-					printf("|%s|, ", cpy_cmd->args[i]);
-				printf("\n");
-				
 				ms_do_env(&cpy_cmd->args[args_index], envp, &cpy_cmd->args,
 					args_index);
-				
-				printf("after env: ");
-				i = -1;
-				while (cpy_cmd->args[++i])
-					printf("|%s|, ", cpy_cmd->args[i]);
-				printf("\n");
-				
-			}
 			if (!cpy_cmd->args)
 			{
 				ms_free_cmd(cmd);
@@ -172,6 +149,6 @@ void	ms_setup_round_two(t_cmd *cmd, char **envp)
 		}
 		cpy_cmd = cpy_cmd->next;
 	}
-	ms_in_out_files_setup(cmd);
+	ms_in_out_files_setup(cmd, envp);
 	ms_remove_hiders(cmd, -1);
 }

@@ -26,7 +26,8 @@ SRC_NAME +=	tokeniser/ms_tokeniser_main.c\
 			tokeniser/ms_second_setup.c\
 			tokeniser/ms_in_out_file_setup.c\
 			tokeniser/ms_file_setup_utils.c\
-			tokeniser/ms_string_cleaning.c
+			tokeniser/ms_string_cleaning.c\
+			heredoc/ms_heredoc_main.c
 
 # SRC_NAME +=	structure_translator/ms_structure_translator_main.c\
 

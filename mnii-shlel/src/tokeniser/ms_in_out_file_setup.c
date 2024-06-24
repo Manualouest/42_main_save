@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 22:38:56 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/21 21:51:23 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/24 14:03:46 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	ms_head_to_next_symbol(char **args, int prev_index, int error_id)
 	return (-1);
 }
 
-void	ms_in_out_files_setup(t_cmd *cmd)
+void	ms_in_out_files_setup(t_cmd *cmd, char **envp)
 {
 	t_cmd	*cpy_cmd;
 	char	**args;
@@ -121,9 +121,19 @@ void	ms_in_out_files_setup(t_cmd *cmd)
 			ms_inputs_setup(cpy_cmd, &args, &index);
 		else if (!ft_strncmp(args[index], ">>", 2))
 			ms_appends_setup(cpy_cmd, &args, &index);
-		else if (!ft_strncmp(args[index], "<<", 2) && (args[index + 1]
-				&& (args[index + 1][0] == '>' || args[index + 1][0] == '<')))
-			ms_handle_errors(cmd, BAD_FILE, MS_SYNTAX_ERROR, args[index + 1]);
+		else if (!ft_strncmp(args[index], "<<", 2))
+			ms_launch_heredoc(cmd, &args, envp, &index);
+			// ms_handle_errors(cmd, BAD_FILE, MS_SYNTAX_ERROR, args[index + 1]);
+		
+		int i = -1;
+		while (args[++i])
+		{
+			write(1, " |", 2);
+			write(1, args[i], ft_strlen(args[i]));
+			write(1, "|", 1);
+		}
+		write(1, "\n", 1);
+		
 		if (cpy_cmd && index != -2)
 			cpy_cmd->args = args;
 	}

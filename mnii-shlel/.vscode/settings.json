@@ -21,6 +21,7 @@
 		"string": "c",
 		"unordered_map": "c",
 		"vector": "c",
-		"tokeniser.h": "c"
+		"tokeniser.h": "c",
+		"typeinfo": "c"
 	}
 }

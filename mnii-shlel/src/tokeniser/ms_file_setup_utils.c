@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:59:36 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/23 19:07:04 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/24 13:52:30 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**ms_remove_filename(char **args, int elem_index)
 	char	**nargs;
 
 	index = -1;
-	nargs = ft_calloc(sizeof(char *), tablen(args) - 1);
+	nargs = ft_calloc(sizeof(char *), tablen(args));
 	while (args[++index])
 	{
 		if (index != elem_index && index != elem_index + 1)
@@ -50,13 +50,12 @@ char	**ms_remove_filename(char **args, int elem_index)
 		else
 			free(args[index]);
 	}
-	free(args);
+	// free(args);
 	return (nargs);
 }
 
 int	ms_opens(t_cmd *cmd, char *filename, int is_created, int kind)
 {
-	printf("filename: |%s|%d, %c\n", filename, (int)filename[0], filename[0]);
 	if (kind == 1)
 	{
 		if (is_created == 0)

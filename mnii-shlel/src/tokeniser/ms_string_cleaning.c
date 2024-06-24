@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:00:31 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/23 19:11:23 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/24 14:20:19 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ void	ms_remove_hiders(t_cmd *cmd, int arg_i)
 	char	*tp_char;
 	char	*tp_arg;
 	int		i;
+	int		quote;
 
 	while (cmd)
 	{
@@ -131,9 +132,11 @@ void	ms_remove_hiders(t_cmd *cmd, int arg_i)
 		while (cmd->args[++arg_i])
 		{
 			i = -1;
+			quote = ms_change_quote_level(cmd->args[arg_i], 0, 0);
 			while (cmd->args[arg_i][++i])
 			{
-				if (cmd->args[arg_i][i] < 0)
+				if (cmd->args[arg_i][i] < 0 && cmd->args[arg_i][i] != -3
+					&& quote != 3)
 				{
 					tp_char = ft_substr(cmd->args[arg_i], 0, i);
 					tp_arg = ft_strjoin(tp_char, &cmd->args[arg_i][i + 1]);
@@ -142,6 +145,7 @@ void	ms_remove_hiders(t_cmd *cmd, int arg_i)
 					cmd->args[arg_i] = tp_arg;
 					i -= 1;
 				}
+				quote = ms_change_quote_level(cmd->args[arg_i], i, quote);
 			}
 		}
 		cmd = cmd->next;

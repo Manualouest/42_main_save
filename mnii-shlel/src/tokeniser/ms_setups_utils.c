@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:01:47 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/23 17:42:40 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/24 10:49:23 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	ms_is_there_pipe(char *line, int index)
 
 int	ms_change_quote_level(char *line, int index, int old_quote_level)
 {
+	if (!line || index < 0 || index >= (int)ft_strlen(line) || !line[index])
+		return (old_quote_level);
 	if ((line[index] == '"' || line[index] == -1) && old_quote_level == 0)
 		return (2);
 	else if ((line[index] == '"' || line[index] == -1) && old_quote_level == 2)
