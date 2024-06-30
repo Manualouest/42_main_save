@@ -28,4 +28,12 @@ void	cmd_iter(t_cmd *cmd, void (*f)(t_cmd *));
 int		ms_setup_pipes(t_cmd *cmd);
 void	ms_exec_closefds(t_cmd *cmd);
 
+void	ms_execve_quit(t_cmd *cmd, char **env);
+void	ms_dup2_quit(t_cmd *cmd, char **env);
+void	ms_exec_unleak(t_cmd *cmd, char **env);
+
+# define ERR_DUP2 "ah hell nah you ass tweakin\' dup2"
+# define ERR_CMD_NOT_FOUND "command not found"
+# define ERR_ISDIR "Is a directory"
+
 #endif

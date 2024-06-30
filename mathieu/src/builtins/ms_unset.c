@@ -12,62 +12,43 @@
 
 #include <mnii_shlel.h>
 
-static int	count_removed(char **envp, char **to_remove);
-static bool	is_contained(char *str, char **tab);
+static void	tab_remove(char ***tab, char *to_remove);
 
-int	builtin_unset(int argc, char **argv, char ***envp)
+int	builtin_unset(char **argv, char ***envp)
 {
-	int		i;
-	int		j;
-	int		m_size;
-	char	**dup;
+	int	i;
 
-	if (argc == 1)
-		return (EXIT_SUCCESS);
-	m_size = tablen((*envp)) + 1;
-	m_size -= count_removed((*envp), &argv[1]);
-	dup = malloc(sizeof(char *) * m_size);
-	i = 0;
-	j = 0;
-	while ((*envp)[i + 1])
+	i = 1;
+	while (argv[i])
 	{
-		if (is_contained((*envp)[i], &argv[1]) == true)
-			i++;
-		dup[j] = ft_strdup((*envp)[i]);
+		tab_remove(envp, argv[i]);
 		i++;
-		j++;
 	}
-	dup[j] = NULL;
-	free_tab((void **)(*envp));
-	(*envp) = dup;
 	return (EXIT_SUCCESS);
 }
 
-static int	count_removed(char **envp, char **to_remove)
+static void	tab_remove(char ***tab, char *to_remove)
 {
-	int	i;
-	int count;
+	int		i;
+	int		j;
+	char	*search;
+	char	**new;
 
 	i = 0;
-	count = 0;
-	while (envp[i])
+	j = 0;
+	search = envp_find((*tab), to_remove);
+	if (!search)
+		return ;
+	new = malloc(sizeof(char *) * tablen(*tab));
+	while ((*tab)[i])
 	{
-		count += is_contained(envp[i], to_remove);
+		if ((*tab)[i] == search)
+			i++;
+		new[j] = ft_strdup((*tab)[i]);
 		i++;
+		j++;
 	}
-	return (count);
-}
-
-static bool	is_contained(char *str, char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		if (ft_strncmp(str, tab[i], ft_strlen(str) + 1) == '=')
-			return (true);
-		i++;
-	}
-	return (false);
+	new[j] = NULL;
+	free_tab((void **)(*tab));
+	(*tab) = new;
 }

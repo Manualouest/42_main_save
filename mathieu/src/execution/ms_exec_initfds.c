@@ -37,7 +37,9 @@ void	ms_exec_closefds(t_cmd *cmd)
 {
 	if (!cmd)
 		return ;
-	if (cmd->fd_in != STDIN_FILENO) { close(cmd->fd_in); }
-	if (cmd->fd_out != STDOUT_FILENO) {  close(cmd->fd_out); }
 	ms_exec_closefds(cmd->next);
+	if (cmd->fd_in != STDIN_FILENO)
+		close(cmd->fd_in);
+	if (cmd->fd_out != STDOUT_FILENO)
+		close(cmd->fd_out);
 }

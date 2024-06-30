@@ -36,13 +36,11 @@ int	builtin_export(int argc, char **argv, char ***envp)
 		if (check_args(argv[i]))
 		{
 			ret++;
-			error_log("cannot export this variable\n");
+			error_log("cannot export this variable", '\n');
 			continue ;
 		}
 		add_to_envp(envp, ft_strdup(argv[i]));
 	}
-	if (ret != 0)
-		ret = EXIT_FAILURE;
 	return (ret);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_file_setup_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:59:36 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/24 13:52:30 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/27 22:58:02 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	**ms_remove_filename(char **args, int elem_index)
 		else
 			free(args[index]);
 	}
-	// free(args);
+	free(args);
 	return (nargs);
 }
 
@@ -76,7 +76,7 @@ int	ms_opens(t_cmd *cmd, char *filename, int is_created, int kind)
 			ms_handle_errors(cmd, BAD_FILE, MS_SYNTAX_ERROR, filename);
 		return (-1);
 	}
-	if (is_created)
+	if (is_created == 1)
 		return (open(filename, O_RDONLY));
 	else
 		ms_handle_errors(cmd, BAD_FILE, MS_SYNTAX_ERROR, filename);
@@ -93,9 +93,39 @@ void	ms_handle_errors(t_cmd *cmd, int error_id, char *error, char *token)
 		write(2, " '", 2);
 		if (token)
 			write(2, token, ft_strlen(token));
+		else if (cmd->next)
+			write(2, "|", 1);
 		else
 			write(2, "newline", 7);
 		write(2, "'", 1);
 	}
 	write(2, "\n", 1);
+	g_signal = 2;
+}
+
+char	*ms_clean_filename(char	*old_name)
+{
+	int		i;
+	char	*name;
+	char	*tp_str;
+	char	*tp_arg;
+
+	i = -1;
+	name = ft_calloc(sizeof(char), ft_strlen(old_name) + 2);
+	name[0] = (char)(-1);
+	ft_strlcat(&name[1], &old_name[(i == 0)],
+		ft_strlen(&old_name[(i == 0)]) + 2);
+	while (name[++i])
+	{
+		if (name[i] < 0 || name[0] == 4)
+		{
+			tp_str = ft_substr(name, 0, i);
+			tp_arg = ft_strjoin(tp_str, &name[i + 1]);
+			free(tp_str);
+			free(name);
+			name = tp_arg;
+			i -= 1;
+		}
+	}
+	return (name);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_second_setup.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:00:56 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/24 11:26:10 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/27 14:38:28 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ char	*ms_setup_env(char *tp_env, char **arg, int env_start, int env_len)
 	{
 		free(env);
 		env = ft_calloc(sizeof(char), 3);
-		env[0] = (char)(-5);
-		env[1] = (char)(-5);
+		env[0] = (char)(-3);
+		env[1] = (char)(-3);
 	}
 	else
-		env = ms_tripple_join(&(char){-3}, env, &(char){-3}, 10);
+		env = ms_tripple_join(&(char){-1}, env, &(char){-1}, 10);
 	new_arg = ms_tripple_join(ft_substr(arg[0], 0, env_start),
-			ft_substr(env, 0, ft_strlen(env) - 2),
+			ft_substr(env, 0, ft_strlen(env)),
 			ft_strdup(&arg[0][env_start + env_len]), 111);
 	if (env)
 		free(env);
@@ -126,21 +126,21 @@ void	ms_do_env(char **arg, char **envp, char ***args, int env_index)
 
 void	ms_setup_round_two(t_cmd *cmd, char **envp)
 {
-	int		args_index;
+	int		args_i;
 	t_cmd	*cpy_cmd;
 
 	cpy_cmd = cmd;
+	ms_separate_symbols_base(cmd);
 	while (cpy_cmd)
 	{
-		args_index = -1;
-		while (cpy_cmd->args[++args_index])
+		args_i = -1;
+		cpy_cmd->args = ms_remove_empty_chars(cpy_cmd->args);
+		while (cpy_cmd->args[++args_i])
 		{
-			if (!ft_strchr(cpy_cmd->args[args_index], (char)(-1))
-				&& !ft_strchr(cpy_cmd->args[args_index], (char)(-2)))
-				ms_hide_quotes(cpy_cmd, &cpy_cmd->args[args_index]);
-			while (cpy_cmd->args && ms_has_dollar(cpy_cmd->args[args_index]))
-				ms_do_env(&cpy_cmd->args[args_index], envp, &cpy_cmd->args,
-					args_index);
+			while (cpy_cmd->args && ms_has_dollar(cpy_cmd->args[args_i])
+				&& ft_strncmp(cpy_cmd->args[args_i - (args_i > 0)], "<<", 2) != 0)
+				ms_do_env(&cpy_cmd->args[args_i], envp, &cpy_cmd->args,
+					args_i);
 			if (!cpy_cmd->args)
 			{
 				ms_free_cmd(cmd);
@@ -149,6 +149,6 @@ void	ms_setup_round_two(t_cmd *cmd, char **envp)
 		}
 		cpy_cmd = cpy_cmd->next;
 	}
-	ms_in_out_files_setup(cmd, envp);
 	ms_remove_hiders(cmd, -1);
+	ms_in_out_files_setup(cmd, envp);
 }

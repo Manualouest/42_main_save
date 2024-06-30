@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokeniser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:07:08 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/24 13:54:30 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/27 21:37:57 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int			ms_is_there_pipe(char *line, int index);
 int			ms_change_quote_level(char *line, int index, int old_quote_level);
 char		*ms_tripple_join(char *first, char *second, char *third,
 				int frees);
+char		**ms_remove_empty_chars(char **args);
 
 // ms_env_checking.c
 int			ms_has_dollar(char *arg);
@@ -56,16 +57,17 @@ char		**ms_remove_filename(char **args, int elem_index);
 int			ms_opens(t_cmd *cmd, char *filename, int is_created, int kind);
 void		ms_handle_errors(t_cmd *cmd, int error_id, char *error,
 				char *token);
+char		*ms_clean_filename(char	*old_name);
 
 // ms_string_cleaning.c
 void		ms_separate_symbols_base(t_cmd *cmd);
-char		*ms_clean_filename(char	*old_name);
-void		ms_hide_quotes(t_cmd *cmd, char **arg);
+void		ms_quote_hider(t_cmd *cmd, char **arg);
+void		ms_hide_quotes(t_cmd *cmd);
 void		ms_remove_hiders(t_cmd *cmd, int arg_i);
 
 // ms_heredoc_main.c
-void		ms_launch_heredoc(t_cmd *cmd, char ***args, char **envp,
-				int *index);
+int			ms_should_expand_heredoc(char **delimiter);
+void		ms_launch_heredoc(t_cmd *cmd, char ***args,	int *i, char **envp);
 // void		*ms_remove_heredoc(char *filename);
 
 #endif

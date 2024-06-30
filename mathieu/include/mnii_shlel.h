@@ -32,6 +32,8 @@
 # include <signal.h>
 # include <errno.h>
 # include <termios.h>
+# include <limits.h>
+# include <stdint.h>
 
 # include <tokeniser_struct.h>
 # include <ms_env.h>
@@ -47,8 +49,7 @@ extern int g_signal;
 # define PROMPT_USER " \001\033[1;36m\002$\001\033[0;0m\002  "
 # define HEREDOC_PROMPT "\001\033[1;36m\002heredco > \001\033[0;0m\002"
 
-
-void	error_log(char *msg);
+void	error_log(char *msg, char last_char);
 void	ms_sig_handler(int sig);
 
 #endif

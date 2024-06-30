@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_setups_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:01:47 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/24 10:49:23 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/27 14:34:18 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,6 @@ int	ms_change_quote_level(char *line, int index, int old_quote_level)
 	else if ((line[index] == '\'' || line[index] == -2)
 		&& old_quote_level == 1)
 		return (0);
-	if (line[index] == -3 && old_quote_level == 0)
-		return (3);
-	else if (line[index] == -3 && old_quote_level == 3)
-		return (0);
-
 	return (old_quote_level);
 }
 
@@ -79,4 +74,32 @@ char	*ms_tripple_join(char *first, char *second, char *third, int frees)
 	if (f_s_joined)
 		free(f_s_joined);
 	return (full_join);
+}
+
+char	**ms_remove_empty_chars(char **args)
+{
+	int		index;
+	int		nb_empty;
+	char	**n_args;
+
+	index = -1;
+	nb_empty = 0;
+	while (args[++index])
+		if (!ft_strlen(args[index]))
+			nb_empty ++;
+	n_args = ft_calloc(sizeof(char *), tablen(args) - nb_empty + 1);
+	index = -1;
+	nb_empty = 0;
+	while (args[++index])
+	{
+		if (ft_strlen(args[index]) != 0)
+			n_args[index - nb_empty] = args[index];
+		else
+		{
+			nb_empty ++;
+			free(args[index]);
+		}
+	}
+	free(args);
+	return (n_args);
 }

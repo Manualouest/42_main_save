@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_in_out_file_setup.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 22:38:56 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/24 14:03:46 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/27 22:15:16 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,39 +102,25 @@ int	ms_head_to_next_symbol(char **args, int prev_index, int error_id)
 
 void	ms_in_out_files_setup(t_cmd *cmd, char **envp)
 {
-	t_cmd	*cpy_cmd;
 	char	**args;
 	int		index;
 
-	ms_separate_symbols_base(cmd);
-	cpy_cmd = cmd;
 	index = -1;
-	while (cpy_cmd)
+	while (cmd)
 	{
-		args = cpy_cmd->args;
-		index = ms_head_to_next_symbol(args, index, cpy_cmd->error_id);
+		args = cmd->args;
+		index = ms_head_to_next_symbol(args, index, cmd->error_id);
 		if (index == -1 && --index == -2)
-			cpy_cmd = cpy_cmd->next;
+			cmd = cmd->next;
 		else if (args[index][0] == '>' && ft_strlen(args[index]) == 1)
-			ms_redirects_setup(cpy_cmd, &args, &index);
+			ms_redirects_setup(cmd, &args, &index);
 		else if (args[index][0] == '<' && ft_strlen(args[index]) == 1)
-			ms_inputs_setup(cpy_cmd, &args, &index);
+			ms_inputs_setup(cmd, &args, &index);
 		else if (!ft_strncmp(args[index], ">>", 2))
-			ms_appends_setup(cpy_cmd, &args, &index);
+			ms_appends_setup(cmd, &args, &index);
 		else if (!ft_strncmp(args[index], "<<", 2))
-			ms_launch_heredoc(cmd, &args, envp, &index);
-			// ms_handle_errors(cmd, BAD_FILE, MS_SYNTAX_ERROR, args[index + 1]);
-		
-		int i = -1;
-		while (args[++i])
-		{
-			write(1, " |", 2);
-			write(1, args[i], ft_strlen(args[i]));
-			write(1, "|", 1);
-		}
-		write(1, "\n", 1);
-		
-		if (cpy_cmd && index != -2)
-			cpy_cmd->args = args;
+			ms_launch_heredoc(cmd, &args, &index, envp);
+		if (cmd && index != -2)
+			cmd->args = args;
 	}
 }

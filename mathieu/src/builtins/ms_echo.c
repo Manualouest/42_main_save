@@ -14,7 +14,8 @@
 
 int	builtin_echo(char **argv)
 {
-	bool	print_endl;
+	bool	without_nl;
+	int		cmp;
 	int		i;
 
 	if (!argv || !argv[1])
@@ -22,18 +23,23 @@ int	builtin_echo(char **argv)
 		printf("\n");
 		return (EXIT_SUCCESS);
 	}
-	print_endl = (ft_strncmp(argv[1], "-n", 2) == 0);
-	i = print_endl;
-	while (true)
+	i = 1;
+	cmp = ft_strncmp(argv[i], "-n", ft_strlen(argv[i]) + 1);
+	without_nl = (cmp == 0 || cmp == 'n');
+	while (argv[i] && (cmp == 0 || cmp == 'n'))
 	{
+		cmp = ft_strncmp(argv[i], "-n", ft_strlen(argv[i]));
 		i++;
-		if (!argv[i])
-			break ;
+	}
+	i = i - (i > 1);
+	while (argv[i])
+	{
 		printf("%s", argv[i]);
-		if (argv[i + 1])
+		i++;
+		if (argv[i])
 			printf(" ");
 	}
-	if (!print_endl)
+	if (!without_nl)
 		printf("\n");
 	return (EXIT_SUCCESS);
 }

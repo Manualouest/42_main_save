@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokeniser_struct.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:07:16 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/24 06:46:19 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/27 16:28:25 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,20 @@
 # define TOKENISER_STRUCT_H
 
 # define MS_TOO_MUCH_ARG "too much arguments when executing minishell"
-# define MS_FAIL_STRUCT "failed to creat malloc minishell's struct"
+# define MS_FAIL_STRUCT "failed to create malloc minishell's struct"
 # define MS_NO_END_QUOTE "there's a quote unclosed"
 # define MS_SYNTAX_ERROR "syntax error near unexpected token"
 # define MS_MALLOC_ERROR "failed to use malloc()"
 # define MS_AMBIGOUS_REDIR "ambiguous redirect"
-# define MS_PIPE_ERROR "failed to creat a pipe"
+# define MS_PIPE_ERROR "failed to create a pipe"
 # define MS_FORK_ERROR "failed to use fork()"
 # define MS_NO_CMD "command not found"
 # define MS_DUP_ERROR "failed to use dup2()"
 # define MS_NOT_VALID_ID "not a valid identifier"
 # define MS_TOO_MANY_ARGS "too many arguments"
 # define MS_NUM_ARG_REQUIRED "numeric argument required"
-# define MS_FAIL_HEREDOC "here-document delimited by end-of-file "
+# define MS_FAIL_HEREDOC "here-document delimited by end-of-file"
+# define MS_FILE_HEREDOC "failed to create temporary file for heredoc"
 
 typedef enum e_type
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_string_cleaning.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:00:31 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/24 14:20:19 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/27 23:37:11 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	ms_do_separation(t_cmd *cmd, int *len, int *i)
 void	ms_separate_symbols_base(t_cmd *cmd)
 {
 	int		i;
-	int		len;
+	int		l;
 	int		quote;
 	int		old_quote;
 
@@ -43,54 +43,30 @@ void	ms_separate_symbols_base(t_cmd *cmd)
 		i = -1;
 		while (cmd->args[i + (i == -1)] && cmd->args[++i])
 		{
-			len = -1;
-			while (cmd->args[i] && cmd->args[i][++len])
+			l = -1;
+			while (cmd->args[i] && cmd->args[i][++l])
 			{
 				old_quote = quote;
-				quote = ms_change_quote_level(cmd->args[i], len, quote);
-				if ((quote == 0 || old_quote == 0)
-					&& !(((len == 1 && (cmd->args[i][len - 1] == '<'
-								|| cmd->args[i][len - 1] == '>')) || len == 0)
-					&& (cmd->args[i][len] == '<' || cmd->args[i][len] == '>')))
-					ms_do_separation(cmd, &len, &i);
-				// if ((quote == 0 || old_quote == 0) && len > 0
-				// 	&& (cmd->args[i][len - 1] == '<' || cmd->args[i][len - 1] == '>'))
-				// 	ms_do_separation(cmd, &len, &i);
+				quote = ms_change_quote_level(cmd->args[i], l, quote);
+				// if ((quote == 0 || old_quote == 0) && cmd->args[i][l + 1]
+				// 	&& !(((l == 1 && (cmd->args[i][l - 1] == '<'
+				// 				|| cmd->args[i][l - 1] == '>')) || l == 0)
+				// 	&& (cmd->args[i][l] == '<' || cmd->args[i][l] == '>')))
+				if ((quote == 0 || old_quote == 0) && cmd->args[i][l + 1]
+					&& !((l == 0 || (l == 1 && (cmd->args[i][l - 1] == '<'
+								|| cmd->args[i][l - 1] == '>') && cmd->args[i][l - 1] == cmd->args[i][l]))
+					&& (cmd->args[i][l] == '<' || cmd->args[i][l] == '>')))
+					ms_do_separation(cmd, &l, &i);
+				// if ((quote == 0 || old_quote == 0) && l > 0
+				// 	&& (cmd->args[i][l - 1] == '<' || cmd->args[i][l - 1] == '>'))
+				// 	ms_do_separation(cmd, &l, &i);
 			}
 		}
 		cmd = cmd->next;
 	}
 }
 
-char	*ms_clean_filename(char	*old_name)
-{
-	int		i;
-	char	*name;
-	char	*tp_str;
-	char	*tp_arg;
-
-	i = -1;
-	name = ft_calloc(sizeof(char), ft_strlen(old_name) + 2);
-	name[0] = (char)(-1);
-	ft_strlcat(&name[1], &old_name[(i == 0)],
-		ft_strlen(&old_name[(i == 0)]) + 2);
-	while (name[++i])
-	{
-		if (name[i] < 0 || name[0] == 4)
-		{
-			tp_str = ft_substr(name, 0, i);
-			tp_arg = ft_strjoin(tp_str, &name[i + 1]);
-			free(tp_str);
-			free(name);
-			name = tp_arg;
-			i -= 1;
-		}
-	}
-	printf("pre filename: |%s|%d, %c\n", name, (int)name[0], name[0]);
-	return (name);
-}
-
-void	ms_hide_quotes(t_cmd *cmd, char **arg)
+void	ms_quote_hider(t_cmd *cmd, char **arg)
 {
 	int		has_pair;
 	int		index;
@@ -98,14 +74,14 @@ void	ms_hide_quotes(t_cmd *cmd, char **arg)
 
 	index = -1;
 	has_pair = 0;
-	target_quote = -3;
+	target_quote = -4;
 	while (arg[0][++index])
 	{
-		if ((target_quote == -3 && (arg[0][index] == '\''
+		if ((target_quote == -4 && (arg[0][index] == '\''
 				|| arg[0][index] == '"')) || arg[0][index] == target_quote)
 		{
 			if (has_pair)
-				target_quote = -3;
+				target_quote = -4;
 			else
 				target_quote = arg[0][index];
 			if (has_pair)
@@ -119,35 +95,44 @@ void	ms_hide_quotes(t_cmd *cmd, char **arg)
 		ms_handle_errors(cmd, BAD_QUOTE, MS_SYNTAX_ERROR, NULL);
 }
 
-void	ms_remove_hiders(t_cmd *cmd, int arg_i)
+void	ms_hide_quotes(t_cmd *cmd)
 {
-	char	*tp_char;
-	char	*tp_arg;
-	int		i;
-	int		quote;
+	int	arg_i;
 
-	while (cmd)
+	while(cmd)
 	{
 		arg_i = -1;
 		while (cmd->args[++arg_i])
+			ms_quote_hider(cmd, &cmd->args[arg_i]);
+		cmd = cmd->next;
+	}
+}
+
+void	ms_remove_hiders(t_cmd *cd, int a_i)
+{
+	char	*tp_arg;
+	int		i;
+
+	while (cd)
+	{
+		a_i = -1;
+		cd->args = ms_remove_empty_chars(cd->args);
+		while (cd->args[++a_i])
 		{
 			i = -1;
-			quote = ms_change_quote_level(cmd->args[arg_i], 0, 0);
-			while (cmd->args[arg_i][++i])
+			while (cd->args[a_i] && cd->args[a_i][++i])
 			{
-				if (cmd->args[arg_i][i] < 0 && cmd->args[arg_i][i] != -3
-					&& quote != 3)
+				if (cd->args[a_i][i] < 7 && cd->args[a_i - (a_i >= 1)][0] != '<'
+					&& cd->args[a_i - (a_i >= 1)][0] != '>')
 				{
-					tp_char = ft_substr(cmd->args[arg_i], 0, i);
-					tp_arg = ft_strjoin(tp_char, &cmd->args[arg_i][i + 1]);
-					free(tp_char);
-					free(cmd->args[arg_i]);
-					cmd->args[arg_i] = tp_arg;
-					i -= 1;
+					tp_arg = ms_tripple_join(ft_substr(cd->args[a_i], 0, i),
+						&cd->args[a_i][i + 1], "", 100);
+					free(cd->args[a_i]);
+					cd->args[a_i] = tp_arg;
+					i --;
 				}
-				quote = ms_change_quote_level(cmd->args[arg_i], i, quote);
 			}
 		}
-		cmd = cmd->next;
+		cd = cd->next;
 	}
 }

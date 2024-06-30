@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_tokeniser_main.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:48:35 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/24 09:20:12 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/27 23:45:35 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,17 @@ void	*ms_free_cmd(t_cmd *cmd)
 
 int	ms_check_for_bad_pipe(t_cmd *cmd)
 {
-	t_cmd	*cpy_cmd;
-
-	cpy_cmd = cmd;
-	while (cpy_cmd)
+	while (cmd)
 	{
-		if (tablen(cpy_cmd->args) == 0)
+		if (tablen(cmd->args) == 0)
 		{
-			if (cpy_cmd->next)
+			if (cmd->next)
 				ms_handle_errors(cmd, 1, MS_SYNTAX_ERROR, "|");
 			else
 				ms_handle_errors(cmd, 1, MS_SYNTAX_ERROR, NULL);
 			return (1);
 		}
-		cpy_cmd = cpy_cmd->next;
+		cmd = cmd->next;
 	}
 	return (0);
 }
@@ -82,26 +79,24 @@ char	*ms_find_env_name(char *content, char **envp)
 
 void	ms_clean_delimiters(t_cmd *cmd, char **envp)
 {
-	t_cmd	*cpy_cmd;
 	char	*tp_char;
 	int		arg_i;
 
-	cpy_cmd = cmd;
-	while (cpy_cmd)
+	while (cmd)
 	{
 		arg_i = -1;
-		while (cpy_cmd->args[++arg_i])
+		while (cmd->args[++arg_i])
 		{
-			if (cpy_cmd->args[arg_i][0] == -3 && cpy_cmd->args[arg_i]
-				[ft_strlen(cpy_cmd->args[arg_i]) - 1] == -3)
+			if (cmd->args[arg_i][0] == -3 && cmd->args[arg_i]
+				[ft_strlen(cmd->args[arg_i]) - 1] == -3)
 			{
-				tp_char = ms_find_env_name(cpy_cmd->args[arg_i], envp);
-				free(cpy_cmd->args[arg_i]);
-				cpy_cmd->args[arg_i] = ft_strjoin("$", tp_char);
+				tp_char = ms_find_env_name(cmd->args[arg_i], envp);
+				free(cmd->args[arg_i]);
+				cmd->args[arg_i] = ft_strjoin("$", tp_char);
 				free(tp_char);
 			}
 		}
-		cpy_cmd = cpy_cmd->next;
+		cmd = cmd->next;
 	}
 }
 
@@ -117,16 +112,18 @@ t_cmd	*ms_tokeniser_main(char *line, char **envp)
 	if (ms_check_for_bad_pipe(cmd))
 		return (cmd);
 	if (cmd && envp)
+		ms_hide_quotes(cmd);
+	if (cmd && envp)
 		ms_setup_round_two(cmd, envp);
 	else
 		cmd = ms_free_cmd(cmd);
 	if (!cmd)
 		return (NULL);
-	ms_clean_delimiters(cmd, envp);
+	// ms_clean_delimiters(cmd, envp);
 	cpy_cmd = cmd;
 	while (cpy_cmd && cpy_cmd->error_id == NO_ERROR)
 		cpy_cmd = cpy_cmd->next;
 	if (cpy_cmd && cpy_cmd->error_id != NO_ERROR)
-		cmd = ms_free_cmd(cmd);
+		cmd->error_id = cpy_cmd->error_id;
 	return (cmd);
 }

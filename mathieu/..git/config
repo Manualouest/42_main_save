@@ -6,15 +6,9 @@
 [remote "origin"]
 	url = git@github.com:Manualouest/mnii-shlel.git
 	fetch = +refs/heads/*:refs/remotes/origin/*
-[branch "manu"]
-	remote = origin
-	merge = refs/heads/manu
-[branch "mathieu2"]
-	remote = origin
-	merge = refs/heads/mathieu2
-[branch "tweaked_main"]
-	remote = origin
-	merge = refs/heads/tweaked_main
 [branch "main"]
 	remote = origin
 	merge = refs/heads/main
+[branch "tweaked_main"]
+	remote = origin
+	merge = refs/heads/tweaked_main

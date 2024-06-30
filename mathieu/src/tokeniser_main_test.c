@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   tokeniser_main_test.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 17:08:02 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/18 04:18:18 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/28 20:25:04 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mnii_shlel.h>
 
 // clear; valgrind --show-leak-kinds=all --leak-check=full --suppressions=ms.supp ./minishell
+// ls | ls >>./outfiles/outfile >> ./outfiles/outfile2 | cat -e
+// echo a$'42$'
 
 void	ms_pipes_test_printer_find_error(int cmd, int cmd_errno)
 {

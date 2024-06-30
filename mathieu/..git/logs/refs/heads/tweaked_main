@@ -1,7 +1,2 @@
-0000000000000000000000000000000000000000 299150bd5f9ef4844d1746a423622c16117d4c11 Manutea Birou <mbirou@3G7.42angouleme.fr> 1718676766 +0200	branch: Created from refs/remotes/origin/tweaked_main
-299150bd5f9ef4844d1746a423622c16117d4c11 6a5b8cfffb6c7dfd447c0352b3be3c321ff6f0c5 Manutea Birou <mbirou@3G7.42angouleme.fr> 1718677269 +0200	commit: added the update tokeniser(needs redirect... and heredoc) + the test printer
-6a5b8cfffb6c7dfd447c0352b3be3c321ff6f0c5 e2c4fe73b502d6c3eb92d0ebd3100dbb2d411e21 Manutea Birou <mbirou@2E3.42angouleme.fr> 1718707738 +0200	commit: tweaked a number
-e2c4fe73b502d6c3eb92d0ebd3100dbb2d411e21 d769e0c8b168f3d6d4494d51c16b48b3d8fa3636 Manutea Birou <mbirou@2F1.42angouleme.fr> 1718820325 +0200	pull: Fast-forward
-d769e0c8b168f3d6d4494d51c16b48b3d8fa3636 d0f07be766a5a50533440ee51ecfa3fbc8b30ba6 Manutea Birou <mbirou@2F1.42angouleme.fr> 1718820584 +0200	commit: updated tokeniser
-d0f07be766a5a50533440ee51ecfa3fbc8b30ba6 c4507a93855d6657a49fd58b0f5da722e5a9a391 Manutea Birou <mbirou@2F1.42angouleme.fr> 1718992021 +0200	pull: Fast-forward
-c4507a93855d6657a49fd58b0f5da722e5a9a391 ea193e797b4b50000f61d88fb198958765e86951 Manutea Birou <mbirou@2F1.42angouleme.fr> 1718999719 +0200	commit: updated tokeniser
+0000000000000000000000000000000000000000 c1c8af23017236f49090c78728f795fb7a2f02f3 Manu <manualouest@manu.(none)> 1719519637 +0200	branch: Created from refs/remotes/origin/tweaked_main
+c1c8af23017236f49090c78728f795fb7a2f02f3 97c2500f117d67fe8df05d02b44a665b8d40845d Manualouest <manutea.birou@gmail.com> 1719581123 +0200	commit: updated tokeniser

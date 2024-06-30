@@ -17,9 +17,9 @@ int	builtin_env(char **envp);
 int	builtin_export(int argc, char **argv, char ***envp);
 int	builtin_export_noargs(char **envp);
 int	builtin_pwd(void);
-int	builtin_unset(int argc, char **argv, char ***envp);
+int	builtin_unset(char **argv, char ***envp);
 int	builtin_exit(t_cmd *cmd, int argc, char **argv, char **envp);
 int	builtin_echo(char **argv);
-int	builtin_cd(int argc, char **argv, char **envp);
+int	builtin_cd(int argc, char **argv, char ***envp);
 
 #endif

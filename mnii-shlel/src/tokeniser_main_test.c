@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokeniser_main_test.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 17:08:02 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/24 14:04:04 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/27 13:57:19 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 // echo >test1>test2>test3>>test4 << test5<test6>test7
 // echo "$HOME" '$HOME' $HOME "$" " $" "$ " " $ " $""$ $ $?
 // echo hi | <'test7' cat
+// echo "$PWD" > test1 < test1
 
 void	ms_pipe_test_printer(t_pipes *full_line);
 void	ms_cmd_test_printer(t_cmd *full_line, char **envp);
@@ -44,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 	char				*a;
 	t_cmd				*full_line;
 
-	signal(SIGINT, ms_sig_handler);
+	// signal(SIGINT, ms_sig_handler);
 	// signal(SIGQUIT, SIG_IGN);
 	(void)argc;
 	(void)argv;
@@ -321,13 +322,30 @@ void	ms_cmd_test_printer(t_cmd *full_line, char **envp)
 		ms_pipes_test_printer_find_error(cmd->error_id, 0);
 		write(1, "\n", 1);
 		write(1, "	line: ", 7);
-		ft_putnbr_fd((long int)cmd->args, 1);
+		// ft_putnbr_fd((long int)cmd->args, 1);
 		write(1, " ", 1);
 		i = -1;
 		while (cmd->args[++i])
 		{
 			write(1, " |", 2);
 			write(1, cmd->args[i], ft_strlen(cmd->args[i]));
+			write(1, "|", 1);
+		}
+		write(1, "\n", 1);
+		i = -1;
+		int	ii;
+		while (cmd->args[++i])
+		{
+			ii = -1;
+			write(1, " |", 2);
+			while(cmd->args[i][++ii])
+			{
+				write(1, "(", 1);
+				write(1, &cmd->args[i][ii], 1);
+				write(1, ",", 1);
+				ft_putnbr(cmd->args[i][ii]);
+				write(1, ")", 1);
+			}
 			write(1, "|", 1);
 		}
 		write(1, "\n", 1);

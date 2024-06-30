@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ms_heredoc_main.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 22:57:30 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/24 14:19:42 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/27 22:55:18 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <tokeniser.h>
-
-static char	*ms_get_name(int fd)
-{
-	char	*name;
-
-	name = ft_calloc(sizeof(char), 11);
-	read(fd, name, 10);
-	return (name);
-}
 
 static char	*ms_gen_filename(void)
 {
@@ -30,25 +21,87 @@ static char	*ms_gen_filename(void)
 	rd_num = open("/dev/urandom", O_RDONLY);
 	if (rd_num == -1)
 		return (NULL);
-	name = ms_get_name(rd_num);
+	name = ft_calloc(sizeof(char), 11);
+	read(rd_num, name, 10);
 	fd = access(name, F_OK);
 	while (fd != -1)
 	{
 		free(name);
-		name = ms_get_name(rd_num);
+		name = ft_calloc(sizeof(char), 11);
+		read(rd_num, name, 10);
 		fd = access(name, F_OK);
 	}
 	close(rd_num);
 	return (name);
 }
 
-int	ms_cleanup_delimiter(char **old_delimiter)
+int	ms_should_expand_heredoc(char **delimiter)
 {
-	char	*new_deimiter;
 	int		index;
+	char	*tp_arg;
+	int		do_expand;
 
 	index = -1;
-	while()
+	do_expand = 1;
+	while (delimiter[0][++index] && do_expand)
+		if (delimiter[0][index] == -1 || delimiter[0][index] == -2)
+			do_expand = 0;
+	index = -1;
+	while (delimiter[0] && delimiter[0][++index])
+	{
+		if (delimiter[0][index] < 7)
+		{
+			tp_arg = ms_tripple_join(ft_substr(delimiter[0], 0, index),
+				&delimiter[0][index + 1], "", 100);
+			free(delimiter[0]);
+			delimiter[0] = tp_arg;
+			index --;
+		}
+	}
+	return (do_expand);
+}
+
+void	ms_insert_env(char **input, int i, int env_len, char **envp)
+{
+	char	*tp_str;
+	char	*env_name;
+	char	*envp_line;
+
+	
+	env_name = ft_substr(input[0], i + 1, env_len - 1);
+	envp_line = envp_find(envp, env_name);
+	if (envp_line)
+		tp_str = ms_tripple_join(ft_substr(input[0], 0, i),
+			&ft_strchr(envp_line, '=')[1],
+			&input[0][i + env_len], 100);
+	else
+		tp_str = ms_tripple_join(ft_substr(input[0], 0, i),
+			"", &input[0][i + env_len], 100);
+	free(env_name);
+	free(input[0]);
+	input[0] = ft_strdup(tp_str);
+	free(tp_str);
+}
+
+void	ms_do_heredoc_env(char **input, char **envp)
+{
+	int		i;
+	int		env_len;
+
+	i = -1;
+	while (input[0][++i])
+	{
+		if (input[0][i] == '$')
+		{
+			env_len = 0;
+			while(input[0][++env_len + i] && ft_isalnum(input[0][env_len + i]))
+				;
+			if (env_len == 1)
+				continue ;
+			ms_insert_env(input, i, env_len, envp);
+			i = -1;
+		}
+	}
 }
 
 void	ms_heredoc_loop_innit(t_cmd *cmd, char *delimiter, char *filename,
@@ -57,62 +110,64 @@ void	ms_heredoc_loop_innit(t_cmd *cmd, char *delimiter, char *filename,
 	char	*input;
 	int		do_expand;
 	
-	do_expand = ms_cleanup_delimiter(&delimiter);
+	(void)filename;
+	do_expand = ms_should_expand_heredoc(&delimiter);
 	input = readline(HEREDOC_PROMPT);
 	while(input && !(ft_strlen(input) == ft_strlen(delimiter)
 			&& !ft_strncmp(input, delimiter, ft_strlen(delimiter))))
 	{
-		// input = ms_do_heredoc_env(input, envp);
+		if (do_expand)
+			ms_do_heredoc_env(&input, envp);
 		write(cmd->fd_in, input, ft_strlen(input));
 		write(cmd->fd_in, "\n", 1);
 		free(input);
 		input = readline(HEREDOC_PROMPT);
 	}
+	free(delimiter);
 	if (!input)
 	{
 		close(cmd->fd_in);
-		unlink(filename);
-		free(filename);
 		ms_handle_errors(cmd, 0, MS_FAIL_HEREDOC, NULL);
 		cmd->fd_in = -1;
 		return ;
 	}
 	free(input);
-	close(cmd->fd_in);
-	cmd->fd_in = open(filename, O_RDONLY);
-	(void)envp;
 }
 
-char	*ms_do_heredoc(t_cmd *cmd, char *delimiter, char **envp)
+void	ms_do_heredoc(t_cmd *cmd, char *delimiter, char **envp)
 {
 	char	*filename;
 	int		fd;
 
 	filename = ms_gen_filename();
 	if (!filename)
-		return (NULL);
+		return ms_handle_errors(cmd, -1, MS_FILE_HEREDOC, NULL);
 	fd = open(filename, O_CREAT | O_RDWR, S_IRWXU);
 	if (fd == -1)
 	{
 		free(filename);
-		return (NULL);
+		return ms_handle_errors(cmd, -1, MS_FILE_HEREDOC, NULL);
 	}
 	if (cmd->fd_in > 0)
 		close(cmd->fd_in);
 	cmd->fd_in = fd;
 	ms_heredoc_loop_innit(cmd, delimiter, filename, envp);
-	if (cmd->fd_in == -1)
+	if (cmd->fd_in != -1)
 	{
-		free(filename);
-		return(NULL);
+		close(cmd->fd_in);
+		cmd->fd_in = open(filename, O_RDONLY);
 	}
-	return (filename);
+	unlink(filename);
+	free(filename);
+	if (cmd->fd_in == -1 && cmd->error_id == NO_ERROR)
+		ms_handle_errors(cmd, -1, MS_FILE_HEREDOC, NULL);
 }
 
 void	ms_fake_heredoc(t_cmd *cmd, char *delimiter)
 {
 	char	*input;
 	
+	ms_should_expand_heredoc(&delimiter);
 	input = readline(HEREDOC_PROMPT);
 	while(input && !(ft_strlen(input) == ft_strlen(delimiter)
 			&& !ft_strncmp(input, delimiter, ft_strlen(delimiter))))
@@ -124,55 +179,29 @@ void	ms_fake_heredoc(t_cmd *cmd, char *delimiter)
 		ms_handle_errors(cmd, 0, MS_FAIL_HEREDOC, NULL);
 	else
 		free(input);
+	free(delimiter);
 }
 
-void	ms_launch_heredoc(t_cmd *cmd, char ***args, char **envp, int *index)
+void	ms_launch_heredoc(t_cmd *cmd, char ***args, int *i, char **envp)
 {
-	// int		i;
-	char	*filename;
-
-	filename = NULL;
-	if (!ft_strncmp(args[0][*index], "<<", 2) && ft_strlen(args[0][*index]) == 2)
+	if (*i == 1 && cmd->fd_in == 0 && cmd->fd_out == 1 && args[0][*i + 1]
+		&& !args[0][*i + 2] && cmd->error_id != BAD_FILE)
 	{
-		if (args[0][*index + 1] && args[0][*index + 1][0] != '>'
-			&& args[0][*index + 1][0] != '<')
+		if (args[0][*i + 1][0] != '>' && args[0][*i + 1][0] != '<')
 		{
-			if (args[0][*index + 2] == 0 && 0 == 1)
-				filename = ms_do_heredoc(cmd, args[0][*index + 1], envp);
-			else
-				ms_fake_heredoc(cmd, args[0][*index + 1]);
-			
-			int i = -1;
-			printf("before: ");
-			while (args[0][++i])
-				printf("|%s|, ", args[0][i]);
-			printf("\n");
-
-			args[0] = ms_remove_filename(args[0], *index);
-			
-			i = -1;
-			printf("after: ");
-			while (args[0][++i])
-				printf("|%s|, ", args[0][i]);
-			printf("\n");
-
-			*index = -1;
+			ms_do_heredoc(cmd, ft_strdup(args[0][*i + 1]), envp);
+			args[0] = ms_remove_filename(args[0], *i);
+			*i = *i - 1;
 		}
 		else
-			ms_handle_errors(cmd, BAD_FILE, MS_SYNTAX_ERROR, args[0][*index + 1]);
+			ms_handle_errors(cmd, BAD_FILE, MS_SYNTAX_ERROR, args[0][*i + 1]);
 	}
-	if (filename)
+	else if (args[0][*i + 1] && cmd->error_id != BAD_FILE)
 	{
-		unlink(filename);
-		free(filename);
+		ms_fake_heredoc(cmd, ft_strdup(args[0][*i + 1]));
+		args[0] = ms_remove_filename(args[0], *i);
+		*i = *i - 1;
 	}
-}
-
-void	*ms_remove_heredoc(char *filename)
-{
-	if (!filename)
-		return (NULL);
-	unlink(filename);
-	free(filename);
-	return (NULL);
+	else
+		ms_handle_errors(cmd, BAD_FILE, MS_SYNTAX_ERROR, NULL);
 }

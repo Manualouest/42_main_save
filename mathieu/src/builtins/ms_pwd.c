@@ -19,5 +19,5 @@ int	builtin_pwd(void)
 	path = getcwd(NULL, 0);
 	printf("%s\n", path);
 	free(path);
-	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

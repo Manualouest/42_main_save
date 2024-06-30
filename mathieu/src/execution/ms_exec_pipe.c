@@ -12,7 +12,7 @@
 
 #include <mnii_shlel.h>
 
-static void	wait_childs(t_cmd *childs);
+static void	wait_child(t_cmd *child);
 static char	*try_path(t_cmd *cmd, char *env_path);
 
 void	ms_exec_pipe(t_cmd *to_exec, char ***env)
@@ -22,7 +22,7 @@ void	ms_exec_pipe(t_cmd *to_exec, char ***env)
 	first = to_exec->first;
 	if (ms_setup_pipes(to_exec))
 	{
-		error_log("couldnt setup the pipes\n");
+		error_log("couldnt setup the pipes", '\n');
 		return ;
 	}
 	while (to_exec)
@@ -31,8 +31,20 @@ void	ms_exec_pipe(t_cmd *to_exec, char ***env)
 		to_exec = to_exec->next;
 	}
 	ms_exec_closefds(first);
-	wait_childs(first);
+	wait_child(first);
 	ms_free_cmd(to_exec);
+}
+
+static void	wait_child(t_cmd *child)
+{
+	int	status;
+
+	if (!child)
+		return ;
+	waitpid(child->pid, &status, 0);
+	if (WIFEXITED(status))
+		g_signal = WEXITSTATUS(status);
+	wait_child(child->next);
 }
 
 void	ms_child_getpath(t_cmd *cmd, char *env_path)
@@ -48,19 +60,6 @@ void	ms_child_getpath(t_cmd *cmd, char *env_path)
 		return ;
 	free(cmd->args[0]);
 	cmd->args[0] = expected_path; 
-}
-
-static void	wait_childs(t_cmd *childs)
-{
-	int	status;
-
-	while (childs)
-	{
-		waitpid(childs->pid, &status, 0);
-		if (WIFEXITED(status))
-			g_signal = WEXITSTATUS(status);
-		childs = childs->next;
-	}
 }
 
 static char	*try_path(t_cmd *cmd, char *env_path)

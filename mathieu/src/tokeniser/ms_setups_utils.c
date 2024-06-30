@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_setups_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 21:01:47 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/21 20:11:01 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/27 14:34:18 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	ms_is_there_pipe(char *line, int index)
 
 int	ms_change_quote_level(char *line, int index, int old_quote_level)
 {
+	if (!line || index < 0 || index >= (int)ft_strlen(line) || !line[index])
+		return (old_quote_level);
 	if ((line[index] == '"' || line[index] == -1) && old_quote_level == 0)
 		return (2);
 	else if ((line[index] == '"' || line[index] == -1) && old_quote_level == 2)
@@ -65,7 +67,7 @@ char	*ms_tripple_join(char *first, char *second, char *third, int frees)
 	full_join = ft_strjoin(f_s_joined, third);
 	if (first && frees % 1000 >= 100)
 		free(first);
-	if (second && frees % 100 >= 10)
+	if (second 	&& frees % 100 >= 10)
 		free(second);
 	if (third && frees % 10 == 1)
 		free(third);
@@ -74,22 +76,30 @@ char	*ms_tripple_join(char *first, char *second, char *third, int frees)
 	return (full_join);
 }
 
-int	ms_has_dollar(char *arg)
+char	**ms_remove_empty_chars(char **args)
 {
-	int	index;
-	int	quote_level;
+	int		index;
+	int		nb_empty;
+	char	**n_args;
 
-	quote_level = 0;
 	index = -1;
-	if (!arg)
-		return (0);
-	while (arg[++index])
+	nb_empty = 0;
+	while (args[++index])
+		if (!ft_strlen(args[index]))
+			nb_empty ++;
+	n_args = ft_calloc(sizeof(char *), tablen(args) - nb_empty + 1);
+	index = -1;
+	nb_empty = 0;
+	while (args[++index])
 	{
-		quote_level = ms_change_quote_level(arg, index, quote_level);
-		if (quote_level != 1 && arg[index] == '$' && arg[index + 1]
-			&& arg[index + 1] != ' ' && arg[index + 1] != -1
-			&& arg[index + 1] != -2)
-			return (1);
+		if (ft_strlen(args[index]) != 0)
+			n_args[index - nb_empty] = args[index];
+		else
+		{
+			nb_empty ++;
+			free(args[index]);
+		}
 	}
-	return (0);
+	free(args);
+	return (n_args);
 }
