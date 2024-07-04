@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   code_server.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 13:49:28 by mbirou            #+#    #+#             */
-/*   Updated: 2024/05/20 22:05:45 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/07/04 13:30:06 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,28 @@ void	ft_start_writer(int pid)
 void	ft_handler(int sig, siginfo_t *info, void *oldact)
 {
 	(void)oldact;
-	g_bit_info.caracter = g_bit_info.caracter << 1;
+	g_bit_info.car = g_bit_info.car << 1;
 	if (sig == SIGUSR2)
-		g_bit_info.caracter++;
+		g_bit_info.car++;
 	g_bit_info.bits++;
 	if (g_bit_info.is_start == 0)
 	{
-		g_bit_info.string = malloc(1);
-		g_bit_info.string[0] = 0;
+		g_bit_info.str = malloc(1);
+		g_bit_info.str[0] = 0;
 		ft_start_writer(info->si_pid);
 		g_bit_info.is_start ++;
 	}
 	if (g_bit_info.bits == 8)
 	{
-		if (g_bit_info.caracter == 0 && --g_bit_info.is_start == 0)
+		if (g_bit_info.car == 0 && --g_bit_info.is_start == 0)
 		{
-			write(1, g_bit_info.string, ft_strlen(g_bit_info.string));
-			free(g_bit_info.string);
+			write(1, g_bit_info.str, ft_strlen(g_bit_info.str));
+			free(g_bit_info.str);
 		}
 		else
-			g_bit_info.string = ft_strjoin(g_bit_info.string, (char)g_bit_info.caracter);
+			g_bit_info.str = ft_strjoin(g_bit_info.str, (char)g_bit_info.car);
 		g_bit_info.bits = 0;
-		g_bit_info.caracter = 0;
+		g_bit_info.car = 0;
 	}
 	kill(info->si_pid, SIGUSR1);
 }

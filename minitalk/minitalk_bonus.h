@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minitalk_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:53:46 by mbirou            #+#    #+#             */
-/*   Updated: 2024/05/20 22:05:45 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/07/04 13:51:45 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 typedef struct bit_info
 {
 	int				bits;
-	int				caracter;
-	char			*string;
+	int				car;
+	char			*str;
 	int				is_start;
 }					t_bit_info;
 
