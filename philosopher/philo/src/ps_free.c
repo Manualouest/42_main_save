@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:50:24 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/09 21:11:09 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/07/01 09:29:33 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	ps_free(int *inputs, t_mutex *mutexs, t_philos *philos)
 	{
 		if (!mutexs->wl_safety)
 			pthread_mutex_destroy(&mutexs->writing_lock);
-		if (!mutexs->cl_safety)
-			pthread_mutex_destroy(&mutexs->checking_lock);
 		free(mutexs);
 	}
 	while (philos)
@@ -31,7 +29,11 @@ void	ps_free(int *inputs, t_mutex *mutexs, t_philos *philos)
 		if (!philos->sc_safety)
 			pthread_mutex_destroy(&philos->status_check);
 		if (philos->my_fork)
+		{
+			if (!philos->my_fork->f_safety)
+				pthread_mutex_destroy(&philos->my_fork->fork);
 			free(philos->my_fork);
+		}
 		p_next = philos->next;
 		free(philos);
 		philos = p_next;

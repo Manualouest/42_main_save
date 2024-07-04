@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:19:58 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/09 21:11:16 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/07/01 11:50:50 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,26 @@ t_mutex	*ps_setup_mutexs(void)
 		return (NULL);
 	mutexs->wl_safety = pthread_mutex_init(
 			&mutexs->writing_lock, NULL);
-	mutexs->cl_safety = pthread_mutex_init(
-			&mutexs->checking_lock, NULL);
 	return (mutexs);
 }
 
 void	ps_setup_philo(t_philos *philo, int num, int *inputs, t_mutex *mutexs)
 {
+	if (!philo)
+		return ;
 	philo->id = num + 1;
 	philo->die = inputs[1];
 	philo->eat = inputs[2];
 	philo->sleep = inputs[3];
 	philo->nb_meals = inputs[4];
 	philo->status = 1;
-	philo->my_fork = malloc(sizeof(int));
-	philo->my_fork[0] = 1;
+	philo->my_fork = malloc(sizeof(*philo->my_fork));
+	if (philo->my_fork)
+	{
+		philo->my_fork->is_free = 1;
+		philo->my_fork->f_safety = pthread_mutex_init(
+				&philo->my_fork->fork, NULL);
+	}
 	philo->left_fork = NULL;
 	philo->sc_safety = pthread_mutex_init(
 			&philo->status_check, NULL);
@@ -73,18 +78,18 @@ t_philos	*ps_setup_philos(int *inputs, t_mutex *mutexs)
 	while (++i < inputs[0])
 	{
 		ps_setup_philo(philos, i, inputs, mutexs);
+		if (!philos || !philos->my_fork)
+			ps_free(NULL, NULL, philos);
 		if (i > 0)
 			philos->left_fork = prev->my_fork;
 		if (i + 1 < inputs[0])
-		{
 			philos->next = malloc(sizeof(*philos->next));
-			prev = philos;
-			philos = philos->next;
-		}
 		else
 			philos->next = NULL;
+		prev = philos;
+		philos = philos->next;
 	}
 	if (inputs[0] > 1)
-		start->left_fork = philos->my_fork;
+		start->left_fork = prev->my_fork;
 	return (start);
 }

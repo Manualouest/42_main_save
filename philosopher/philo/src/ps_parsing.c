@@ -6,7 +6,7 @@
 /*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 15:53:54 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/09 21:48:11 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/07/01 11:32:37 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,12 @@ int	ps_input_parsing(int nb_params, char **params)
 
 int	ps_are_mutexs_good(t_mutex *mutexs, t_philos *philos)
 {
-	t_philos	*cpy_philos;
-
-	if (mutexs && !(!mutexs->wl_safety && !mutexs->cl_safety))
+	if (mutexs && mutexs->wl_safety != 0)
 		return (0);
-	cpy_philos = philos;
-	while (cpy_philos && !cpy_philos->sc_safety)
-		cpy_philos = cpy_philos->next;
-	if (!cpy_philos)
+	while (philos && !philos->sc_safety && philos->my_fork
+		&& !philos->my_fork->f_safety)
+		philos = philos->next;
+	if (!philos)
 		return (1);
 	return (0);
 }

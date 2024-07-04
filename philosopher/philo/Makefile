@@ -26,15 +26,18 @@ $(OBJ_DIR)%.o:$(SRC_DIR)%.c
 
 $(NAME): $(OBJ)
 	@cc -o $(NAME) $(OBJ)
-	@echo successfully compiled 😊
+	@echo successfully compiled
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@echo Cleaned 😊
+	@echo Cleaned
 
-fclean: clean
+silent_clean:
+	@rm -rf $(OBJ_DIR)
+
+fclean: silent_clean
 	@rm -f $(NAME)
-	@echo "... scratch that, it's fully cleaned now 😎"
+	@echo Fully cleaned
 
 all: $(NAME)
 

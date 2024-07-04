@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ps_routine_main.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 19:36:34 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/09 22:42:52 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/07/02 16:58:41 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,24 @@ void	ps_go_eat(t_philos *philo)
 {
 	while (ps_status_update(philo, -1))
 	{
-		if (pthread_mutex_lock(&philo->shared_mutex->checking_lock) != 0)
+		if (philo->left_fork)
 		{
-			philo->status = 0;
-			return ;
+			if (!ps_lock_unlock_forks(philo, 1))
+				return ;
+			if (philo->my_fork && philo->left_fork && philo->my_fork->is_free
+				&& philo->left_fork->is_free)
+			{
+				philo->my_fork->is_free = 0;
+				philo->left_fork->is_free = 0;
+				ps_lock_unlock_forks(philo, 0);
+				ps_putmsg(philo, 0, 0);
+				gettimeofday(&philo->last_eat, NULL);
+				ps_putmsg(philo, 1, 0);
+				ps_meal_update(philo, 1);
+				return ;
+			}
+			ps_lock_unlock_forks(philo, 0);
 		}
-		if (philo->my_fork && philo->left_fork
-			&& philo->my_fork[0] && philo->left_fork[0])
-		{
-			philo->my_fork[0] = 0;
-			philo->left_fork[0] = 0;
-			pthread_mutex_unlock(&philo->shared_mutex->checking_lock);
-			ps_putmsg(philo, 0, 0);
-			gettimeofday(&philo->last_eat, NULL);
-			ps_putmsg(philo, 1, 0);
-			ps_meal_update(philo, 1);
-			return ;
-		}
-		pthread_mutex_unlock(&philo->shared_mutex->checking_lock);
 		usleep(128);
 		ps_check_death(philo);
 	}
@@ -80,14 +80,11 @@ void	ps_go_eat(t_philos *philo)
 
 void	ps_release_forks(t_philos *philo)
 {
-	if (pthread_mutex_lock(&philo->shared_mutex->checking_lock) != 0)
-	{
-		philo->status = 0;
+	if (!ps_lock_unlock_forks(philo, 1))
 		return ;
-	}
-	philo->my_fork[0] = 1;
-	philo->left_fork[0] = 1;
-	pthread_mutex_unlock(&philo->shared_mutex->checking_lock);
+	philo->my_fork->is_free = 1;
+	philo->left_fork->is_free = 1;
+	ps_lock_unlock_forks(philo, 0);
 }
 
 void	*ps_routine_main(void *void_philo)
@@ -100,19 +97,20 @@ void	*ps_routine_main(void *void_philo)
 	while (ps_status_update(philo, -1))
 	{
 		ps_go_eat(philo);
-		if (ps_status_update(philo, -1))
+		if (ps_status_update(philo, -1) && philo->left_fork)
 		{
 			ps_usleep(philo, philo->eat, philo->die);
-			ps_release_forks(philo);
+			if (ps_status_update(philo, -1))
+				ps_release_forks(philo);
 		}
-		if (ps_status_update(philo, -1))
+		if (ps_status_update(philo, -1) && philo->left_fork)
 		{
 			ps_putmsg(philo, 2, 0);
 			ps_usleep(philo, philo->sleep, philo->die - philo->eat);
 		}
-		if (ps_status_update(philo, -1))
+		if (ps_status_update(philo, -1) && philo->left_fork)
 			ps_putmsg(philo, 3, 0);
-		if (philo->die - philo->sleep - philo->eat > 0)
+		if (philo->die - philo->sleep - philo->eat > 0 && philo->left_fork)
 			usleep((philo->die - philo->sleep - philo->eat) * 100);
 	}
 	return (0);
