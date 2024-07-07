@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:20:40 by mbirou            #+#    #+#             */
-/*   Updated: 2024/07/07 19:16:31 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/07/07 19:30:06 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	ms_cut_var_name(char **arg, char *var_content, int var_pos, int var_len)
 		arg_start = ft_calloc(sizeof(char), 1);
 	if (!arg_start)
 		return (0);
-	new_arg = ms_tripple_join(arg_start, , &arg[0][var_len + 1]);
+	new_arg = ms_tripple_join(arg_start, var_content, &arg[0][var_len + 1], 110);
 	if (!new_arg)
 		return (0);
 	free(arg[0]);
