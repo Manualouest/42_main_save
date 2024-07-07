@@ -12,7 +12,7 @@
 
 #include <mnii_shlel.h>
 
-int	builtin_env(char **envp)
+int	builtin_env(t_cmd *cmd, char **envp)
 {
 	int	i;
 
@@ -24,7 +24,8 @@ int	builtin_env(char **envp)
 			i++;
 			continue ;
 		}
-			printf("%s\n", envp[i]);
+		ft_putstr_fd(envp[i], cmd->fd_out);
+		ft_putstr_fd("\n", cmd->fd_out);
 		i++;
 	}
 	return (EXIT_SUCCESS);

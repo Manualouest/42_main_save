@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokeniser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:07:08 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/27 21:37:57 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/07/05 09:06:06 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ char		**ms_remove_empty_chars(char **args);
 int			ms_has_dollar(char *arg);
 
 // ms_second_setup.c
-void		ms_remove_hiders(t_cmd *cmd, int arg_i);
 void		ms_setup_round_two(t_cmd *cmd, char **envp);
 
 // ms_in_out_file_setup.c

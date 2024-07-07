@@ -12,54 +12,19 @@
 
 #include <mnii_shlel.h>
 
-static void	print_env(char **env);
-static int	find_equal(const char *str);
 static void	sort_envp(char **new_envp);
+static void	print_env(int fd, char **env);
+static void print_export_format(int fd, char *str1, char *str2);
 
-int	builtin_export_noargs(char **envp)
+int	builtin_export_noargs(t_cmd *cmd, char **envp)
 {
 	char	**dup_envp;
 
 	dup_envp = tab_clone(envp);
 	sort_envp(dup_envp);
-	print_env(dup_envp);
+	print_env(cmd->fd_out, dup_envp);
 	free_tab((void **)dup_envp);
 	return (EXIT_SUCCESS);
-}
-
-static void	print_env(char **env)
-{
-	int	i;
-	int	equal;
-
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], "_=", 2) == 0)
-			i++;
-		if (!env[i])
-			return;
-		equal = find_equal(env[i]);
-		if (equal == (int)ft_strlen(env[i]))
-			printf("declare -x %s\n", env[i]);
-		else
-		{
-			env[i][equal] = 0;
-			printf("declare -x %s=\"%s\"\n", env[i], &env[i][equal + 1]);
-			env[i][equal] = '=';
-		}
-		i++;
-	}
-}
-
-static int find_equal(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i] != '=')
-		i++;
-	return (i);
 }
 
 static void	sort_envp(char **new_envp)
@@ -84,4 +49,40 @@ static void	sort_envp(char **new_envp)
 		else
 			i++;
 	}
+}
+
+static void	print_env(int fd, char **env)
+{
+	int	i;
+	int	equal;
+
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], "_=", 2) == 0)
+			i++;
+		if (!env[i])
+			return;
+		equal = ft_strfind(env[i], '=');
+		if (equal == (int)ft_strlen(env[i]))
+			print_export_format(fd, env[i], NULL);
+		else
+		{
+			env[i][equal] = 0;
+			print_export_format(fd, env[i],  &env[i][equal + 1]);
+			env[i][equal] = '=';
+		}
+		i++;
+	}
+}
+
+static void print_export_format(int fd, char *str1, char *str2)
+{
+	ft_putstr_fd("declare -x ", fd);
+	ft_putstr_fd(str1, fd);
+	if (!str2)
+		return ;
+	ft_putstr_fd("=\"", fd);
+	ft_putstr_fd(str2, fd);
+	ft_putstr_fd("\"\n", fd);
 }

@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 18:00:31 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/27 23:37:11 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/28 20:22:43 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,43 @@ static void	ms_do_separation(t_cmd *cmd, int *len, int *i)
 {
 	char	*tp_char;
 
-	if ((*len > 0 && (cmd->args[*i][*len - 1] == '<'
-			|| cmd->args[*i][*len - 1] == '>'))
-			|| (cmd->args[*i][*len] == '<' || cmd->args[*i][*len] == '>'))
+	if (cmd->args[*i][*len + 1] == cmd->args[*i][*len]
+		&& cmd->args[*i][*len + 2])
 	{
 		cmd->args = tab_append(cmd->args,
-				ft_substr(cmd->args[*i], 0, *len), *i);
+				ft_substr(cmd->args[*i], 0, *len + 2), *i);
 		*i = *i + 1;
-		tp_char = ft_substr(cmd->args[*i], *len, ft_strlen(cmd->args[*i]));
+		tp_char = ft_substr(cmd->args[*i], *len + 2, ft_strlen(cmd->args[*i]));
 		free(cmd->args[*i]);
 		cmd->args[*i] = tp_char;
 		*len = 0;
 	}
+	else if (cmd->args[*i][*len + 1]
+		&& cmd->args[*i][*len + 1] != cmd->args[*i][*len])
+	{
+		cmd->args = tab_append(cmd->args,
+				ft_substr(cmd->args[*i], 0, *len + 1), *i);
+		*i = *i + 1;
+		tp_char = ft_substr(cmd->args[*i], *len + 1, ft_strlen(cmd->args[*i]));
+		free(cmd->args[*i]);
+		cmd->args[*i] = tp_char;
+		*len = 0;
+	}
+	// write(1, "	line: ", 7);
+	// int index = -1;
+	// while (cmd->args[++index])
+	// {
+	// 	write(1, " |", 2);
+	// 	write(1, cmd->args[index], ft_strlen(cmd->args[index]));
+	// 	write(1, "|", 1);
+	// }
+	// write(1, "\n", 1);
 }
 
 void	ms_separate_symbols_base(t_cmd *cmd)
 {
 	int		i;
-	int		l;
+	int		len;
 	int		quote;
 	int		old_quote;
 
@@ -43,23 +62,14 @@ void	ms_separate_symbols_base(t_cmd *cmd)
 		i = -1;
 		while (cmd->args[i + (i == -1)] && cmd->args[++i])
 		{
-			l = -1;
-			while (cmd->args[i] && cmd->args[i][++l])
+			len = -1;
+			while (i < tablen(cmd->args) && cmd->args[i][++len])
 			{
 				old_quote = quote;
-				quote = ms_change_quote_level(cmd->args[i], l, quote);
-				// if ((quote == 0 || old_quote == 0) && cmd->args[i][l + 1]
-				// 	&& !(((l == 1 && (cmd->args[i][l - 1] == '<'
-				// 				|| cmd->args[i][l - 1] == '>')) || l == 0)
-				// 	&& (cmd->args[i][l] == '<' || cmd->args[i][l] == '>')))
-				if ((quote == 0 || old_quote == 0) && cmd->args[i][l + 1]
-					&& !((l == 0 || (l == 1 && (cmd->args[i][l - 1] == '<'
-								|| cmd->args[i][l - 1] == '>') && cmd->args[i][l - 1] == cmd->args[i][l]))
-					&& (cmd->args[i][l] == '<' || cmd->args[i][l] == '>')))
-					ms_do_separation(cmd, &l, &i);
-				// if ((quote == 0 || old_quote == 0) && l > 0
-				// 	&& (cmd->args[i][l - 1] == '<' || cmd->args[i][l - 1] == '>'))
-				// 	ms_do_separation(cmd, &l, &i);
+				quote = ms_change_quote_level(cmd->args[i], len, quote);
+				if ((quote == 0 || old_quote == 0) && cmd->args[i][len + 1]
+					&& (cmd->args[i][len] == '<' || cmd->args[i][len] == '>'))
+					ms_do_separation(cmd, &len, &i);
 			}
 		}
 		cmd = cmd->next;

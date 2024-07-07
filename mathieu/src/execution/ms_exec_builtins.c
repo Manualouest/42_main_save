@@ -20,17 +20,17 @@ int	ms_exec_builtin(t_cmd *to_exec, char ***env)
 	if (ft_strncmp(to_exec->args[0], "cd", 3) == 0)
 		ret = builtin_cd(tablen(to_exec->args), to_exec->args, env);
 	if (ft_strncmp(to_exec->args[0], "echo", 5) == 0)
-		ret = builtin_echo(to_exec->args);
+		ret = builtin_echo(to_exec);
 	if (ft_strncmp(to_exec->args[0], "env", 4) == 0)
-		ret = builtin_env(*env);
+		ret = builtin_env(to_exec, *env);
 	if (ft_strncmp(to_exec->args[0], "pwd", 4) == 0)
-		ret = builtin_pwd();
+		ret = builtin_pwd(to_exec);
 	if (ft_strncmp(to_exec->args[0], "exit", 5) == 0)
-		ret = builtin_exit(to_exec->first, tablen(to_exec->args), to_exec->args, *env);
+		ret = builtin_exit(to_exec, tablen(to_exec->args), to_exec->args, *env);
 	if (ft_strncmp(to_exec->args[0], "unset", 6) == 0)
 		ret = builtin_unset(to_exec->args, env);
 	if (ft_strncmp(to_exec->args[0], "export", 7) == 0)
-		ret = builtin_export(tablen(to_exec->args), to_exec->args, env);
+		ret = builtin_export(to_exec, env);
 	if (ret != -1)
 		g_signal = ret;
 	return (ret);

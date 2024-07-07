@@ -12,34 +12,36 @@
 
 #include <mnii_shlel.h>
 
-int	builtin_echo(char **argv)
+int	builtin_echo(t_cmd *cmd)
 {
+	char	**args;
 	bool	without_nl;
 	int		cmp;
 	int		i;
 
-	if (!argv || !argv[1])
+	args = cmd->args;
+	if (!args || !args[1])
 	{
-		printf("\n");
+		ft_putstr_fd("\n", cmd->fd_out);
 		return (EXIT_SUCCESS);
 	}
 	i = 1;
-	cmp = ft_strncmp(argv[i], "-n", ft_strlen(argv[i]) + 1);
+	cmp = ft_strncmp(args[i], "-n", ft_strlen(args[i]) + 1);
 	without_nl = (cmp == 0 || cmp == 'n');
-	while (argv[i] && (cmp == 0 || cmp == 'n'))
+	while (args[i] && (cmp == 0 || cmp == 'n'))
 	{
-		cmp = ft_strncmp(argv[i], "-n", ft_strlen(argv[i]));
+		cmp = ft_strncmp(args[i], "-n", ft_strlen(args[i]));
 		i++;
 	}
 	i = i - (i > 1);
-	while (argv[i])
+	while (args[i])
 	{
-		printf("%s", argv[i]);
+		ft_putstr_fd(args[i], cmd->fd_out);
 		i++;
-		if (argv[i])
-			printf(" ");
+		if (args[i])
+			ft_putstr_fd(" ", cmd->fd_out);
 	}
 	if (!without_nl)
-		printf("\n");
+		ft_putstr_fd("\n", cmd->fd_out);
 	return (EXIT_SUCCESS);
 }

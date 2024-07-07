@@ -49,6 +49,7 @@ LIBFT =	LIBFT/ft_isdigit.c \
 		LIBFT/ft_strlcat.c \
 		LIBFT/ft_toupper.c \
 		LIBFT/ft_strctn.c \
+		LIBFT/ft_strfind.c
 
 LIST =	LIST/ft_lstdelone_bonus.c \
 		LIST/ft_lstnew_bonus.c \

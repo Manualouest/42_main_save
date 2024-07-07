@@ -23,7 +23,7 @@ void		ms_test_in_file(int fd);
 
 
 // ms_tokeniser_main.c
-void		*ms_free_cmd(t_cmd *cmd);
+void		ms_free_cmd(t_cmd *cmd);
 t_cmd		*ms_tokeniser_main(char *line, char **envp);
 
 // ms_first_setup.c

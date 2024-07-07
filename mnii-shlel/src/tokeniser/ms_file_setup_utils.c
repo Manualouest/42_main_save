@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:59:36 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/27 22:58:02 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/06/28 17:15:46 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	ms_opens(t_cmd *cmd, char *filename, int is_created, int kind)
 
 void	ms_handle_errors(t_cmd *cmd, int error_id, char *error, char *token)
 {
+	g_signal = 2;
 	if (cmd)
 		cmd->error_id = error_id;
 	write(2, error, ft_strlen(error));
@@ -100,7 +101,6 @@ void	ms_handle_errors(t_cmd *cmd, int error_id, char *error, char *token)
 		write(2, "'", 1);
 	}
 	write(2, "\n", 1);
-	g_signal = 2;
 }
 
 char	*ms_clean_filename(char	*old_name)

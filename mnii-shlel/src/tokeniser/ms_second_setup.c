@@ -3,125 +3,115 @@
 /*                                                        :::      ::::::::   */
 /*   ms_second_setup.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 21:00:56 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/27 14:38:28 by mbirou           ###   ########.fr       */
+/*   Created: 2024/07/04 14:20:40 by mbirou            #+#    #+#             */
+/*   Updated: 2024/07/07 19:16:31 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <tokeniser.h>
 
-char	*ms_setup_env(char *tp_env, char **arg, int env_start, int env_len)
-{
-	char	*env;
-	char	*new_arg;
-	int		index;
-
-	index = -1;
-	while (tp_env && tp_env[++index] && tp_env[index] != '=')
-		;
-	env = ft_substr(tp_env, index + 1, ft_strlen(tp_env));
-	if (ft_strlen(env) == 0)
-	{
-		free(env);
-		env = ft_calloc(sizeof(char), 3);
-		env[0] = (char)(-3);
-		env[1] = (char)(-3);
-	}
-	else
-		env = ms_tripple_join(&(char){-1}, env, &(char){-1}, 10);
-	new_arg = ms_tripple_join(ft_substr(arg[0], 0, env_start),
-			ft_substr(env, 0, ft_strlen(env)),
-			ft_strdup(&arg[0][env_start + env_len]), 111);
-	if (env)
-		free(env);
-	if (arg[0])
-		free(arg[0]);
-	return (new_arg);
-}
-
-int	ms_env_util(char **arg, int *index, int *len)
+int	ms_get_var_start(char *arg, int *var_len)
 {
 	int	quote_level;
+	int	i;
+	int	is_num;
 
-	quote_level = 0;
-	while (arg[0][++*index])
+	quote_level = ms_change_quote_level(arg, 0, 0);
+	i = -1;
+	while (arg[++i])
 	{
-		--*index;
-		while (arg[0][++*index] && arg[0][*index] != '$')
-			quote_level = ms_change_quote_level(arg[0], *index, quote_level);
-		if (quote_level != 1)
-			break ;
+		if (quote_level % 2 == 0 && arg[i] == '$')
+		{
+			if (!arg[i + 1] || ms_change_quote_level(arg, i + 1, 0) != 0
+				|| arg[i + 1] == ' ')
+				return (i);
+			is_num = 0;
+			if (ft_isdigit(arg[i + 1]))
+				is_num = 1;
+			while (arg[++*var_len + i]
+				&& (ft_isalnum(arg[*var_len + i]) || arg[*var_len + i] == '_')
+				&& (!is_num || *var_len != 2
+					|| (is_num && !ft_isdigit(arg[*var_len + i]))))
+				;
+			return (i);
+		}
 	}
-	if (quote_level == 1)
+	return (-1);
+}
+
+char *ms_get_var(char *arg, int var_pos, int var_len, char **envp)
+{
+	char	*var_name;
+	char	*raw_content;
+	char	*var_content;
+
+	if (var_pos == -1)
+		return (NULL);
+	var_name = ft_substr(arg, var_pos + 1, var_len);
+	if (!var_name)
+		return (NULL);
+	printf("var_name: |%s|\n", var_name);
+	if (var_name[0] == 0)
+		return (var_name);
+	raw_content = envp_find(envp, var_name);
+	printf("raw_content: |%s|\n", raw_content);
+	free(var_name);
+	if (!raw_content)
 	{
-		*index = -1;
-		*len = -1;
+		raw_content = ft_calloc(sizeof(char), 1);
+		return (raw_content);
+	}
+	var_content = ft_strdup(&(ft_strchr(raw_content, '=')[1]));
+	return(var_content);
+}
+
+int	ms_cut_var_name(char **arg, char *var_content, int var_pos, int var_len)
+{
+	char	*arg_start;
+	char	*new_arg;
+
+	if (var_pos - 1 > 0)
+		arg_start = ft_substr(arg[0], 0, var_pos - 1);
+	else
+		arg_start = ft_calloc(sizeof(char), 1);
+	if (!arg_start)
 		return (0);
-	}
-	while (arg[0][++*len + *index] && arg[0][*len + *index] != ' '
-		&& arg[0][*len + *index] != '$'
-		&& arg[0][*len + *index] > 0)
-		if (*len > 1 && arg[0][(*len - 1) + *index] == '?')
-			break ;
+	new_arg = ms_tripple_join(arg_start, , &arg[0][var_len + 1]);
+	if (!new_arg)
+		return (0);
+	free(arg[0]);
+	arg[0] = new_arg;
 	return (1);
 }
 
-char	**ms_split_env(char **env, char **args, int env_index, char quote)
-{
-	char	**cut_env;
-	char	**n_args;
-	int		cut_i;
-	int		args_i;
-
-	cut_env = ft_split(env[0], ' ');
-	n_args = ft_calloc(sizeof(char *), tablen(cut_env) + tablen(args) + 1);
-	cut_i = 0;
-	args_i = -1;
-	while (args_i - cut_i < tablen(args) && args[++args_i - cut_i])
-	{
-		if (args_i != env_index)
-			n_args[args_i - (args_i > env_index)] = args[args_i - cut_i];
-		else
-		{
-			free(args[args_i]);
-			cut_i --;
-			while (cut_env[++cut_i] && ++args_i > 0)
-				n_args[args_i - 1] = ms_tripple_join(&quote,
-						&cut_env[cut_i][(cut_env[cut_i][0] < 0)], &quote, 0);
-		}
-	}
-	free_tab((void **)cut_env);
-	free(args);
-	return (n_args);
-}
-
-void	ms_do_env(char **arg, char **envp, char ***args, int env_index)
+int	ms_expand_loop(char ***args, char **envp)
 {
 	int		index;
-	int		env_len;
-	char	*env_name;
-	char	*env_content;
+	int		var_pos;
+	int		var_len;
+	char	*var_content;
 
 	index = -1;
-	env_len = 0;
-	if (!ms_env_util(arg, &index, &env_len))
-		return ;
-	env_name = ft_substr(arg[0], index + 1, env_len - 1);
-	if (env_name[0] == '?')
+	while (args[0][++index])
 	{
-		free(env_name);
-		env_name = ft_itoa(g_signal);
-		env_content = ft_strjoin("=", env_name);
+		if (ms_has_dollar(args[0][index]))
+		{
+			var_len = 0;
+			var_pos = ms_get_var_start(args[0][index], &var_len);
+			var_len -= 1;
+			printf("var_pos: %d(%c), var_len: %d(%c), arg: |%s|\n", var_pos, args[0][index][var_pos], var_len, args[0][index][var_len], args[0][index]);
+			var_content = ms_get_var(args[0][index], var_pos, var_len, envp);
+			printf("var_content: |%s|\n", var_content);
+			if (!var_content || !ms_cut_var_name(&args[0][index], var_content, var_pos, var_len))
+				return (0);
+			printf("check arg: |%s|\n", args[0][index]);
+			if (ms_has_dollar(args[0][index]))
+				index --;
+		}
 	}
-	else
-		env_content = ft_strdup(envp_find(envp, env_name));
-	arg[0] = ms_setup_env(env_content, arg, index, env_len);
-	if (ft_strchr(arg[0], ' ') != 0)
-		args[0] = ms_split_env(arg, args[0], env_index, (char)(-3));
-	free(env_content);
-	free(env_name);
+	return (1);
 }
 
 void	ms_setup_round_two(t_cmd *cmd, char **envp)
@@ -135,17 +125,11 @@ void	ms_setup_round_two(t_cmd *cmd, char **envp)
 	{
 		args_i = -1;
 		cpy_cmd->args = ms_remove_empty_chars(cpy_cmd->args);
-		while (cpy_cmd->args[++args_i])
+		if (!ms_expand_loop(&cpy_cmd->args, envp))
 		{
-			while (cpy_cmd->args && ms_has_dollar(cpy_cmd->args[args_i])
-				&& ft_strncmp(cpy_cmd->args[args_i - (args_i > 0)], "<<", 2) != 0)
-				ms_do_env(&cpy_cmd->args[args_i], envp, &cpy_cmd->args,
-					args_i);
-			if (!cpy_cmd->args)
-			{
-				ms_free_cmd(cmd);
-				return ;
-			}
+			ms_handle_errors(NULL, 0, MS_FAIL_STRUCT, NULL);
+			ms_free_cmd(cmd);
+			return ;
 		}
 		cpy_cmd = cpy_cmd->next;
 	}

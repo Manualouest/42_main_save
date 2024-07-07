@@ -13,13 +13,15 @@
 #ifndef MS_BUILTINS_H
 # define MS_BUILTINS_H
 
-int	builtin_env(char **envp);
-int	builtin_export(int argc, char **argv, char ***envp);
-int	builtin_export_noargs(char **envp);
-int	builtin_pwd(void);
-int	builtin_unset(char **argv, char ***envp);
-int	builtin_exit(t_cmd *cmd, int argc, char **argv, char **envp);
-int	builtin_echo(char **argv);
-int	builtin_cd(int argc, char **argv, char ***envp);
+int		builtin_cd(int argc, char **argv, char ***envp);
+int		builtin_echo(t_cmd *cmd);
+int		builtin_env(t_cmd *cmd, char **envp);
+int		builtin_pwd(t_cmd *cmd);
+int		builtin_exit(t_cmd *cmd, int argc, char **argv, char **envp);
+int		builtin_unset(char **argv, char ***envp);
+int		builtin_export(t_cmd *cmd, char ***envp);
+char	*envp_find_similar(char **envp, char *name);
+void	export_format_str(char *str);
+int		builtin_export_noargs(t_cmd *cmd, char **envp);
 
 #endif

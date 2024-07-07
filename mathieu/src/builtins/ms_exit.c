@@ -25,7 +25,7 @@ int	builtin_exit(t_cmd *cmd, int argc, char **argv, char **envp)
 		return (EXIT_FAILURE);
 	in_child = (cmd->first->next != NULL);
 	if (!in_child)
-		printf("exit\n");
+		ft_putstr_fd("exit\n", cmd->fd_out);
 	if (error_code == 1)
 		g_signal = 2;
 	else if (argv[1])

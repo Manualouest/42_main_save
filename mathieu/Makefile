@@ -29,6 +29,7 @@ SRC_NAME += builtins/ms_cd.c \
 			builtins/ms_exit.c \
 			builtins/ms_unset.c \
 			builtins/ms_export.c \
+			builtins/ms_export_utils.c \
 			builtins/ms_export_noarg.c
 
 SRC_NAME += env/ms_tab_tools.c

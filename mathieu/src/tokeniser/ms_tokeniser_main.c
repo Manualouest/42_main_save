@@ -12,27 +12,19 @@
 
 #include <tokeniser.h>
 
-void	*ms_free_cmd(t_cmd *cmd)
+void	ms_free_cmd(t_cmd *cmd)
 {
-	int		i;
 	t_cmd	*tp_cmd;
 
 	while (cmd != NULL)
 	{
-		i = -1;
-		if (cmd->args)
-		{
-			while (cmd->args[++i] != 0)
-				free(cmd->args[i]);
-			free(cmd->args[i]);
-			free(cmd->args);
-		}
+		free_tab((void **)cmd->args);
 		tp_cmd = cmd->next;
 		free(cmd);
+		cmd = NULL;
 		cmd = tp_cmd;
 	}
 	cmd = NULL;
-	return (NULL);
 }
 
 int	ms_check_for_bad_pipe(t_cmd *cmd)
@@ -116,7 +108,10 @@ t_cmd	*ms_tokeniser_main(char *line, char **envp)
 	if (cmd && envp)
 		ms_setup_round_two(cmd, envp);
 	else
-		cmd = ms_free_cmd(cmd);
+	{
+		ms_free_cmd(cmd);
+		cmd = NULL;
+	}
 	if (!cmd)
 		return (NULL);
 	// ms_clean_delimiters(cmd, envp);

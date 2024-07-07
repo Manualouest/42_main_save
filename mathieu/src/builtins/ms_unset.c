@@ -32,23 +32,25 @@ static void	tab_remove(char ***tab, char *to_remove)
 	int		i;
 	int		j;
 	char	*search;
+	char	**loop;
 	char	**new;
 
 	i = 0;
 	j = 0;
-	search = envp_find((*tab), to_remove);
+	loop = (*tab);
+	search = envp_find(loop, to_remove);
 	if (!search)
 		return ;
-	new = malloc(sizeof(char *) * tablen(*tab));
-	while ((*tab)[i])
+	new = malloc(sizeof(char *) * (tablen(loop) + 1));
+	while (tablen(loop) > i)
 	{
-		if ((*tab)[i] == search)
+		if (loop[i] == search)
 			i++;
-		new[j] = ft_strdup((*tab)[i]);
+		new[j] = ft_strdup(loop[i]);
 		i++;
 		j++;
 	}
 	new[j] = NULL;
-	free_tab((void **)(*tab));
+	free_tab((void **)loop);
 	(*tab) = new;
 }
