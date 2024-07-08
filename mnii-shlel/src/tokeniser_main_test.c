@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokeniser_main_test.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 17:08:02 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/27 13:57:19 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/07/08 05:26:45 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	main(int argc, char **argv, char **envp)
 					ms_cmd_test_printer(full_line, envp);
 				ms_free_cmd(full_line);
 			}
-			else
+			else if (g_signal != 2)
 				ms_handle_errors(NULL, -1, MS_FAIL_STRUCT, NULL);
 			// ms_pipe_test_printer(full_line);
 		}

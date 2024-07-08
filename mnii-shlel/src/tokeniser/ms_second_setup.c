@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 14:20:40 by mbirou            #+#    #+#             */
-/*   Updated: 2024/07/07 19:30:06 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/07/08 11:36:10 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,24 @@ int	ms_get_var_start(char *arg, int *var_len)
 	int	i;
 	int	is_num;
 
-	quote_level = ms_change_quote_level(arg, 0, 0);
+	quote_level = 0;
 	i = -1;
 	while (arg[++i])
 	{
+		quote_level = ms_change_quote_level(arg, i, quote_level);
+		printf("get_var quote: %d(%d, |%c|)\n", quote_level, i, arg[i]);
 		if (quote_level % 2 == 0 && arg[i] == '$')
 		{
-			if (!arg[i + 1] || ms_change_quote_level(arg, i + 1, 0) != 0
-				|| arg[i + 1] == ' ')
+			if (!arg[i + 1] || arg[i + 1] == ' ')
+				continue ;
+			if (ms_change_quote_level(arg, i + 1, 0) != 0)
 				return (i);
 			is_num = 0;
 			if (ft_isdigit(arg[i + 1]))
 				is_num = 1;
-			while (arg[++*var_len + i]
-				&& (ft_isalnum(arg[*var_len + i]) || arg[*var_len + i] == '_')
-				&& (!is_num || *var_len != 2
-					|| (is_num && !ft_isdigit(arg[*var_len + i]))))
+			while (arg[++*var_len + i] && (!is_num || *var_len != 2
+					|| (is_num && !ft_isdigit(arg[*var_len + i])))
+				&& (ft_isalnum(arg[*var_len + i]) || arg[*var_len + i] == '_'))
 				;
 			return (i);
 		}
@@ -49,7 +51,10 @@ char *ms_get_var(char *arg, int var_pos, int var_len, char **envp)
 
 	if (var_pos == -1)
 		return (NULL);
-	var_name = ft_substr(arg, var_pos + 1, var_len);
+	if (var_len >=0 )
+		var_name = ft_substr(arg, var_pos + 1, var_len);
+	else
+		var_name = ft_calloc(sizeof(char), 1);
 	if (!var_name)
 		return (NULL);
 	printf("var_name: |%s|\n", var_name);
@@ -67,7 +72,7 @@ char *ms_get_var(char *arg, int var_pos, int var_len, char **envp)
 	return(var_content);
 }
 
-int	ms_cut_var_name(char **arg, char *var_content, int var_pos, int var_len)
+int	ms_insert(char **arg, char *var_content, int var_pos, int var_len)
 {
 	char	*arg_start;
 	char	*new_arg;
@@ -78,11 +83,49 @@ int	ms_cut_var_name(char **arg, char *var_content, int var_pos, int var_len)
 		arg_start = ft_calloc(sizeof(char), 1);
 	if (!arg_start)
 		return (0);
-	new_arg = ms_tripple_join(arg_start, var_content, &arg[0][var_len + 1], 110);
+	if (var_len > var_pos)
+		new_arg = ms_tripple_join(arg_start, var_content, &arg[0][var_len + 1], 110);
+	else
+		new_arg = ms_tripple_join(arg_start, var_content, &arg[0][var_pos + 1], 110);
 	if (!new_arg)
 		return (0);
 	free(arg[0]);
 	arg[0] = new_arg;
+	return (1);
+}
+
+char	ms_get_quote_to_index(char *arg, int pos)
+{
+	int	i;
+	int	quote_level;
+
+	i = -1;
+	quote_level = 0;
+	while(arg[++i])
+		quote_level = ms_change_quote_level(arg, i, quote_level);
+	if (quote_level == 0)
+		return (NULL);
+	else if (quote_level == 1)
+		return ((char)(-2));
+	else if (quote_level == 2)
+		return ((char)(-1));
+}
+
+int	ms_insert_spaced(char **arg, char *var_content, int var_pos, int var_len)
+{
+	char	quote;
+	int		i;
+
+	quote = ms_get_quote_to_index(arg[0], var_pos);
+	i = -1;
+	tab_append(arg, ft_strdup(&arg[0][var_len + 1]), 1);
+	while (arg[0][++i])
+	{
+		if (arg[0][i] != ' ' && (i == 0 || arg[0][i - 1] == ' '))
+		{
+			
+		}
+	}
 	return (1);
 }
 
@@ -104,7 +147,11 @@ int	ms_expand_loop(char ***args, char **envp)
 			printf("var_pos: %d(%c), var_len: %d(%c), arg: |%s|\n", var_pos, args[0][index][var_pos], var_len, args[0][index][var_len], args[0][index]);
 			var_content = ms_get_var(args[0][index], var_pos, var_len, envp);
 			printf("var_content: |%s|\n", var_content);
-			if (!var_content || !ms_cut_var_name(&args[0][index], var_content, var_pos, var_len))
+			if (!var_content)
+				return (0);
+			if ((!ft_strchr(var_content, ' ') && !ms_insert_spaced(&args[0]
+						[index], var_content, var_pos, var_len))
+				|| !ms_insert(&args[0][index], var_content, var_pos, var_len))
 				return (0);
 			printf("check arg: |%s|\n", args[0][index]);
 			if (ms_has_dollar(args[0][index]))

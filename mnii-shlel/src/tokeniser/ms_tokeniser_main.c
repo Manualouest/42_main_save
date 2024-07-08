@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_tokeniser_main.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:48:35 by mbirou            #+#    #+#             */
-/*   Updated: 2024/06/27 23:00:34 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/07/08 05:26:11 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_cmd	*ms_tokeniser_main(char *line, char **envp)
 		ms_setup_round_two(cmd, envp);
 	else
 		cmd = ms_free_cmd(cmd);
-	if (!cmd)
+	if (!cmd || g_signal == 2)
 		return (NULL);
 	// ms_clean_delimiters(cmd, envp);
 	cpy_cmd = cmd;
