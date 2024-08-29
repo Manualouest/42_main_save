@@ -1,8 +1,8 @@
 # valgrind --suppressions=ms.supp --leak-check=full --show-leak-kinds=all ./minishell
 
 NAME = cub3D
-
-CC_FLAGS = -Wall -Werror -Wextra -g -I$(INCLUDES) -Imlx_linux
+# -Wall -Werror -Wextra 
+CC_FLAGS = -g -I$(INCLUDES) -Imlx_linux
 OTHER_LIBS = -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
 INCLUDES = includes/
