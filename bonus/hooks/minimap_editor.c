@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_editor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 06:29:24 by mbirou            #+#    #+#             */
-/*   Updated: 2024/08/28 12:58:10 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/08/29 01:52:20 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d_bonus.h>
 #include <stdio.h>
+
+void			cd_move_editor_cursos(t_info *info, int dir)
+{
+	int	x;
+	int	y;
+
+	mlx_mouse_get_pos(info->mlx_info->mlx, info->mlx_info->mlx_win, &x, &y);
+	mlx_mouse_move(info->mlx_info->mlx, info->mlx_info->mlx_win, x + (dir % 10) * (4 * (info->keys->sprint * 2 + !info->keys->sprint)), y + (dir / 10) * (4 * info->keys->sprint * 2 + !info->keys->sprint));
+}
 
 int	cd_make_mx_my(t_info *info, int *mx, int *my, int get_var)
 {

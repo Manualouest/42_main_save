@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 19:50:50 by mbirou            #+#    #+#             */
-/*   Updated: 2024/08/28 11:43:01 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/08/29 01:44:11 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ void			cd_place_block(t_info *info);
 int				cd_mouse_hook(int button, int x, int y, t_info *info);
 
 // minimap_editor.c
+void			cd_move_editor_cursos(t_info *info, int dir);
 void			cd_edit_map(t_info *info, int mode);
 void			cd_minimap_editor(t_info *info);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hook_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 15:21:19 by mbirou            #+#    #+#             */
-/*   Updated: 2024/08/28 11:23:05 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/08/29 01:48:16 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,40 +271,49 @@ int	cd_key_pressed(int keycode, t_info *info)
 	
 	if (keycode == 65307)
 		cd_stop_window(info);
-	if (keycode == 32)
+	if (keycode == 32 && info->current_display == 1)
 		cd_place_block(info);
-	// {
-	// 	mlx_mouse_move(info->mlx_info->mlx, info->mlx_info->mlx_win,
-	// 		info->mlx_info->w_width / 2.0, info->mlx_info->w_height / 2.0);
-	// 	info->p_pos->height = 0;
-	// }
-	if (keycode == 65513)
+	else if (keycode == 32 && info->current_display == 2)
+		cd_edit_map(info, 1);
+	if (keycode == 65513 && info->current_display == 1)
 		cd_mine_block(info);
+	else if (keycode == 65513 && info->current_display == 2)
+		cd_edit_map(info, 0);
 	if (keycode == 65289)
 		cd_switch_display(info, 2);
 	if (keycode == 65505)
 		info->keys->sprint = 1;
-	if (keycode == 119)
+	if (keycode == 119 && info->current_display == 1)
 		info->keys->forward = 1;
-	if (keycode == 99)
-		info->keys->minimap = 1 - (info->keys->minimap == 1);
-	else if (keycode == 115)
+	else if (keycode == 115 && info->current_display == 1)
 		info->keys->backward = 1;
-	else if (keycode == 97)
+	if (keycode == 99 && info->current_display == 1)
+		info->keys->minimap = 1 - (info->keys->minimap == 1);
+	else if (keycode == 97 && info->current_display == 1)
 		info->keys->straf_left = 1;
-	else if (keycode == 100)
+	else if (keycode == 100 && info->current_display == 1)
 		info->keys->straf_right = 1;
-	else if (keycode == 113 || keycode == 65361)
+	if ((keycode == 113 || keycode == 65361) && info->current_display == 1)
 		info->keys->left = 1;
-	else if (keycode == 101 || keycode == 65363)
+	else if (keycode == 65361 && info->current_display == 2)
+		cd_move_editor_cursos(info, -1);
+	else if ((keycode == 101 || keycode == 65363) && info->current_display == 1)
 		info->keys->right = 1;
-	else if (keycode == 65362)
+	else if (keycode == 65363 && info->current_display == 2)
+		cd_move_editor_cursos(info, 1);
+	if (keycode == 65362 && info->current_display == 1)
 		info->keys->up = 1;
-	else if (keycode == 65364)
+	else if (keycode == 65362 && info->current_display == 2)
+		cd_move_editor_cursos(info, -10);
+	else if (keycode == 65364 && info->current_display == 1)
 		info->keys->down = 1;
-	else if (keycode == 120)
+	else if (keycode == 65364 && info->current_display == 2)
+		cd_move_editor_cursos(info, 10);
+	if (keycode == 120 && info->current_display == 1)
 		info->keys->rise = 1;
-	else if (keycode == 122)
+	else if (keycode == 120 && info->current_display == 2)
+		cd_edit_map(info, 2);
+	else if (keycode == 122 && info->current_display == 1)
 		info->keys->lower = 1;
 	return (0);
 }

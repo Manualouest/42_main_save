@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 00:04:37 by mbirou            #+#    #+#             */
-/*   Updated: 2024/08/28 18:32:57 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/08/29 01:26:52 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,10 @@ t_frame_info	*cd_get_texture_side(t_mlx_info *mlx_info, t_ray_info *ray_info)
 void	cd_draw_wall(t_info *info, t_mlx_info *mlx_info, int i,
 	t_ray_info ray_info)
 {
-	int	up;
-	int	end;
-	int	n;
-	int	color;
+	int				up;
+	int				end;
+	int				n;
+	int				color;
 	t_frame_info	*texture;
 
 	up = floor(-ray_info.wall_height / 2.0 +
@@ -135,9 +135,9 @@ void	cd_draw_wall(t_info *info, t_mlx_info *mlx_info, int i,
 	n = -1;
 	while (++n < up && up >= 0)
 		cd_change_pixel_color(mlx_info->main_frame, i, n, mlx_info->roof);
-	n --;
-	if (n + 1 < end && n + 1 < mlx_info->w_height)
+	if (n < end && n < mlx_info->w_height)
 		texture = cd_get_texture_side(mlx_info, &ray_info);
+	n --;
 	while (++n < end && n < mlx_info->w_height)
 	{
 		color = cd_get_texture(texture, ray_info, n - up, end - up - 1);
