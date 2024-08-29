@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_mining.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 01:59:49 by mbirou            #+#    #+#             */
-/*   Updated: 2024/08/29 01:37:31 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/08/29 12:52:37 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	cd_place_block(t_info *info)
 	y = 0;
 	ray_info.angle = info->p_pos->orientation;
 	ray_info = cd_cast_ray(info, ray_info);
-	if (ray_info.distance <= 1.05 || ray_info.distance >= 6)
+	if (ray_info.distance <= 1.0|| ray_info.distance >= 6)
 		return ;
 	if (ray_info.side == 0 && cos(ray_info.angle) > 0)
 		x = -1;
@@ -131,21 +131,17 @@ void	cd_place_block(t_info *info)
 		y = -1;
 	else
 		y = 1;
-	info->map[(int)ray_info.y + y][(int)ray_info.x + x] = '1';
-	// if (x == 0)
-	// 	cd_map_line_optimiser(info, y);
-	// else
-	// 	cd_map_row_optimiser(info, x);
+	if (!((int)ray_info.y + y == floor(info->p_pos->y)
+		&& (int)ray_info.x + x == floor(info->p_pos->x)))
+		info->map[(int)ray_info.y + y][(int)ray_info.x + x] = '1';
 }
 
 int	cd_mouse_hook(int button, int x, int y, t_info *info)
 {
-	// printf("mine: %f, button: %d, x: %d, y: %d\n", info->p_pos->x, button, x, y);
 	(void)x;
 	(void)y;
 	if (button == 1)
 	{
-		// printf("%d\n", info->current_display);
 		if (info->current_display == 1)
 			cd_mine_block(info);
 		if (info->current_display == 2)

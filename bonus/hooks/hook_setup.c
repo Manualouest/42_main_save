@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hook_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 15:21:19 by mbirou            #+#    #+#             */
-/*   Updated: 2024/08/29 01:48:16 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/08/29 21:00:40 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,12 +246,18 @@ void	cd_up_down(t_info *info, float turn_speed)
 		&& info->p_pos->pitch < info->mlx_info->fov
 		&& info->p_pos->pitch + turn_speed < info->mlx_info->fov -
 			(info->p_pos->height + 0.075) * (info->mlx_info->fov / 0.5))
+	{
 		info->p_pos->pitch += turn_speed * (cam + (cam == 0));
+		// info->p_pos->height -= 0.01;
+	}
 	else if ((cam < 0 || (info->keys->down && !info->keys->up && cam != 1))
 		&& info->p_pos->pitch > -info->mlx_info->fov
 		&& info->p_pos->pitch - turn_speed > -info->mlx_info->fov -
 			(info->p_pos->height - 0.075) * (info->mlx_info->fov / 0.5))
+	{
 		info->p_pos->pitch -= turn_speed * (-cam + (cam == 0));
+		// info->p_pos->height += 0.01;
+	}
 	// if (info->p_pos->pitch > info->mlx_info->fov -
 	// 	((info->p_pos->height + 0.125) * (info->mlx_info->fov / 0.55)))
 	// 	info->p_pos->pitch -= turn_speed / 2.0;
@@ -373,8 +379,8 @@ void	cd_turn(t_info *info, float turn_speed, float orient)
 		|| info->p_pos->orientation == 0.5 * M_PI)
 		info->p_pos->orientation = cd_basic_f_clamp(info->p_pos->orientation +
 			0.01, 0, 2.0 * M_PI);
-	// mlx_mouse_move(info->mlx_info->mlx, info->mlx_info->mlx_win,
-	// 	info->mlx_info->w_width / 2.0, info->mlx_info->w_height / 2.0);
+	mlx_mouse_move(info->mlx_info->mlx, info->mlx_info->mlx_win,
+		info->mlx_info->w_width / 2.0, info->mlx_info->w_height / 2.0);
 } 
 
 int	cd_move_player(t_info *info)

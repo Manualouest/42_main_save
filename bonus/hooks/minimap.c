@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:32:22 by mbirou            #+#    #+#             */
-/*   Updated: 2024/08/28 18:01:18 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/08/29 12:08:16 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	cd_add_minimap(t_info *info)
 			mm_info.p.y = my / info->mlx_info->s_height;
 			if (cd_is_in_triangle(mm_info.p, mm_info.p1, mm_info.p2, mm_info.p3))
 				cd_change_pixel_color(info->mlx_info->main_frame, ii, i - mm_info.gap, cd_basic_f_clamp(0x00FFFFFF - ((info->mlx_info->floor & 0x00FFFFFF) + (info->mlx_info->roof & 0x00FFFFFF)), 0, (float)0x00FFFFFF));
-			else if (cd_is_coord_possible(info, info->map, (int)floor(mx / info->mlx_info->s_width), (int)floor(my / info->mlx_info->s_height)) && info->map[(int)(my / info->mlx_info->s_height)][(int)(mx / info->mlx_info->s_width)] == '1')
+			else if ((cd_is_coord_possible(info, info->map, (int)floor(mx / info->mlx_info->s_width), (int)floor(my / info->mlx_info->s_height)) && info->map[(int)(my / info->mlx_info->s_height)][(int)(mx / info->mlx_info->s_width)] == '1') || (floor(my / info->mlx_info->s_height) >= info->m_height || floor(mx / info->mlx_info->s_width) >= info->m_width || floor(my / info->mlx_info->s_height) < 0 || floor(mx / info->mlx_info->s_width) < 0))
 				cd_change_pixel_color(info->mlx_info->main_frame, ii, i - mm_info.gap, cd_basic_f_clamp((info->mlx_info->floor & 0x00FFFFFF) + (info->mlx_info->roof & 0x00FFFFFF), 0, (float)0x00FFFFFF));
 			else
 				cd_change_pixel_color(info->mlx_info->main_frame, ii, i - mm_info.gap, 0x00FFFFFF - (info->mlx_info->roof & 0x00FFFFFF));

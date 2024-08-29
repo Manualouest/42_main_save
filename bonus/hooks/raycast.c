@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 00:04:37 by mbirou            #+#    #+#             */
-/*   Updated: 2024/08/29 11:10:56 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/08/29 21:02:47 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,14 +161,13 @@ void	cd_put_roof(t_info *info, t_ray_info ray_info, int i, int drawend)
 		roof_t_x = (int)((int)(current_roof_x * info->mlx_info->west->width) % info->mlx_info->west->width);
 		roof_t_y = 0;
 		roof_t_y = (int)((int)(current_roof_y * info->mlx_info->west->height) % info->mlx_info->west->height);
-		printf("%p, \n", &info->mlx_info->main_frame);
-		printf("%p, \n", &i);
-		printf("%p, \n", &y);
-		printf("w:%d, h:%d\n", info->mlx_info->west->width, info->mlx_info->west->height);
-		printf("tx:%d, ty:%d,\n", roof_t_x, roof_t_y);
-		printf("%p, \n", &info->mlx_info->west->tab[roof_t_y][roof_t_x]);
+		// printf("%p, \n", &info->mlx_info->main_frame);
+		// printf("%p, \n", &i);
+		// printf("%p, \n", &y);
+		// printf("w:%d, h:%d\n", info->mlx_info->west->width, info->mlx_info->west->height);
+		// printf("tx:%d, ty:%d,\n", roof_t_x, roof_t_y);
+		// printf("%p, \n", &info->mlx_info->west->tab[roof_t_y][roof_t_x]);
 		cd_change_pixel_color(info->mlx_info->main_frame, i, (int)y, info->mlx_info->west->tab[roof_t_y][roof_t_x]);
-		exit(0) ;
 	}
 }
 
@@ -189,15 +188,15 @@ void	cd_draw_wall(t_info *info, t_mlx_info *mlx_info, int i,
 		cd_round(((float)mlx_info->w_height / 2.0) +
 		((float)mlx_info->w_height / 2.0) * info->p_pos->pitch +
 		ray_info.wall_height * info->p_pos->height, 1000));
-	cd_put_roof(info, ray_info, i, up);
 	
-	if (up >= 0)
-		n = up;
-	else
-		n = 0;
-
-	// while (++n < up && up >= 0)
-	// cd_change_pixel_color(mlx_info->main_frame, i, n, mlx_info->roof);
+	// cd_put_roof(info, ray_info, i, up);
+	// if (up >= 0)
+	// 	n = up;
+	// else
+	// 	n = 0;
+	n = -1;
+	while (++n < up && up >= 0)
+		cd_change_pixel_color(mlx_info->main_frame, i, n, mlx_info->roof);
 	if (n < end && n < mlx_info->w_height)
 		texture = cd_get_texture_side(mlx_info, &ray_info);
 	n --;
