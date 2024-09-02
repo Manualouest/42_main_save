@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mscheman <mathieu.petru@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/02 09:54:35 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/02 10:13:08 by mbirou           ###   ########.fr       */
+/*   Created: 2023/11/04 11:12:42 by LeCoqBeau         #+#    #+#             */
+/*   Updated: 2023/11/11 14:50:14 by mscheman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "libft.h"
 
-int	main(int argc, char **argv)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	t_s_link	slink;
+	unsigned int	i;
 
-	slink = NULL;
-	if (argc > 2)
-		return (0);
-	parsing(&slink, argv[1]);
-	if (!slink)
-		return (0);
-	// launch_game(slink);
+	i = 0;
+	if (!s || !f)
+		return ;
+	while (s[i])
+	{
+		f(i, &s[i]);
+		i++;
+	}
 }
