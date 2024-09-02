@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 00:04:37 by mbirou            #+#    #+#             */
-/*   Updated: 2024/08/29 21:02:47 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/08/30 11:26:53 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void	cd_draw_wall(t_info *info, t_mlx_info *mlx_info, int i,
 		cd_round(((float)mlx_info->w_height / 2.0) +
 		((float)mlx_info->w_height / 2.0) * info->p_pos->pitch +
 		ray_info.wall_height * info->p_pos->height, 1000));
-	
+	 
 	// cd_put_roof(info, ray_info, i, up);
 	// if (up >= 0)
 	// 	n = up;
