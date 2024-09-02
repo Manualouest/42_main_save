@@ -3,7 +3,7 @@
 NAME = cub3D
 
 CC_FLAGS = -Wall -Werror -Wextra -g -I$(INCLUDES)
-OTHER_LIBS = -Lminilibx-linux -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm -lz
+OTHER_LIBS = -Lminilibx-linux -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm -lz -I./minilibx-linux
 
 INCLUDES = includes/
 LIBFT_FOLDER = $(INCLUDES)libft
@@ -12,7 +12,7 @@ LIBFT_A = $(INCLUDES)libft/libft.a
 # Mandatory
 SRC_DIR = src/
 SRC_NAME = main.c\
-			map_maker_main.c
+			map_maker/map_maker_main.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
 
@@ -34,7 +34,7 @@ OBJ = $(patsubst %, $(OBJ_DIR)%, $(OBJ_NAME))
 # Compilation
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
 	@mkdir -p $(dir $@)
-	cc $(CC_FLAGS) $< -c -o $@
+	cc $(CC_FLAGS) $(OTHER_LIBS) $< -c -o $@
 
 $(NAME): $(OBJ)
 	make full -C $(LIBFT_FOLDER)
@@ -65,7 +65,6 @@ clean:
 
 fclean: clean
 	@make fclean -C $(LIBFT_FOLDER)
-	@make fclean -C ./minilibx-linux
 	rm -f $(NAME)
 
 all: $(NAME)
