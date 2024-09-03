@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 11:27:38 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/02 23:51:46 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/03 14:35:36 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,10 @@ typedef struct	s_struct_link
 # include <mlx.h>
 # include "libft.h"
 # include "get_next_line_bonus.h"
+
+// -----map_maker-----
+// map_maker_main.c
+char	*cd_map_maker(void);
+
 
 #endif

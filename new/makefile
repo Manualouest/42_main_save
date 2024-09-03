@@ -3,7 +3,7 @@
 NAME = cub3D
 
 CC_FLAGS = -Wall -Werror -Wextra -g -I$(INCLUDES)
-OTHER_LIBS = -Lminilibx-linux -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm -lz -I./minilibx-linux
+OTHER_LIBS = -Lminilibx-linux -lmlx_Linux -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm -lz
 
 INCLUDES = includes/
 LIBFT_FOLDER = $(INCLUDES)libft
@@ -12,7 +12,9 @@ LIBFT_A = $(INCLUDES)libft/libft.a
 # Mandatory
 SRC_DIR = src/
 SRC_NAME = main.c\
-			map_maker/map_maker_main.c
+			map_maker/map_maker_main.c\
+			map_maker/input_handler.c\
+			map_maker/map_editor.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
 

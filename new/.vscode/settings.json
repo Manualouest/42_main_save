@@ -2,6 +2,7 @@
 	"files.associations": {
 		"cub3d.h": "c",
 		"stdio.h": "c",
-		"map_maker.h": "c"
+		"map_maker.h": "c",
+		"mlx_int.h": "c"
 	}
 }
