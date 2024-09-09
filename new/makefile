@@ -2,19 +2,23 @@
 
 NAME = cub3D
 
-CC_FLAGS = -Wall -Werror -Wextra -g -I$(INCLUDES)
-OTHER_LIBS = -Lminilibx-linux -lmlx_Linux -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm -lz
+CFLAGS = -Wall -Werror -Wextra -g
 
-INCLUDES = includes/
-LIBFT_FOLDER = $(INCLUDES)libft
-LIBFT_A = $(INCLUDES)libft/libft.a
+INCLUDES = -Iincludes/ -I$(LIBMLX)/include
+LIBFT_FOLDER = includes/libft
+LIBFT_A = includes/libft/libft.a
+
+# MLX
+LIBMLX = ./MLX42
+LIBS = $(LIBMLX)/build/libmlx42.a -ldl -lglfw -pthread -lm
 
 # Mandatory
 SRC_DIR = src/
 SRC_NAME = main.c\
 			map_maker/map_maker_main.c\
 			map_maker/input_handler.c\
-			map_maker/map_editor.c
+			map_maker/map_editor.c\
+			map_maker/vars_setup.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
 
@@ -32,44 +36,46 @@ OBJ = $(patsubst %, $(OBJ_DIR)%, $(OBJ_NAME))
 # B_OBJ_NAME = $(B_SRC_NAME:.c=.o)
 # B_OBJ = $(patsubst %, $(B_OBJ_DIR)%, $(B_OBJ_NAME))
 
-
 # Compilation
+
+all: libmlx $(NAME)
+
+libmlx:
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
 	@mkdir -p $(dir $@)
-	cc $(CC_FLAGS) $(OTHER_LIBS) $< -c -o $@
+	gcc $(CFLAGS) $< $(INCLUDES) -c -o $@
 
 $(NAME): $(OBJ)
 	make full -C $(LIBFT_FOLDER)
-	make -C ./minilibx-linux
-	cc -o $(NAME) $(CC_FLAGS) $(OBJ) $(LIBFT_A) $(OTHER_LIBS)
+	gcc -o $(NAME) $(CFLAGS) $(OBJ) $(INCLUDES) $(LIBFT_A) $(LIBS) 
 
 # $(B_OBJ_DIR)%.o:$(B_SRC_DIR)%.c
 # 	@mkdir -p $(dir $@)
-# 	cc $(CC_FLAGS) $< -c -o $@
+# 	cc $(CFLAGS) $< -c -o $@
 
 # bonus: $(B_OBJ)
 # 	@make full -C $(LIBFT_FOLDER)
-# 	cc -o $(NAME) $(CC_FLAGS) $(B_OBJ) $(LIBFT_A) $(OTHER_LIBS)
+# 	cc -o $(NAME) $(CFLAGS) $(B_OBJ) $(LIBFT_A) $(OTHER_LIBS)
 
 
 # Opti Modes
-opti: CC_FLAGS += -O3
-opti: $(NAME)
+#opti: CFLAGS += -O3
+#opti: $(NAME)
 
-# bopti: CC_FLAGS += -O3
+# bopti: CFLAGS += -O3
 # bopti: bonus
 
 
 clean:
 	@make clean -C $(LIBFT_FOLDER)
-	@make clean -C ./minilibx-linux
+	@rm -rf $(LIBMLX)/build
 	rm -rf $(OBJ_DIR) $(B_OBJ_DIR)
 
 fclean: clean
 	@make fclean -C $(LIBFT_FOLDER)
 	rm -f $(NAME)
-
-all: $(NAME)
 
 re: fclean all
 

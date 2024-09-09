@@ -3,61 +3,74 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 12:13:07 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/03 19:30:06 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/09 16:04:15 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <map_maker.h>
 
-int	cd_key_pressed(int keycode, t_map_editor *m_edit)
+void	cd_key_handler(mlx_key_data_t keydata, void *vm_edit)
 {
-	if (m_edit->keys.stopper)
-		return (0);
-	if (keycode == 65307)
-		cd_stop_maker(m_edit);
-	if (keycode == 65362)
-		m_edit->keys.up = 1;
-	else if (keycode == 65364)
-		m_edit->keys.down = 1;
-	if (keycode == 65361)
-		m_edit->keys.left = 1;
-	else if (keycode == 65363)
-		m_edit->keys.right = 1;
-	// if (keycode == 120)
+	t_map_editor	*m_edit;
+
+	m_edit = (t_map_editor *)vm_edit;
+	if (keydata.action == MLX_RELEASE)
+		cd_key_released(keydata, (void *)&m_edit->keys);
+	else
+	{
+		if (m_edit->keys.stopper)
+			return ;
+		if (keydata.key == MLX_KEY_ESCAPE)
+			cd_stop_maker((void *)m_edit);
+		if (keydata.key == MLX_KEY_UP)
+			m_edit->keys.up = 1;
+		else if (keydata.key == MLX_KEY_DOWN)
+			m_edit->keys.down = 1;
+		if (keydata.key == MLX_KEY_LEFT)
+			m_edit->keys.left = 1;
+		else if (keydata.key == MLX_KEY_RIGHT)
+			m_edit->keys.right = 1;
+	}
+	// if (keydata.key == 120)
 	// 	cd_remove_wall(m_edit);
-	// else if (keycode == 99)
+	// else if (keydata.key == 99)
 	// 	cd_place_wall(m_edit);
-	// else if (keycode == 118)
+	// else if (keydata.key == 118)
 	// 	cd_teleport(m_edit);
-	// if (keycode == )
+	// if (keydata.key == )
 	// 	m_edit->keys->stopper = 1;
-	return (1);
 }
 
-int	cd_key_released(int keycode, t_keys *keys)
+void	cd_key_released(mlx_key_data_t keydata, void *vkeys)
 {
+	t_keys	*keys;
+
+	keys = (t_keys *)vkeys;
 	if (keys->stopper)
-		return (0);
-	if (keycode == 65362)
+		return ;
+	if (keydata.key == MLX_KEY_UP)
 		keys->up = 0;
-	else if (keycode == 65364)
+	else if (keydata.key == MLX_KEY_DOWN)
 		keys->down = 0;
-	if (keycode == 65361)
+	if (keydata.key == MLX_KEY_LEFT)
 		keys->left = 0;
-	else if (keycode == 65363)
+	else if (keydata.key == MLX_KEY_RIGHT)
 		keys->right = 0;
-	return (1);
 }
 
-int	cd_mouse_handler(int button, int x, int y, t_map_editor *m_edit)
+void	cd_mouse_handler(mouse_key_t button, action_t action, modifier_key_t mods, void *vm_edit)
 {
+	t_map_editor	*m_edit;
+
+	m_edit = (t_map_editor *)vm_edit;
 	if (m_edit->keys.stopper)
-		return (0);
-	(void)x;
-	(void)y;
+		return ;
+	(void)button;
+	(void)action;
+	(void)mods;
 // 	if (button == 1)
 // 		cd_remove_wall(m_edit);
 // 	else if (button == 3)
@@ -65,11 +78,12 @@ int	cd_mouse_handler(int button, int x, int y, t_map_editor *m_edit)
 // 	else if (button == 2)
 // 		cd_teleport(m_edit);
 	(void)button;
-	return (1);
 }
 
-int	cd_stop_maker(t_map_editor *m_edit)
+void	cd_stop_maker(void *vm_edit)
 {
-	mlx_loop_end(m_edit->mlx);
-	return (1);
+	t_map_editor	*m_edit;
+
+	m_edit = (t_map_editor *)vm_edit;
+	mlx_close_window(m_edit->mlx);
 }
