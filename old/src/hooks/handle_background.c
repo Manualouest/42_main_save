@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 15:20:36 by mbirou            #+#    #+#             */
-/*   Updated: 2024/08/27 09:25:34 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/10 11:54:26 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ int	cd_update_frame(t_info *info)
 	if (secs == time.tv_sec)
 	{
 		fps = ft_itoa((1000000 / (time.tv_usec - usecs)));
-		if ((1000000 / (time.tv_usec - usecs)) > 60)
-		{
-			usleep(16666 - (time.tv_usec - usecs));
-			fps = ft_itoa(60);
-		}
+		// if ((1000000 / (time.tv_usec - usecs)) > 60)
+		// {
+		// 	usleep(16666 - (time.tv_usec - usecs));
+		// 	fps = ft_itoa(60);
+		// }
 		mlx_string_put(info->mlx_info->mlx, info->mlx_info->mlx_win, 1, 10, cd_invert_color(cd_get_color(info->mlx_info->main_frame, 6, 15)), fps);
 		free(fps);
 	}

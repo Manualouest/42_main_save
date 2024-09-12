@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 06:29:24 by mbirou            #+#    #+#             */
-/*   Updated: 2024/08/29 12:00:53 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/10 12:54:21 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,8 @@ void	cd_minimap_editor(t_info *info)
 					&& ((my >= 0 && my < info->m_height && mx >= 0 && mx < info->m_width)
 					&& info->map[my][mx] == '1'))
 					cd_change_pixel_color(info->mlx_info->main_frame, x, y, cd_basic_f_clamp((info->mlx_info->floor & 0x00FFFFFF) + (info->mlx_info->roof & 0x00FFFFFF), 0, (float)0x00FFFFFF));
-				else if (y > up_gap && x > side_gap && (my < 0 || my >= info->m_height || mx < 0 || mx >= info->m_width))
-					cd_change_pixel_color(info->mlx_info->main_frame, x, y, cd_basic_f_clamp((info->mlx_info->floor & 0x00FFFFFF) + (info->mlx_info->roof & 0x00FFFFFF), 0, (float)0x00FFFFFF));
+				// else if (y > up_gap && x > side_gap && (my < 0 || my >= info->m_height || mx < 0 || mx >= info->m_width))
+				// 	cd_change_pixel_color(info->mlx_info->main_frame, x, y, cd_basic_f_clamp((info->mlx_info->floor & 0x00FFFFFF) + (info->mlx_info->roof & 0x00FFFFFF), 0, (float)0x00FFFFFF));
 				else if (mx == floor(info->p_pos->x) && my == floor(info->p_pos->y))
 					cd_change_pixel_color(info->mlx_info->main_frame, x, y, cd_basic_f_clamp(0x00FFFFFF - ((info->mlx_info->floor & 0x00FFFFFF) + (info->mlx_info->roof & 0x00FFFFFF)), 0, (float)0x00FFFFFF));
 				else
