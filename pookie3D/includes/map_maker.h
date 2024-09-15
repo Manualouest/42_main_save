@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_maker.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:25:24 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/13 20:51:38 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/16 00:51:05 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct	s_map_info
 {
 	int			step;
 	int			try_step;
-	int			revert;
 	t_img_info	screen;
 	mlx_image_t	**text;
 	char		*map_name;
@@ -57,10 +56,12 @@ typedef struct	s_map_info
 	char		*south;
 	char		*west;
 	char		*east;
+	char		*ceiling;
+	char		*floor;
+	char		*map_size;
+	char		*player;
 	char		*input;
 	char		player_dir;
-	int			ceiling;
-	int			floor;
 }				t_map_info;
 
 typedef struct	s_map_editor
@@ -104,10 +105,12 @@ void		cd_map_printer(void *vm_edit);
 void		cd_start_map_setup(t_map_editor *m_edit);
 
 // setup_screens.c
+char		**cd_send_texture(t_map_editor *m_edit);
 void		cd_add_text(t_map_editor *m_edit, char *text, int x, int y);
 void		cd_resizer(mlx_image_t *img, int width, int height);
 void		cd_setup_screen_1(t_map_editor *m_edit);
-void		cd_setup_screen_2(t_map_editor *m_edit, char *type);
+void		cd_setup_screen_2(t_map_editor *m_edit);
+void		cd_setup_screen_3(t_map_editor *m_edit);
 
 // utils.c
 char		*cd_append_char(char *src, char c);

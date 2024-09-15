@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vars_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:11:17 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/13 18:08:26 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/16 00:51:02 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ t_map_info	cd_setup_m_info(t_map_editor m_edit)
 
 	m_info.step = 1;
 	m_info.try_step = 0;
-	m_info.revert = 0;
 	m_info.screen = cd_setup_frame(m_edit, 1, 1);
 	m_info.text = NULL;
 	mlx_put_pixel(m_info.screen.img, 0, 0, 0x2F2F2FFF);
@@ -94,9 +93,11 @@ t_map_info	cd_setup_m_info(t_map_editor m_edit)
 	m_info.south = NULL;
 	m_info.west = NULL;
 	m_info.east = NULL;
+	m_info.ceiling = NULL;
+	m_info.floor = NULL;
+	m_info.map_size = NULL;
+	m_info.player = NULL;
 	m_info.input = ft_calloc(sizeof(char), 1);
 	m_info.player_dir = 'N';
-	m_info.ceiling = 0;
-	m_info.floor = 0;
 	return (m_info);
 }
