@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 12:13:07 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/16 15:18:14 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/16 16:21:57 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,13 @@ void	cd_key_handler(mlx_key_data_t keydata, void *vm_edit)
 	m_edit = (t_map_editor *)vm_edit;
 	if (keydata.action == MLX_PRESS)
 	{
-		if (keydata.key == MLX_KEY_ESCAPE || keydata.key == MLX_KEY_ENTER)
+		if (keydata.key == MLX_KEY_ESCAPE)
+		{
+			m_edit->map = cd_free_tab(m_edit->map);
+			//error map maker interupted
+			mlx_close_window(m_edit->mlx);
+		}
+		if (keydata.key == MLX_KEY_ENTER)
 			mlx_close_window(m_edit->mlx);
 		if (keydata.key == MLX_KEY_UP)
 			m_edit->p_vars.y += 1;

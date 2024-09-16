@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:55:42 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/16 15:02:27 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/16 16:51:12 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,31 @@ void	*cd_free_m_info(t_map_info m_info, int free_name)
 	return (NULL);
 }
 
-void	cd_write_file(t_map_editor m_edit, t_map_info m_info)
+void	cd_write_file(t_map_editor *m_edit, t_map_info m_info)
 {
 	int	fd;
 	int	i;
 
+	if (!m_edit->map)
+		return ;
 	fd = open(m_info.map_name, O_CREAT | O_RDWR, S_IRWXU);
 	if (fd == -1)
 	{
-		m_info.map_name = cd_realloc(m_info.map_name, NULL, 0);
+		// error couldn't make file
+		m_edit->m_info.map_name = cd_realloc(m_info.map_name, NULL, 0);
+		cd_free_tab(m_edit->map);
 		return ;
 	}
-	m_edit.m_info.step = 1;
-	while (++m_edit.m_info.step < 8)
+	m_edit->m_info.step = 1;
+	while (++m_edit->m_info.step < 8)
 	{
-		write(fd, *cd_get_txt(&m_edit), ft_strlen(*cd_get_txt(&m_edit)));
+		write(fd, *cd_get_txt(m_edit), ft_strlen(*cd_get_txt(m_edit)));
 		write(fd, "\n", 1);
 	}
 	i = -1;
-	while (m_edit.map[++i])
-	{
-		write(fd, m_edit.map[i], ft_strlen(m_edit.map[i]));
-		write(fd, "\n", 1);
-		free(m_edit.map[i]);
-	}
-	free(m_edit.map);
+	while (m_edit->map[++i])
+		write(fd, m_edit->map[i], ft_strlen(m_edit->map[i]));
+	cd_free_tab(m_edit->map);
 	close(fd);
 }
 
@@ -118,7 +118,7 @@ char	*cd_map_maker(void)
 	m_edit.w_height = 720;
 	cd_start_map_setup(&m_edit);
 	if (ft_strlen(m_edit.m_info.player) < 1)
-		return (cd_free_m_info(m_edit.m_info, 1));
+		return (cd_free_m_info(m_edit.m_info, 1)); //error : input interupted
 	m_edit.map = setup_clear_map(m_edit);
 	m_edit.mlx = mlx_init(m_edit.w_width,
 			m_edit.w_height, "Map Editor", false);
@@ -130,7 +130,9 @@ char	*cd_map_maker(void)
 	m_edit.p_vars = p_vars;
 	m_edit.fps = NULL;
 	cd_start_editor(&m_edit);
-	cd_write_file(m_edit, m_edit.m_info);
+	if (!m_edit.map)
+		m_edit.m_info.map_name = cd_realloc(m_edit.m_info.map_name, NULL, 0);
+	cd_write_file(&m_edit, m_edit.m_info);
 	cd_free_m_info(m_edit.m_info, 0);
 	return (m_edit.m_info.map_name);
 }
