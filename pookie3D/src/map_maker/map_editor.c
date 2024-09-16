@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 13:46:10 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/13 16:48:01 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/16 15:22:27 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	cd_get_pixel_kind(t_map_editor *m_edit, t_p_vars p_vars, int x, int y)
 	return (0);
 }
 
-mlx_image_t	*cd_slow_down(t_map_editor *m_edit, struct timeval start_time, int target_fps, int do_return)
+mlx_image_t	*cd_slow_down(t_map_editor *m_edit, struct timeval start_time,
+				int target_fps, int do_return)
 {
 	mlx_image_t		*img;
 	struct timeval	end_time;
