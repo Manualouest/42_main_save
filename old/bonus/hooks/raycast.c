@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 00:04:37 by mbirou            #+#    #+#             */
-/*   Updated: 2024/08/30 11:26:53 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/18 14:56:51 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,15 +218,17 @@ void	cd_raycast(t_info *info)
 	// printf("start\n");
 	ray_info.p_x = info->p_pos->x;
 	ray_info.p_y = info->p_pos->y;
+	info->p_pos->orientation = cd_round(info->p_pos->orientation, 1000);
 	while (i < rays)
 	{
 		ray_info.angle = (info->p_pos->orientation - (info->mlx_info->fov / 2.0) + i * (info->mlx_info->fov / rays)); //(M_PI / 4.0) is the fov
 		ray_info.angle = cd_basic_f_clamp(ray_info.angle, 0, 2.0 * M_PI);
+		ray_info.angle = cd_round(ray_info.angle, 1000);
 		ray_info = cd_cast_ray(info, ray_info);
 		// printf("ray_angle: %f, wall_height: %f\n", ray_angle, wall_height);
 		cd_draw_wall(info, info->mlx_info, (int)floor(i * (rays / info->mlx_info->w_width)), ray_info);
 		i ++;
 	}
-
+	// printf("%f\n", info->p_pos->orientation);
 	// printf("end\n");
 }

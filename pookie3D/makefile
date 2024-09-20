@@ -22,7 +22,8 @@ SRC_NAME = main.c\
 			map_maker/map_setup.c\
 			map_maker/utils.c\
 			map_maker/img_utils.c\
-			map_maker/setup_screens.c
+			map_maker/setup_screens.c\
+			img_to_int.c
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_NAME))
 
