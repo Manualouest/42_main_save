@@ -16,7 +16,11 @@ SRC += utils/tab_utils.c\
 
 SRC += inits/struct_inits.c
 
-SRC += display/display_main.c
+SRC += display/display_main.c\
+		display/handle_body.c\
+		display/handle_legs.c\
+		display/hooks.c\
+		display/utils.c
 
 OBJ_DIR = obj/
 OBJ_NAME = $(SRC:.c=.o)
