@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_inits.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 12:34:06 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/21 20:02:29 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/22 21:27:42 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_sphere	*pr_create_sphere(t_data *data, int id)
 	sphere->max_angle = data->max_angles[id];
 	sphere->r_leg = NULL;
 	sphere->l_leg = NULL;
-	sphere->color = 0;
+	sphere->color = 0xFBCD5FFF;
 	return (sphere);
 }
 
@@ -128,7 +128,7 @@ void	pr_setup_spheres(t_data *data)
 			data->spheres[i]->l_leg = pr_create_leg(data, data->spheres[i], 1, i);
 		}
 	}
-	pr_set_color(data);
+	// pr_set_color(data);
 }
 
 void	pr_setup_vars(t_data *data)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:13:28 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/21 20:08:40 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/22 20:15:33 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	pr_display_main(t_data *data)
 	pr_render(data);
 	mlx_key_hook(data->mlx.mlx, pr_close, (void *)data);
 	mlx_mouse_hook(data->mlx.mlx, pr_click_handler, (void *)data);
-	mlx_cursor_hook(data->mlx.mlx, pr_mouse_handler, (void *)data);
+	// mlx_cursor_hook(data->mlx.mlx, pr_mouse_handler, (void *)data);
 	mlx_loop_hook(data->mlx.mlx, pr_move_head, (void *)data);
 	mlx_loop(data->mlx.mlx);
 	mlx_delete_image(data->mlx.mlx, data->mlx.screen);

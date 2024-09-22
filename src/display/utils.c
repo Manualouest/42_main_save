@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 15:59:11 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/21 16:02:41 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/22 21:20:17 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ void	pr_put_thick_pixel(mlx_image_t *screen, int x, int y, int thickness, int co
 
 float	pr_clamp(float num, float min, float max)
 {
-	if (num < min)
-		return (max + num);
-	if (num > max)
-		return (num - max);
+	while (num < min)
+		num += max;
+	while (num > max)
+		num -= max;
 	return (num);
 }

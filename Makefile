@@ -1,6 +1,6 @@
 NAME = proced
 
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -g -O3
 
 INCLUDES = -Iincludes/ -I$(LIBMLX)/include
 LIBFT = includes/libft/libft.a

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tab_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 12:32:55 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/21 15:52:46 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/22 21:28:20 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ float	*pr_strtor(char *str, t_data *data)
 	i = -1;
 	while (split_str[++i])
 	{
-		nums[i] = ft_atoi(split_str[i]) * M_PI / 180;
+		// nums[i] = ft_atoi(split_str[i]) * M_PI / 180;
+		nums[i] = M_PI / 8.;
 		nums[i] = floor(nums[i] * 1000) / 1000;
 		free(split_str[i]);
 	}

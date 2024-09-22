@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_legs.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:04:12 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/21 20:03:49 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/22 20:58:58 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ void	pr_draw_link(t_data * data, t_coord origin, t_sphere *target)
 	x = origin.x;
 	y = origin.y;
 	i = 0;
-	while (floor(x) != floor(target->x) && floor(y) != floor(target->y) && ++i < 100)
+	while ((floor(x) < floor(target->x) - 2 || floor(x) > floor(target->x) + 2
+		|| floor(y) < floor(target->y) - 2 || floor(y) > floor(target->y) + 2)
+		&& ++i < 100)
 	{
 		x += dx;
 		y += dy;

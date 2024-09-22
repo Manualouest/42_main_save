@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   proced.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42angouleme.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 12:09:46 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/21 19:43:06 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/22 21:24:02 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void		pr_move_body(t_data *data, t_sphere **spheres);
 void		pr_draw_legs(mlx_image_t *screen, t_data *data, t_leg *leg);
 
 // hooks.c
+void	pr_constrain_angle(t_sphere *origin, t_sphere *anchor);
 void		pr_close(mlx_key_data_t keydata, void *vdata);
 void		pr_mouse_handler(double xpos, double ypos, void *vdata);
 void		pr_click_handler(mouse_key_t button, action_t action,
