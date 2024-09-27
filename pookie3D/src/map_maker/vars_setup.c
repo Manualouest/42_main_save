@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:11:17 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/16 16:30:59 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/27 10:28:24 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char	**setup_clear_map(t_map_editor m_edit)
 			map[y][x] = '1';
 		map[y][x] = '\n';
 	}
-	map[m_edit.origin_y][m_edit.origin_x] = m_edit.dir;
 	return (map);
 }
 

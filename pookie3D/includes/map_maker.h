@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:25:24 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/16 15:17:03 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/27 10:00:21 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,10 @@ void		*cd_free_tab(char	**tab);
 char		*cd_realloc(char *src, char *new, int need_dup);
 int			cd_check_file(char *file);
 int			cd_check_input(t_map_info *m_info, char *input, int step);
+
+// rand_gen.c
+void		cd_rand_gen(t_map_editor *m_edit);
+void		cd_rand_turn(t_map_editor *m_edit);
 
 // img_utils.c
 void		*cd_free_tab_img(mlx_image_t **tab, t_map_editor *m_edit,

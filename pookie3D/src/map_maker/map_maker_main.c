@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 15:55:42 by mbirou            #+#    #+#             */
-/*   Updated: 2024/09/16 16:51:12 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/09/27 10:34:50 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,25 @@ void	*cd_free_m_info(t_map_info m_info, int free_name)
 	return (NULL);
 }
 
+void	cd_clean_map(t_map_editor *m_edit)
+{
+	int	i;
+
+	m_edit->map[m_edit->origin_y][m_edit->origin_x] = m_edit->dir;
+	i = -1;
+	while (++i < m_edit->m_height)
+	{
+		m_edit->map[i][0] = '1';
+		m_edit->map[i][(int)m_edit->m_width - 1] = '1';
+	}
+	i = -1;
+	while (++i < m_edit->m_width)
+	{
+		m_edit->map[0][i] = '1';
+		m_edit->map[(int)m_edit->m_height - 1][i] = '1';
+	}
+}
+
 void	cd_write_file(t_map_editor *m_edit, t_map_info m_info)
 {
 	int	fd;
@@ -59,6 +78,7 @@ void	cd_write_file(t_map_editor *m_edit, t_map_info m_info)
 		write(fd, "\n", 1);
 	}
 	i = -1;
+	cd_clean_map(m_edit);
 	while (m_edit->map[++i])
 		write(fd, m_edit->map[i], ft_strlen(m_edit->map[i]));
 	cd_free_tab(m_edit->map);
