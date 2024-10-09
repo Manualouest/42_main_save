@@ -1,7 +1,7 @@
 extern "C"
 {
 #define new tripouille
-#include "libft.h"
+#include <libft.h>
 #undef new
 }
 
