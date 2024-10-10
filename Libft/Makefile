@@ -71,7 +71,13 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f libft.so
 
 all: $(NAME)
 
 re: fclean all
+
+
+so:
+	cc -nostartfiles -fPIC $(CFLAGS) $(addprefix src/, $(M_SRC)) $(addprefix src/, $(B_SRC))
+	gcc -nostartfiles -shared -o libft.so $(M_OBJS) $(B_OBJS)

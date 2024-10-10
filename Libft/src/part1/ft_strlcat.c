@@ -6,37 +6,30 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 10:25:31 by mbirou            #+#    #+#             */
-/*   Updated: 2024/10/09 19:23:17 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/10/10 19:44:16 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
+
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t	len_dst;
-	size_t	len_src;
-	size_t	index;
+	size_t	src_i;
+	size_t	dst_i;
 
-	len_dst = 0;
-	len_src = ft_strlen((char *)src);
-	index = 0;
+	src_i = -1;
+	dst_i = -1;
 	if (size == 0)
-		return (len_src);
-	while (dst[len_dst] != 0 && len_dst < size)
-		len_dst ++;
-	while (src[index] != 0 && len_dst + index < size - 1)
-	{
-		dst[len_dst + index] = src[index];
-		index ++;
-	}
-	if (len_dst + index > size - 1)
-		return (len_dst + len_src);
-	if (len_dst + len_src > size)
-	{
-		dst[len_dst + index] = 0;
-		return (len_dst + len_src);
-	}
-	dst[len_dst + len_src] = 0;
-	return (len_dst + len_src);
+		return (0);
+	while (dst[++dst_i] && dst_i < size)
+		;
+	while (src[++src_i] && dst_i + src_i < size - 1)
+		dst[dst_i + src_i] = src[src_i];
+	if (src_i > 0)
+		dst[dst_i + src_i] = 0;
+	src_i --;
+	while (src[++src_i])
+		;
+	return (dst_i + src_i);
 }

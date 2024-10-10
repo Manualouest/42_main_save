@@ -12,63 +12,27 @@
 
 #include <libft.h>
 
-static int	get_num_len(int num);
-static int	ft_abs(int num);
-static char	*fill_num(char *dst, int num, int num_len);
-
 char	*ft_itoa(int n)
 {
-	char	*num;
-	int		len_num;
+	int		i;
+	int		tp_num;
+	char	*nbr;
 
-	len_num = get_num_len(n);
-	num = malloc((len_num + 1) * sizeof(char));
-	if (!num)
+	i = (n <= 0);
+	tp_num = n;
+	while (tp_num != 0 && ++i > 0)
+		tp_num /= 10;
+	nbr = malloc(sizeof(*nbr) * (i + 1));
+	if (!nbr)
 		return (NULL);
-	num[len_num] = 0;
-	num = fill_num(num, n, len_num - 1);
-	return (num);
-}
-
-static char	*fill_num(char *dst, int num, int num_len)
-{
-	int	stop;
-
-	stop = 0;
-	if (num < 0)
+	nbr[i] = 0;
+	tp_num = n;
+	while (--i >= (tp_num < 0))
 	{
-		dst[0] = '-';
-		stop ++;
+		nbr[i] = (tp_num % 10) * (1 - 2 * (n < 0)) + '0';
+		tp_num /= 10;
 	}
-	while (num_len >= stop)
-	{
-		dst[num_len] = ft_abs(num % 10) + '0';
-		num_len --;
-		num = num / 10;
-	}
-	return (dst);
-}
-
-static int	get_num_len(int num)
-{
-	int	i;
-
-	i = 0;
-	if (num <= 0)
-		i ++;
-	while (num != 0)
-	{
-		num = ft_abs(num / 10);
-		if (num == 10 || num == -10)
-			i ++;
-		i ++;
-	}
-	return (i);
-}
-
-static int	ft_abs(int num)
-{
-	if (num < 0)
-		return (-(num));
-	return (num);
+	if (n < 0)
+		nbr[0] = '-';
+	return (nbr);
 }

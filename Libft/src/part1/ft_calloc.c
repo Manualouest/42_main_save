@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 17:32:32 by mbirou            #+#    #+#             */
-/*   Updated: 2024/10/09 19:23:17 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/10/10 18:50:57 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,14 @@
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*array;
+	size_t	m_size;
 
-	if (nmemb == 0 || size == 0)
-	{
-		array = malloc(0);
-		if (!array)
-			return (NULL);
-		return (array);
-	}
-	if ((nmemb >= 2147483647 || size >= 2147483647
-			|| (nmemb * size > 2147483647)))
+	m_size = nmemb * size;
+	if (m_size < 0)
 		return (0);
-	array = malloc(size * nmemb);
+	array = malloc(m_size);
 	if (!array)
 		return (NULL);
-	ft_bzero(array, nmemb * size);
+	ft_bzero(array, m_size);
 	return (array);
 }
