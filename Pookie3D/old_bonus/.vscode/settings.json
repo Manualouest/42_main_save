@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"map_handler.C": "cpp",
+		"array": "c",
+		"cub3d.h": "c",
+		"emmintrin.h": "c"
+	}
+}
