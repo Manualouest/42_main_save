@@ -1,4 +1,4 @@
-NAME = Megaphone
+NAME = megaphone
 
 FLAGS = -Wall -Wextra -Werror -std=c++98
 
