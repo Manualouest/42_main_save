@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 19:34:32 by mbirou            #+#    #+#             */
-/*   Updated: 2024/11/25 12:04:21 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/11/26 18:50:27 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,35 @@ Contact::~Contact(void)
 void		Contact::set_contact(std::string first_name, std::string last_name,
 				std::string nickname, std::string phone_num, std::string secret)
 {
-	this->first_name = first_name;
-	this->last_name = last_name;
-	this->nickname = nickname;
-	this->phone_num = phone_num;
-	this->secret = secret;
+	this->_first_name = first_name;
+	this->_last_name = last_name;
+	this->_nickname = nickname;
+	this->_phone_num = phone_num;
+	this->_secret = secret;
 }
 
-std::string	Contact::get_first_name(void)
+std::string	const Contact::get_first_name(void) const
 {
-	return (this->first_name);
+	return (this->_first_name);
 }
 
-std::string	Contact::get_last_name(void)
+std::string	const Contact::get_last_name(void) const
 {
-	return (this->last_name);
+	return (this->_last_name);
 }
 
-std::string	Contact::get_nickname(void)
+std::string	const Contact::get_nickname(void) const
 {
-	return (this->nickname);
+	return (this->_nickname);
 }
 
-std::string	Contact::get_phone_num(void)
+std::string	const Contact::get_phone_num(void) const
 {
-	return (this->phone_num);
+	return (this->_phone_num);
 }
 
-std::string	Contact::get_secret(void)
+std::string	const Contact::get_secret(void) const
 {
-	return (this->secret);
+	return (this->_secret);
 }
 

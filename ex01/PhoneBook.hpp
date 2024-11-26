@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 16:03:42 by mbirou            #+#    #+#             */
-/*   Updated: 2024/11/25 20:04:40 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/11/26 19:15:30 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ class PhoneBook
 		bool	search(void);
 
 	private:
-		int		oldest_index;
-		int		len;
-		Contact	contacs[8];
+		int		_oldest_index;
+		int		_len;
+		Contact	_contacs[8];
 
-		void	show(void);
+		void	_show(void);
 };
 
 #endif
