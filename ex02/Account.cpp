@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 16:03:53 by mbirou            #+#    #+#             */
-/*   Updated: 2024/11/26 19:43:41 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/11/27 10:24:33 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,16 @@ void	Account::makeDeposit(int deposit)
 
 bool	Account::makeWithdrawal(int withdrawal)
 {
-	if (this->checkAmount() - withdrawal < 0)
-		return (false);
-	this->_nbWithdrawals ++;
 	this->_displayTimestamp();
+	if (this->checkAmount() - withdrawal < 0)
+	{
+		std::cout	<< " index:" << this->_accountIndex
+					<< ";p_amount:" << this->checkAmount()
+					<< ";withdrawal:refused"
+					<< std::endl;
+		return (false);
+	}
+	this->_nbWithdrawals ++;
 	std::cout	<< " index:" << this->_accountIndex
 				<< ";p_amount:" << this->checkAmount()
 				<< ";withdrawal:" << withdrawal

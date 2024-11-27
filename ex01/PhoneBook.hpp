@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 16:03:42 by mbirou            #+#    #+#             */
-/*   Updated: 2024/11/26 19:15:30 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/11/27 12:31:05 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,12 @@ class PhoneBook
 	private:
 		int		_oldest_index;
 		int		_len;
-		Contact	_contacs[8];
+		Contact	_contacts[8];
 
-		void	_show(void);
+		std::string	_get_input(char *msg) const;
+		std::string	_format_string(std::string text) const;
+		void		_ShowContacts(void) const;
+		void		_ShowContact(int index) const;
 };
 
 #endif
