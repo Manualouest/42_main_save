@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:25:47 by mbirou            #+#    #+#             */
-/*   Updated: 2024/11/27 13:01:15 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/11/27 13:14:32 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	PhoneBook::_ShowContact(int index) const
 	std::cout << "\033[30;47;1m╚═══════════════╩";
 	for (size_t i = 0; i < TabWidth; i++)
 		std::cout << "═";
-	std::cout << "╝\033[0m" << std::endl << std::resetiosflags(std::ios::left);
+	std::cout << "╝\033[0m" << std::resetiosflags(std::ios::left);
 }
 
 bool	PhoneBook::search(void)
