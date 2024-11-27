@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:25:47 by mbirou            #+#    #+#             */
-/*   Updated: 2024/11/27 13:14:32 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/11/27 18:25:12 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,32 @@ PhoneBook::~PhoneBook(void)
 std::string PhoneBook::_get_input(char *msg) const
 {
 	std::string	input;
+	int			count;
 
 	std::cout << msg;
 	std::getline(std::cin, input);
+	count = 0;
 	while (!std::cin.eof() &&input.size() == 0)
 	{
 		if (std::cin.eof())
 			return ("");
-		std::cout << "\033[39;1mPlease enter something :(\033[0m" << std::endl << msg;
+		if (count < 5)
+			std::cout << "\033[39;1mPlease enter something :(\033[0m" << std::endl;
+		else if (count < 10)
+			std::cout << "\033[39;1mPlease enter something >:(\033[0m" << std::endl;
+		else if (count < 24)
+			std::cout << "\033[31;1mPlease enter something 😡\033[0m" << std::endl;
+		else if (count < 25)
+			std::cout	<< "\033[31;1mI KNOW WHERE YOU ARE:" << std::endl
+						<< "\033[31;1;4m45.655108974298685, 0.1589656362467441\033[0m" << std::endl;
+		else
+		{
+			std::cout << "\033[31;1;4mI AM COMING FOR YOU 🫵😡\033[0m" << std::endl;
+			return ("");
+		}
+		std::cout << msg;
 		std::getline(std::cin, input, '\n');
+		count ++;
 	}
 	return (input);
 }
@@ -43,17 +60,26 @@ std::string PhoneBook::_get_input(char *msg) const
 bool	PhoneBook::add(void)
 {
 	std::string	first_name = PhoneBook::_get_input((char *)"\033[39;1mPlease enter contact first name: \033[0m");
+	if (!first_name.length())
+		return (false);
 	std::string	last_name = PhoneBook::_get_input((char *)"\033[39;1mPlease enter contact last name: \033[0m");
+	if (!last_name.length())
+		return (false);
 	std::string	nickname = PhoneBook::_get_input((char *)"\033[39;1mPlease enter their nickname: \033[0m");
+	if (!nickname.length())
+		return (false);
 	std::string	number = PhoneBook::_get_input((char *)"\033[39;1mPlease enter contact number: \033[0m");
+	if (!number.length())
+		return (false);
 	std::string	secret = PhoneBook::_get_input((char *)"\033[39;1mNow put the darkest secret about them: \033[0m");
-	if (std::cin.eof())
+	if (std::cin.eof() || !secret.length())
 		return (false);
 	this->_contacts[this->_oldest_index].set_contact(first_name, last_name, nickname, number, secret);
 	std::cout << "\033c";
+	std::cout << "\033[30;47;1mContact added:\033[0m" << std::endl;
 	this->_ShowContact(this->_oldest_index);
 	this->_oldest_index = (this->_oldest_index + 1) % 8;
-	this->_len += this->_len < 7;
+	this->_len += this->_len < 8;
 	return (true);
 }
 
@@ -82,10 +108,10 @@ void	PhoneBook::_ShowContacts(void) const
 		std::cout << std::setw(10) << PhoneBook::_format_string(this->_contacts[i].get_nickname()) << "\033[30;47;1m║\033[30;47m";
 		std::cout << std::endl;
 	}
-	for (int i = this->_len; i < 8; i++)
+	for (int i = this->_len; i <= 7; i++)
 		std::cout << "\033[30;47;1m║\033[30;47m"  << std::setw(12) << indexs[i] << "\033[30;47;1m ║" << std::setw(13)
 			<< "║" << std::setw(13) << "║" << std::setw(13) << "║" << std::endl;
-	std::cout << "╚══════════╩══════════╩══════════╩══════════╝\033[39m" << std::endl;
+	std::cout << "╚══════════╩══════════╩══════════╩══════════╝\033[0m" << std::endl;
 }
 
 void	PhoneBook::_ShowContact(int index) const
@@ -131,16 +157,17 @@ bool	PhoneBook::search(void)
 	int			int_index;
 
 	this->_ShowContacts();
-	input = PhoneBook::_get_input((char *)"\033[39;49;1mPlease enter the index you are searching for: \033[0m");
+	std::cout << "\033[39;49;1mPlease enter the index you are searching for: \033[0m";
+	std::getline(std::cin, input);
 	if (std::cin.eof())
 		return (false);
 	int_index = std::atoi(input.c_str());
-	if (input.length() != 1 || !std::isalnum(input[0]) || int_index < 0 || int_index >= this->_len)
+	if (input.length() != 1 || !std::isdigit(input[0]) || int_index < 0 || int_index >= this->_len)
 	{
-		if (input.length() != 1 || !std::isalnum(input[0]))
-			std::cout << "Index is invalid, try again next time." << std::endl;
-		else if (int_index < 0 || int_index >= this->_len)
-			std::cout << "Index is out of range, try again next time." << std::endl;
+		if (input.length() != 1 || !std::isdigit(input[0]) || int_index < 0 || int_index > 7)
+			std::cout << "\033[39;49;1mInvalid input, try again next time.\033[0m" << std::endl;
+		else if (int_index >= this->_len)
+			std::cout << "\033[39;49;1mYou don't have that many contacts.\033[0m" << std::endl;
 		return (true);
 	}
 	std::cout << "\033c";

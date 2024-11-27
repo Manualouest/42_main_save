@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 19:34:32 by mbirou            #+#    #+#             */
-/*   Updated: 2024/11/26 18:50:27 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/11/27 16:57:45 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ Contact::Contact(void)
 
 Contact::~Contact(void)
 {
-	std::cout << "Contact  destructor called" << std::endl;
+	std::cout << "Contact destructor called" << std::endl;
 }
 
 
