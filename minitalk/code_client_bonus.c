@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   code_client_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 15:55:49 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/09 04:42:13 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/11/28 19:07:31 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ int	main(int argc, char **argv)
 	signal(SIGUSR1, ft_timer_switch);
 	signal(SIGUSR2, ft_receipt);
 	pid = ft_atoi(argv[1]);
+	if (pid < 0)
+	{
+		write(2, "this PID is dangerous\n", 22); 
+		return (0);
+	}
 	i = -1;
 	while (argv[2][++i] != 0)
 		ft_send_sig(pid, argv[2][i]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   code_client.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 15:52:19 by mbirou            #+#    #+#             */
-/*   Updated: 2024/02/09 04:41:45 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/11/28 19:07:11 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ int	main(int argc, char **argv)
 	if (argc != 3 || ft_has_letter(argv[1]))
 		return (ft_send_error(argc, 1));
 	pid = ft_atoi(argv[1]);
+	if (pid < 0)
+	{
+		write(2, "this PID is dangerous\n", 22); 
+		return (0);
+	}
 	signal(SIGUSR1, ft_timer_switch);
 	i = -1;
 	while (argv[2][++i] != 0)
