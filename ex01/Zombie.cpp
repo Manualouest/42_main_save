@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:56:50 by mbirou            #+#    #+#             */
-/*   Updated: 2024/11/28 17:04:52 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/11/28 17:08:06 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	Zombie::setName(std::string name)
 {
 	if (name.empty())
 	{
-		std::cout << "\033[31;1mYou forgot to name your zombie dummy so it will be named Crazy Dave 🌮" << std::endl;
+		std::cout << "\033[31;1mYou forgot to name your zombie dummy so it will be named Crazy Dave 🌮\033[0m" << std::endl;
 		name = "Crazy Dave";
 	}
 	this->_name = name;

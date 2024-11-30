@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   randomChunp.cpp                                    :+:      :+:    :+:   */
+/*   Weapon.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 18:56:37 by mbirou            #+#    #+#             */
-/*   Updated: 2024/11/28 17:05:29 by mbirou           ###   ########.fr       */
+/*   Created: 2024/11/30 19:01:14 by mbirou            #+#    #+#             */
+/*   Updated: 2024/11/30 19:15:16 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
-#include <iostream>
+#ifndef WEAPON_HPP
+# define WEAPON_HPP
 
-void	randomChump(std::string name)
+# include <iostream>
+
+class Weapon
 {
-	Zombie	stackZombie;
+	public:
+		Weapon(std::string type);
+		~Weapon(void);
+		std::string	getType()const;
+		void	setType(std::string type);
 
-	stackZombie.setName(name);
-	stackZombie.announce();	
-}
+	private:
+		std::string	_type;
+};
+
+#endif

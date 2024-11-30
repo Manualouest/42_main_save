@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   randomChunp.cpp                                    :+:      :+:    :+:   */
+/*   HumanB.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 18:56:37 by mbirou            #+#    #+#             */
-/*   Updated: 2024/11/28 17:05:29 by mbirou           ###   ########.fr       */
+/*   Created: 2024/11/30 19:01:10 by mbirou            #+#    #+#             */
+/*   Updated: 2024/11/30 19:13:33 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
-#include <iostream>
+#ifndef HUMANB_HPP
+# define HUMANB_CPP
 
-void	randomChump(std::string name)
+#include "Weapon.hpp"
+
+class HumanB
 {
-	Zombie	stackZombie;
+	public:
+		HumanB(std::string name);
+		~HumanB(void);
+		void	setWeapon(Weapon &weapon);
+		void	attack()const;
+	
+	private:
+		Weapon		&_weapon;
+		std::string	name;
+};
 
-	stackZombie.setName(name);
-	stackZombie.announce();	
-}
+#endif

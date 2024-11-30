@@ -1,11 +1,11 @@
-NAME = zombie
+NAME ?= BraiiiiiiinnnzzzZ
 
-FLAGS = -Wall -Wextra -Werror -std=c++98
-
-SRC = main.cpp\
+SRC ?= main.cpp\
 		Zombie.cpp\
 		newZombie.cpp\
 		randomChunp.cpp
+
+FLAGS = -Wall -Wextra -Werror -std=c++98
 
 OBJ = $(SRC:.cpp=.o)
 
