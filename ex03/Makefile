@@ -1,4 +1,4 @@
-NAME = Unnecessary violence
+NAME = violence
 
 SRC = main.cpp\
 		Weapon.cpp\

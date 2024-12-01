@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   HumanB.hpp                                         :+:      :+:    :+:   */
+/*   Replace.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/30 19:01:10 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/01 12:35:43 by mbirou           ###   ########.fr       */
+/*   Created: 2024/12/01 12:35:28 by mbirou            #+#    #+#             */
+/*   Updated: 2024/12/01 16:31:00 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HUMANB_HPP
-# define HUMANB_HPP
+#ifndef REPLACE_HPP
+# define REPLACE_HPP
 
-#include "Weapon.hpp"
+#include <iostream>
+#include <fstream>
+#include <string>
 
-class HumanB
+class Replace
 {
 	public:
-		HumanB(std::string name);
-		~HumanB(void);
-		void	setWeapon(Weapon &weapon);
-		void	attack(void)const;
-	
+		Replace(void);
+		~Replace(void);
+		bool	setup(std::string filename, std::string s1, std::string s2);
+		void	execute(void);
+
 	private:
-		Weapon		*_weapon;
-		std::string	_name;
+		std::string		_s1;
+		std::string		_s2;
+		std::ifstream	_ifs;
+		std::ofstream	_ofs;
+		std::string		_buffLine;
 };
 
 #endif

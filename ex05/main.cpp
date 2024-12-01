@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   HumanB.hpp                                         :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/30 19:01:10 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/01 12:35:43 by mbirou           ###   ########.fr       */
+/*   Created: 2024/12/01 17:48:08 by mbirou            #+#    #+#             */
+/*   Updated: 2024/12/01 17:55:33 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HUMANB_HPP
-# define HUMANB_HPP
+#include "Harl.hpp"
 
-#include "Weapon.hpp"
-
-class HumanB
+int	main(void)
 {
-	public:
-		HumanB(std::string name);
-		~HumanB(void);
-		void	setWeapon(Weapon &weapon);
-		void	attack(void)const;
-	
-	private:
-		Weapon		*_weapon;
-		std::string	_name;
-};
+	Harl	harl;
 
-#endif
+	harl.complain("DEBUG");
+	std::cout << std::endl;
+	harl.complain("INFO");
+	std::cout << std::endl;
+	harl.complain("WARNING");
+	std::cout << std::endl;
+	harl.complain("ERROR");
+	std::cout << std::endl;
+	harl.complain("bad level");
+	return (0);
+}

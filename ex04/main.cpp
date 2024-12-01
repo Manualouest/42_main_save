@@ -5,31 +5,26 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/30 18:57:45 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/01 12:05:49 by mbirou           ###   ########.fr       */
+/*   Created: 2024/12/01 12:13:05 by mbirou            #+#    #+#             */
+/*   Updated: 2024/12/01 16:51:29 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Weapon.hpp"
-#include "HumanA.hpp"
-#include "HumanB.hpp"
+#include "Replace.hpp"
 
-int main()
+int	main(int argc, char **argv)
 {
+	Replace	Replace;
+
+	if (argc != 4 || !argv[1][0] || !argv[2][0] || !argv[3][0])
 	{
-		Weapon club = Weapon("crude spiked club");
-		HumanA bob("Bob", club);
-		bob.attack();
-		club.setType("some other type of club");
-		bob.attack();
+		std::cout	<< "\033[31;1mplease enter the right agruments\033[0m 😾" << std::endl
+					<< "\t- \033[31;1mname of the file to open\033[0m" << std::endl
+					<< "\t- \033[31;1mstring to be replaced in the file\033[0m" << std::endl
+					<< "\t- \033[31;1mstring to for the replacement\033[0m" << std::endl;
+		return (1);
 	}
-	{
-		Weapon club = Weapon("crude spiked club");
-		HumanB jim("Jim");
-		jim.setWeapon(club);
-		jim.attack();
-		club.setType("some other type of club");
-		jim.attack();
-	}
-	return 0;
+	if (!Replace.setup(argv[1], argv[2], argv[3]))
+		return (1);
+	Replace.execute();
 }

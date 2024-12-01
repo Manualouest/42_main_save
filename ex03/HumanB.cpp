@@ -6,7 +6,36 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 19:01:08 by mbirou            #+#    #+#             */
-/*   Updated: 2024/11/30 19:01:09 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/01 12:03:27 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "HumanB.hpp"
+
+HumanB::HumanB(std::string name) : _weapon(NULL)
+{
+	if (name.empty())
+	{
+		std::cout	<< "\033[31;1mhey you forgot your name 🤦" << std::endl
+					<< "You will then be named \033[4;1mSteve\033[0m" << std::endl;
+		this->_name = "Steve";
+	}
+	else
+		this->_name = name;
+}
+
+HumanB::~HumanB(void)
+{
+	std::cout << "\033[31;1mOh no " << this->_name << " was destroyed 😱\033[0m" << std::endl;
+}
+
+void	HumanB::setWeapon(Weapon &weapon)
+{
+	this->_weapon = &weapon;
+}
+
+void	HumanB::attack(void) const
+{
+	std::cout	<< "\033[32;1m" << this->_name << " attacks with their "
+				<< this->_weapon->getType() << std::endl << "\x1b[0m";
+}

@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 19:01:14 by mbirou            #+#    #+#             */
-/*   Updated: 2024/11/30 19:15:16 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/01 12:13:29 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ class Weapon
 	public:
 		Weapon(std::string type);
 		~Weapon(void);
-		std::string	getType()const;
+		std::string	getType(void)const;
 		void	setType(std::string type);
 
 	private:
