@@ -5,26 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/01 12:13:05 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/03 18:51:27 by mbirou           ###   ########.fr       */
+/*   Created: 2024/12/01 17:48:08 by mbirou            #+#    #+#             */
+/*   Updated: 2024/12/03 18:20:06 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Sed.hpp"
+#include "Harl.hpp"
 
 int	main(int argc, char **argv)
 {
-	Sed	Sed;
+	Harl	harl;
 
-	if (argc != 4 || !argv[1][0] || !argv[2][0] || !argv[3][0])
-	{
-		std::cout	<< "\033[31;1mplease enter the right arguments\033[0m 😾" << std::endl
-					<< "\t- \033[31;1mname of the file to open\033[0m" << std::endl
-					<< "\t- \033[31;1mstring to be replaced in the file\033[0m" << std::endl
-					<< "\t- \033[31;1mstring to for the replacement\033[0m" << std::endl;
-		return (1);
-	}
-	if (!Sed.setup(argv[1], argv[2], argv[3]))
-		return (1);
-	Sed.execute();
+	if (argc != 2)
+		std::cout << "\033[31;1mPlease enter \033[31;1;4mONE\033[0m\033[31;1m parameter \033[0m" << std::endl;
+	else
+		harl.complain(argv[1]);
+	return (0);
 }

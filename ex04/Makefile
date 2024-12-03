@@ -1,6 +1,6 @@
 NAME = sed
 
 SRC = main.cpp\
-		Replace.cpp
+		Sed.cpp
 
 include ../ex00/Makefile

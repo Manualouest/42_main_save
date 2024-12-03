@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 19:01:16 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/01 12:04:38 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/03 18:33:45 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ Weapon::Weapon(std::string type)
 
 Weapon::~Weapon(void)
 {
-	std::cout << "\033[31;1mWeapon discarded \033[0m😿" << std::endl;
+	std::cout << "\033[31;1mWeapon was lost forever \033[0m😿" << std::endl;
 }
 
 void	Weapon::setType(std::string type)

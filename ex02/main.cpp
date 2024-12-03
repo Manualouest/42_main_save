@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 17:38:37 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/01 11:34:18 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/03 18:27:36 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@
 int	main(void)
 {
 	std::string	string;
-	std::string	*stringPTR;
+	std::string	*stringPTR = &string;
 	std::string	&stringREF = string;
 
 	string = "HI THIS IS BRAIN";
-	stringPTR = &string;
 	std::cout	<< std::setiosflags(std::ios::left) << "\033[1;4mThis is the adresse\033[0m:" << std::endl
 				<< std::setw(33) << "\t-\033[1;4mof the variable\033[0m" << ": " << &string << std::endl
 				<< std::setw(33) << "\t-\033[1;4mheld by the pointer\033[0m" << ": " << stringPTR << std::endl

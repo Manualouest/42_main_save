@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Replace.cpp                                            :+:      :+:    :+:   */
+/*   Sed.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 12:38:53 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/01 16:07:08 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/03 18:39:34 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Replace.hpp"
+#include "Sed.hpp"
 
-Replace::Replace(void)
+Sed::Sed(void)
 {
 	this->_s1 = "";
 	this->_s2 = "";
 }
 
-Replace::~Replace(void)
+Sed::~Sed(void)
 {
-	this->_ifs.close();
-	this->_ofs.close();
+	if(this->_ifs.is_open())
+		this->_ifs.close();
+	if(this->_ofs.is_open())
+		this->_ofs.close();
 }
 
-bool	Replace::setup(std::string filename, std::string s1, std::string s2)
+bool	Sed::setup(std::string filename, std::string s1, std::string s2)
 {
 	this->_ifs.open(filename.c_str(), std::ifstream::in);
 	if (!this->_ifs.fail())
@@ -32,7 +34,6 @@ bool	Replace::setup(std::string filename, std::string s1, std::string s2)
 	if (this->_ifs.fail() || this->_ofs.fail())
 	{
 		std::cout << "\033[31;1mCould not open file\033[0m 😿" << std::endl;
-		this->~Replace();
 		return (false);
 	}
 	this->_s1 = s1;
@@ -40,14 +41,15 @@ bool	Replace::setup(std::string filename, std::string s1, std::string s2)
 	return (true);
 }
 
-void	Replace::execute(void)
+void	Sed::execute(void)
 {
 	size_t pos;
 
 	while (getline(this->_ifs, this->_buffLine))
 	{
 		pos = 0;
-		for (pos = this->_buffLine.find(this->_s1, pos); pos != std::string::npos; pos = this->_buffLine.find(this->_s1, pos))
+		for (pos = this->_buffLine.find(this->_s1, pos);
+			pos != std::string::npos; pos = this->_buffLine.find(this->_s1, pos))
 		{
 
 			this->_buffLine.erase(pos, this->_s1.length());

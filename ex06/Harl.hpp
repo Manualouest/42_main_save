@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Replace.hpp                                        :+:      :+:    :+:   */
+/*   Harl.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/01 12:35:28 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/01 16:31:00 by mbirou           ###   ########.fr       */
+/*   Created: 2024/12/01 17:48:59 by mbirou            #+#    #+#             */
+/*   Updated: 2024/12/03 18:57:43 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REPLACE_HPP
-# define REPLACE_HPP
+#ifndef HARL_HPP
+# define HARL_HPP
 
-#include <iostream>
-#include <fstream>
-#include <string>
+# include <iostream>
 
-class Replace
+#define HARL_FALLTHROUGH __attribute__ ((fallthrough))
+
+class Harl
 {
 	public:
-		Replace(void);
-		~Replace(void);
-		bool	setup(std::string filename, std::string s1, std::string s2);
-		void	execute(void);
+		Harl(void);
+		~Harl(void);
+		void	complain(std::string level);
 
 	private:
-		std::string		_s1;
-		std::string		_s2;
-		std::ifstream	_ifs;
-		std::ofstream	_ofs;
-		std::string		_buffLine;
+		void	debug(void);
+		void	info(void);
+		void	warning(void);
+		void	error(void);
 };
 
 #endif

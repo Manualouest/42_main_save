@@ -5,7 +5,7 @@ SRC ?= main.cpp\
 		newZombie.cpp\
 		randomChunp.cpp
 
-FLAGS = -Wall -Wextra -Werror -std=c++98 -g
+FLAGS ?= -Wall -Wextra -Werror -std=c++98
 
 OBJ = $(SRC:.cpp=.o)
 
