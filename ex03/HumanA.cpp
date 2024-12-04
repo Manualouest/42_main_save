@@ -6,13 +6,13 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 18:58:43 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/01 15:05:30 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/04 12:33:45 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "HumanA.hpp"
 
-HumanA::HumanA(std::string name, Weapon &weapon) : _weapon(weapon)
+HumanA::HumanA(const std::string &name, Weapon &weapon) : _weapon(weapon)
 {
 	if (name.empty())
 	{

@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 16:56:42 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/03 18:55:28 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/04 11:44:33 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,10 @@ Harl::~Harl(void)
 	std::cout << "\033[32;1mHarl destroyed\033[0m 😿" << std::endl;
 }
 
-void	Harl::complain(std::string level)
+void	Harl::complain(const std::string &level)
 {
 	int	i;
-	std::string	levels[4] = {"DEBUG", "INFO", "WARNING", "ERROR"};
-	for (i = 0; i < 4 && levels[i] != level; ++i)
+	for (i = 0; i < 4 && this->_levels[i] != level; ++i)
 		;
 	switch (i)
 	{
@@ -47,27 +46,27 @@ void	Harl::complain(std::string level)
 	}
 }
 
-void	Harl::debug(void)
+void	Harl::debug(void) const
 {
 	std::cout	<< std::endl << "\033[31;1;4m[DEBUG]\033[0m" << std::endl
 				<< "\033[31;1m🧙 The Shadow Wizard Money Gang" << std::endl
 				<< "\twants to cast High Mana Cost Insanely Destructive Doomsday-threat-level Spells 🤯\033[0m" << std::endl;
 }
 
-void	Harl::info(void)
+void	Harl::info(void) const
 {
 	std::cout	<< std::endl << "\033[31;1;4m[INFO]\033[0m" << std::endl
 				<< "\033[31;1m🧙 The Shadow Wizard Money Gang loves casting spells" << std::endl
 				<< "\tand has earned quite a lot of mana and is ready to cast some spells 😎\033[0m" << std::endl;
 }
 
-void	Harl::warning(void)
+void	Harl::warning(void) const
 {
 	std::cout	<< std::endl << "\033[31;1;4m[WARNING]\033[0m" << std::endl
 				<< "\033[31;1m🧙 The Shadow Wizard Money Gang" << std::endl
 				<< "\tdoesn't currently have that much mana 😢\033[0m" << std::endl;
 }
-void	Harl::error(void)
+void	Harl::error(void) const
 {
 	std::cout	<< std::endl << "\033[31;1;4m[ERROR]\033[0m" << std::endl
 				<< "\033[31;1m🧙 The Shadow Wizard Money Gang" << std::endl

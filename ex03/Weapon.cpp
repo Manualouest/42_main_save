@@ -6,13 +6,13 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 19:01:16 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/03 18:33:45 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/04 12:26:40 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Weapon.hpp"
 
-Weapon::Weapon(std::string type)
+Weapon::Weapon(const std::string &type)
 {
 	this->setType(type);
 }
@@ -22,7 +22,7 @@ Weapon::~Weapon(void)
 	std::cout << "\033[31;1mWeapon was lost forever \033[0m😿" << std::endl;
 }
 
-void	Weapon::setType(std::string type)
+void	Weapon::setType(const std::string &type)
 {
 	if (type.empty())
 	{
@@ -33,7 +33,7 @@ void	Weapon::setType(std::string type)
 		this->_type = type;
 }
 
-std::string	Weapon::getType(void) const
+const std::string	&Weapon::getType(void) const
 {
 	return (this->_type);
 }

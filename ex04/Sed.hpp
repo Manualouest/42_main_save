@@ -20,9 +20,8 @@
 class Sed
 {
 	public:
-		Sed(void);
+		Sed(const std::string &filename, const std::string &s1, const std::string &s2);
 		~Sed(void);
-		bool	setup(std::string filename, std::string s1, std::string s2);
 		void	execute(void);
 
 	private:

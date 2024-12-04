@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 19:01:05 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/01 12:13:39 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/04 12:33:42 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 class HumanA
 {
 	public:
-		HumanA(std::string name, Weapon &weapon);
+		HumanA(const std::string &name, Weapon &weapon);
 		~HumanA(void);
 		void	attack(void) const;
 	

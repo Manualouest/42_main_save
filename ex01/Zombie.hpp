@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 17:39:06 by mbirou            #+#    #+#             */
-/*   Updated: 2024/11/28 17:39:07 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/04 12:31:36 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ class Zombie
 	public:
 		Zombie(void);
 		~Zombie(void);
-		void	announce(void);
-		void	setName(std::string name);
+		void	announce(void) const;
+		void	setName(const std::string &name);
 	
 	private:
 		std::string	_name;

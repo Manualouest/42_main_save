@@ -6,16 +6,30 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 12:38:53 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/03 18:39:34 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/04 12:24:52 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Sed.hpp"
 
-Sed::Sed(void)
+Sed::Sed(const std::string &filename, const std::string &s1, const std::string &s2)
 {
-	this->_s1 = "";
-	this->_s2 = "";
+	std::string	outfile;
+
+	if (filename.empty())
+		throw (std::string("\033[31;1mFilename is empty 😾\033[0m"));
+	if (s1.empty())
+		throw (std::string("\033[31;1mString to search is empty 😾\033[0m"));
+	if (s2.empty())
+		throw (std::string("\033[31;1mString for replace is empty 😾\033[0m"));
+	outfile = filename;
+	this->_ifs.open(filename.c_str(), std::ifstream::in);
+	if (!this->_ifs.fail())
+		this->_ofs.open(outfile.append(".replace").c_str(), std::ofstream::out | std::ofstream::trunc);
+	if (this->_ifs.fail() || this->_ofs.fail())
+		throw (std::string("\033[31;1mCould not open file\033[0m 😿"));
+	this->_s1 = s1;
+	this->_s2 = s2;
 }
 
 Sed::~Sed(void)
@@ -26,20 +40,6 @@ Sed::~Sed(void)
 		this->_ofs.close();
 }
 
-bool	Sed::setup(std::string filename, std::string s1, std::string s2)
-{
-	this->_ifs.open(filename.c_str(), std::ifstream::in);
-	if (!this->_ifs.fail())
-		this->_ofs.open(filename.append(".replace").c_str(), std::ofstream::out | std::ofstream::trunc);
-	if (this->_ifs.fail() || this->_ofs.fail())
-	{
-		std::cout << "\033[31;1mCould not open file\033[0m 😿" << std::endl;
-		return (false);
-	}
-	this->_s1 = s1;
-	this->_s2 = s2;
-	return (true);
-}
 
 void	Sed::execute(void)
 {

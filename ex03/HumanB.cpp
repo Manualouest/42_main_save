@@ -6,13 +6,13 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 19:01:08 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/03 18:35:07 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/04 12:33:35 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "HumanB.hpp"
 
-HumanB::HumanB(std::string name) : _weapon(NULL)
+HumanB::HumanB(const std::string &name) : _weapon(NULL)
 {
 	if (name.empty())
 	{
