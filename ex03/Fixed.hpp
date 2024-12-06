@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:51:11 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/06 14:07:03 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/06 15:08:35 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ class Fixed
 		static const Fixed	&min(const Fixed &a, const Fixed &b);
 		static Fixed		&max(Fixed &a, Fixed &b);
 		static const Fixed	&max(const Fixed &a, const Fixed &b);
+		void				Abs(void);
 
 	private:
 		int					_num;

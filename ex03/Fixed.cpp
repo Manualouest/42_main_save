@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:51:03 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/06 15:22:48 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/06 15:10:09 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,16 @@ void	Fixed::setRawBits(int const raw)
 	this->_num = raw;
 }
 
+float	Fixed::toFloat(void) const
+{
+	return ((float)this->_num / (1 << this->_bit));
+}
+
+int	Fixed::toInt(void) const
+{
+	return ((float)this->_num / (1 << this->_bit));
+}
+
 Fixed		&Fixed::min(Fixed &a, Fixed &b)
 {
 	if (a.toFloat() < b.toFloat())
@@ -180,13 +190,8 @@ const Fixed	&Fixed::max(const Fixed &a, const Fixed &b)
 	return (b);
 }
 
-
-float	Fixed::toFloat(void) const
+void	Fixed::Abs()
 {
-	return ((float)this->_num / (1 << this->_bit));
-}
-
-int	Fixed::toInt(void) const
-{
-	return ((float)this->_num / (1 << this->_bit));
+	if (this->_num < 0)
+		this->_num *= -1;
 }
