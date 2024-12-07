@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colors.hpp                                         :+:      :+:    :+:   */
+/*   spellbook.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:43:27 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/06 18:03:01 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/07 18:20:21 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,22 @@
 # define ITAL "\033[3m"
 # define STRK "\033[9m"
 
-# define BLK "\033[0;90m"
-# define RED "\033[0;91m"
-# define GRN "\033[0;92m"
-# define YLW "\033[0;93m"
-# define BLU "\033[0;94m"
-# define PRP "\033[0;95m"
-# define CYN "\033[0;96m"
-# define WHT "\033[0;97m"
+# define BLK "\033[0;30m"
+# define RED "\033[0;31m"
+# define GRN "\033[0;32m"
+# define YLW "\033[0;33m"
+# define BLU "\033[0;34m"
+# define PRP "\033[0;35m"
+# define CYN "\033[0;36m"
+# define WHT "\033[0;37m"
 
 # define RGB(r, g, b) "\033[38;2;" #r ";" #g ";" #b "m"
+
+# define PRINT std::cout <<
+# define AND <<
+# define ENDL << std::endl
+# define TAB "\t"
+# define NEWL std::cout << std::endl;
+
 
 #endif
