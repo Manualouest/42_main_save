@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:29:21 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/08 17:38:35 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/08 17:38:18 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ ClapTrap::~ClapTrap()
 {
 	PRINT RGB(200, 200, 0) BOLD "ClapTrap Destructor called" CLR ENDL;
 }
+
 void	ClapTrap::attack(const std::string &target)
 {
 	if (getEnergy() < 1)

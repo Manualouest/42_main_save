@@ -6,76 +6,17 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 17:59:29 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/08 16:00:58 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/08 16:02:13 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
 #include "ScavTrap.hpp"
+#include "FragTrap.hpp"
 #include <spellBook.hpp>
 
 int	main()
 {
-	NEWL;
-	PRINT RGB(255, 165, 0) BOLD "══════════════════════════════════════════════" CLR ENDL;
-	{
-		PRINT BOLD UNDL "ClapTrap" CLR ENDL;
-		ClapTrap	CtrapA;
-		ClapTrap	CtrapB("CtrapB");
-		ClapTrap	CtrapC = CtrapA;
-
-		NEWL;
-		PRINT BOLD UNDL "Default" CLR BOLD ":" ENDL;
-		PRINT TAB "Name:" TAB TAB AND CtrapB.getName() ENDL;
-		PRINT TAB "Hit point:" TAB AND CtrapB.getHp() ENDL;
-		PRINT TAB "Energy:" TAB TAB AND CtrapB.getEnergy() ENDL;
-		PRINT TAB "Damage:" TAB TAB AND CtrapB.getDmg() ENDL;
-
-		NEWL;
-		CtrapA.setName("CtrapA");
-		CtrapA.setDmg(9);
-		CtrapA.setEnergy(2);
-		CtrapC.setName("CtrapC");
-		CtrapC.setDmg(10);
-
-		NEWL;
-		PRINT BOLD AND CtrapA.getName() AND " tries to attack " AND CtrapB.getName() ENDL;
-		CtrapA.attack(CtrapB.getName());
-		CtrapB.takeDamage(CtrapA.getDmg());
-		PRINT CtrapA.getName() AND " now has " AND CtrapA.getEnergy() AND " energy" ENDL;
-		PRINT CtrapB.getName() AND " now has " AND CtrapB.getHp() AND " hit point" ENDL;
-		
-		NEWL;
-		PRINT BOLD AND CtrapB.getName() AND " tries to heal" ENDL;
-		CtrapB.beRepaired(8);
-		PRINT CtrapB.getName() AND " now has " AND CtrapB.getEnergy() AND " energy" ENDL;
-		PRINT CtrapB.getName() AND " now has " AND CtrapB.getHp() AND " hit point" ENDL;
-		
-		NEWL;
-		PRINT BOLD AND CtrapA.getName() AND " tries to attack " AND CtrapB.getName() ENDL;
-		CtrapA.attack(CtrapB.getName());
-		CtrapB.takeDamage(CtrapA.getDmg());
-		PRINT CtrapA.getName() AND " now has " AND CtrapA.getEnergy() AND " energy" ENDL;
-		PRINT CtrapB.getName() AND " now has " AND CtrapB.getHp() AND " hit point" ENDL;
-		
-		NEWL;
-		PRINT BOLD AND CtrapB.getName() AND " tries to heal" ENDL;
-		CtrapB.beRepaired(8);
-		PRINT CtrapB.getName() AND " now has " AND CtrapB.getEnergy() AND " energy" ENDL;
-		PRINT CtrapB.getName() AND " now has " AND CtrapB.getHp() AND " hit point" ENDL;
-
-		NEWL;
-		PRINT BOLD AND CtrapA.getName() AND " tries to attack " AND CtrapC.getName() ENDL;
-		CtrapA.attack(CtrapC.getName());
-
-		NEWL;
-		PRINT BOLD AND CtrapC.getName() AND " tries to attack " AND CtrapA.getName() ENDL;
-		CtrapC.attack(CtrapA.getName());
-		CtrapA.takeDamage(CtrapC.getDmg());
-		PRINT CtrapC.getName() AND " now has " AND CtrapC.getEnergy() AND " energy" ENDL;
-		PRINT CtrapA.getName() AND " now has " AND CtrapA.getHp() AND " hit point" AND CLR ENDL;
-		NEWL;
-	}
 	NEWL;
 	PRINT RGB(255, 165, 0) BOLD "══════════════════════════════════════════════" CLR ENDL;
 	{
@@ -140,6 +81,72 @@ int	main()
 		StrapB.guardGate();
 		StrapC.guardGate();
 		StrapC.guardGate();
+		NEWL;
+	}
+	NEWL;
+	PRINT RGB(255, 165, 0) BOLD "══════════════════════════════════════════════" CLR ENDL;
+	{
+		NEWL;
+		PRINT BOLD UNDL "FragTrap" CLR ENDL;
+		FragTrap	FtrapA;
+		FragTrap	FtrapB("FtrapB");
+		FragTrap	FtrapC = FtrapA;
+
+		NEWL;
+		PRINT BOLD UNDL "Default" CLR BOLD ":" ENDL;
+		PRINT TAB "Name:" TAB TAB AND FtrapB.getName() ENDL;
+		PRINT TAB "Hit point:" TAB AND FtrapB.getHp() ENDL;
+		PRINT TAB "Energy:" TAB TAB AND FtrapB.getEnergy() ENDL;
+		PRINT TAB "Damage:" TAB TAB AND FtrapB.getDmg() ENDL;
+
+		FtrapA.setName("FtrapA");
+		FtrapA.setHp(10);
+		FtrapA.setDmg(9);
+		FtrapB.setEnergy(1);
+		FtrapC.setName("FtrapC");
+
+		NEWL;
+		PRINT BOLD AND FtrapA.getName() AND " tries to attack " AND FtrapB.getName() ENDL;
+		FtrapA.attack(FtrapB.getName());
+		FtrapB.takeDamage(FtrapA.getDmg());
+		PRINT FtrapA.getName() AND " now has " AND FtrapA.getEnergy() AND " energy" ENDL;
+		PRINT FtrapB.getName() AND " now has " AND FtrapB.getHp() AND " hit point" ENDL;
+		
+		NEWL;
+		PRINT BOLD AND FtrapB.getName() AND " tries to heal" ENDL;
+		FtrapB.beRepaired(8);
+		PRINT FtrapB.getName() AND " now has " AND FtrapB.getEnergy() AND " energy" ENDL;
+		PRINT FtrapB.getName() AND " now has " AND FtrapB.getHp() AND " hit point" ENDL;
+		
+		NEWL;
+		PRINT BOLD AND FtrapA.getName() AND " tries to attack " AND FtrapB.getName() ENDL;
+		FtrapA.attack(FtrapB.getName());
+		FtrapB.takeDamage(FtrapA.getDmg());
+		PRINT FtrapA.getName() AND " now has " AND FtrapA.getEnergy() AND " energy" ENDL;
+		PRINT FtrapB.getName() AND " now has " AND FtrapB.getHp() AND " hit point" ENDL;
+		
+		NEWL;
+		PRINT BOLD AND FtrapB.getName() AND " tries to heal" ENDL;
+		FtrapB.beRepaired(8);
+		PRINT FtrapB.getName() AND " now has " AND FtrapB.getEnergy() AND " energy" ENDL;
+		PRINT FtrapB.getName() AND " now has " AND FtrapB.getHp() AND " hit point" ENDL;
+
+		NEWL;
+		PRINT BOLD AND FtrapA.getName() AND " tries to attack " AND FtrapC.getName() ENDL;
+		FtrapA.attack(FtrapC.getName());
+
+		NEWL;
+		PRINT BOLD AND FtrapC.getName() AND " tries to attack " AND FtrapA.getName() ENDL;
+		FtrapC.attack(FtrapA.getName());
+		FtrapA.takeDamage(FtrapC.getDmg());
+		PRINT FtrapC.getName() AND " now has " AND FtrapC.getEnergy() AND " energy" ENDL;
+		PRINT FtrapA.getName() AND " now has " AND FtrapA.getHp() AND " hit point" AND CLR ENDL;
+		
+		NEWL;
+		FtrapA.highFivesGuys();
+		FtrapB.highFivesGuys();
+		FtrapC.highFivesGuys();
+		FtrapC.highFivesGuys();
 		NEWL;
 	}
 	NEWL;

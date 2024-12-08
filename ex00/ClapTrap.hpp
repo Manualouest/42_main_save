@@ -6,14 +6,14 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 15:40:24 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/07 18:41:04 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/08 14:42:06 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CLAPTRAP_HPP
 # define CLAPTRAP_HPP
 
-# include <spellbook.hpp>
+# include <spellBook.hpp>
 # include <iostream>
 
 class ClapTrap

@@ -1,42 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ScavTrap.hpp                                       :+:      :+:    :+:   */
+/*   FragTrap.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/08 14:41:39 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/08 17:44:04 by mbirou           ###   ########.fr       */
+/*   Created: 2024/12/08 16:11:13 by mbirou            #+#    #+#             */
+/*   Updated: 2024/12/08 17:43:32 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SCAVTRAP_HPP
-# define SCAVTRAP_HPP
+#ifndef FRAGTRAP_HPP
+# define FRAGTRAP_HPP
 
 # include "ClapTrap.hpp"
 # include <spellBook.hpp>
 # include <iostream>
 
-# define SCAV_HP 100
-# define SCAV_EP 50
-# define SCAV_DMG 20 
+# define FRAG_HP 100
+# define FRAG_EP 100
+# define FRAG_DMG 30 
 
-class ScavTrap : public ClapTrap
+class FragTrap : virtual public ClapTrap
 {
 	public:
-		ScavTrap();
-		ScavTrap(const ScavTrap &trap);
-		ScavTrap(const std::string &name);
-		ScavTrap	&operator =(const ScavTrap &rhs);
-		~ScavTrap();
-
-		void		attack(const std::string &target);
-		void		guardGate();
-		void		setGuard(const bool &status);
-		const bool	&getGuard() const;
+		FragTrap();
+		FragTrap(const FragTrap &trap);
+		FragTrap(const std::string &name);
+		FragTrap	&operator =(const FragTrap &rhs);
+		~FragTrap();
 	
-	private:
-		bool	_guardStatus;
+		void highFivesGuys();
 };
 
 #endif

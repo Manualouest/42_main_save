@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 14:41:39 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/08 17:44:04 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/08 17:43:56 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define SCAV_EP 50
 # define SCAV_DMG 20 
 
-class ScavTrap : public ClapTrap
+class ScavTrap : virtual public ClapTrap
 {
 	public:
 		ScavTrap();
@@ -35,7 +35,7 @@ class ScavTrap : public ClapTrap
 		void		setGuard(const bool &status);
 		const bool	&getGuard() const;
 	
-	private:
+	protected:
 		bool	_guardStatus;
 };
 

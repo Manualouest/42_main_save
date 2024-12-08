@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   spellbook.hpp                                      :+:      :+:    :+:   */
+/*   spellBook.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:43:27 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/07 18:20:21 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/08 16:53:41 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define AND <<
 # define ENDL << std::endl
 # define TAB "\t"
-# define NEWL std::cout << std::endl;
+# define NEWL std::cout << std::endl
 
 
 #endif
