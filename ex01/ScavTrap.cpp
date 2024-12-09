@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/08 14:52:42 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/08 17:45:33 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/08 17:58:01 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ ScavTrap::ScavTrap(const std::string &name)
 	setDmg(SCAV_DMG);
 	setGuard(false);
 }
-
+git@vogsphere.42angouleme.fr:vogsphere/intra-uuid-2ee897e9-a7f5-4e8f-8d49-912ec8fd5b7a-6232773-mbirou
 ScavTrap	&ScavTrap::operator =(const ScavTrap &rhs)
 {
 	PRINT GRN BOLD "ScavTrap Copy assignement operator called" CLR ENDL;
