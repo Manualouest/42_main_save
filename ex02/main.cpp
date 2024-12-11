@@ -17,31 +17,41 @@
 
 int main()
 {
+	// AAnimal test; // this doesnt compile
 	{
-		const Animal*	meta = new Animal();
-		const Animal*	j = new Dog();
-		const Animal*	i = new Cat();
-		Cat				t;
-
-		PRINT CYN BOLD "Type for Animal:" TAB AND meta->getType() ENDL;
-		PRINT CYN BOLD "Type for Dog:" TAB TAB AND j->getType() ENDL;
-		PRINT CYN BOLD "Type for Cat:" TAB TAB AND i->getType() ENDL;
-		PRINT CYN BOLD "Type for Cat:" TAB TAB AND t.getType() ENDL;
-		
-		i->makeSound();
-		j->makeSound();
-		meta->makeSound();
-		t.makeSound();
+		AAnimal	**animals = new AAnimal*[10];
+		for (int i = 0; i < 10; ++i)
+		{
+			if (i < 5)
+				animals[i] = new Cat();
+			else
+				animals[i] = new Dog();
+		}
+		for (int i = 0; i < 10; ++i)
+		{
+			animals[i]->makeSound();
+			delete animals[i];
+		}
+		delete []animals;
 	}
 	NEWL;
 	{
-		const WrongAnimal*	wmeta = new WrongAnimal();
-		const WrongAnimal*	wi = new WrongCat();
-
-		PRINT CYN BOLD "Type for WrongAnimal:" TAB AND wmeta->getType() ENDL;
-		PRINT CYN BOLD "Type for WrongCat:" TAB AND wi->getType() ENDL;
+		Cat	cat;
+		{
+			Cat ncat = cat;
+			PRINT BOLD "Ncat's brain address: " TAB UNDL AND ncat.getBrainAddr() AND CLR ENDL;
+		}
+		PRINT BOLD "Cat's brain address: " TAB UNDL AND cat.getBrainAddr() AND CLR ENDL;
 		
-		wi->makeSound();
-		wmeta->makeSound();
+	}
+	NEWL;
+	{
+		Dog	dog;
+		{
+			Dog ndog = dog;
+			PRINT BOLD "Ndog's brain address: " TAB UNDL AND ndog.getBrainAddr() AND CLR ENDL;
+		}
+		PRINT BOLD "dog's brain address: " TAB UNDL AND dog.getBrainAddr() AND CLR ENDL;
+		
 	}
 }

@@ -1,43 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Cat.cpp                                            :+:      :+:    :+:   */
+/*   WrongCat.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/09 16:02:20 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/11 15:41:37 by mbirou           ###   ########.fr       */
+/*   Created: 2024/12/10 14:18:48 by mbirou            #+#    #+#             */
+/*   Updated: 2024/12/11 14:55:43 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Cat.hpp"
+#include "WrongCat.hpp"
 
-Cat::Cat()
+WrongCat::WrongCat()
 {
-	_type = "Cat";
-	PRINT GRN BOLD "Cat Constructor called" CLR ENDL;
+	_type = "WrongCat";
+	PRINT GRN BOLD "WrongCat Constructor called" CLR ENDL;
 }
 
-Cat::Cat(const Cat &src)
+WrongCat::WrongCat(const WrongCat &src)
 {
-	PRINT GRN BOLD "Cat Copy constructor called" CLR ENDL;
+	PRINT GRN BOLD "WrongCat Copy constructor called" CLR ENDL;
 	*this = src;
 }
 
-Cat	&Cat::operator =(const Cat &rhs)
+WrongCat	&WrongCat::operator =(const WrongCat &rhs)
 {
-	PRINT GRN BOLD "Cat Copy assignement operator called" CLR ENDL;
+	PRINT GRN BOLD "WrongCat Copy assignement operator called" CLR ENDL;
 	if (this != &rhs)
 		_type = rhs.getType();
 	return (*this);
 }
 
-Cat::~Cat()
+WrongCat::~WrongCat()
 {
-	PRINT RGB(200, 200, 0) BOLD "Cat Touched water" CLR ENDL;
+	PRINT RGB(200, 200, 0) BOLD "WrongCat Touched water" CLR ENDL;
 }
 
-void	Cat::makeSound() const
+void	WrongCat::makeSound() const
 {
-	PRINT CYN BOLD "Rrrrrrrreow 🐱🥖" CLR ENDL;
+	PRINT CYN BOLD "Bonjour 🐱" CLR ENDL;
 }
