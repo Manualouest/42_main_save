@@ -23,6 +23,7 @@
 		"system_error": "cpp",
 		"functional": "cpp",
 		"tuple": "cpp",
-		"variant": "cpp"
+		"variant": "cpp",
+		"limits": "cpp"
 	}
 }

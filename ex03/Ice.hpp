@@ -6,12 +6,12 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 15:51:25 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/12 16:00:20 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/13 12:58:11 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ICE_HPP
-#define ICE_HPP
+# define ICE_HPP
 
 # include "AMateria.hpp"
 # include "ICharacter.hpp"

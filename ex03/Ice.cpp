@@ -1,48 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AMateria.cpp                                       :+:      :+:    :+:   */
+/*   Ice.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:42:38 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/13 14:20:59 by mbirou           ###   ########.fr       */
+/*   Created: 2024/12/13 14:19:10 by mbirou            #+#    #+#             */
+/*   Updated: 2024/12/13 14:24:12 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AMateria.hpp"
+#include "Ice.hpp"
 
-AMateria::AMateria()
+Ice::Ice()
 {
-	_type = "";
+	_type = "ice";
 }
 
-AMateria::AMateria(const AMateria &src)
+Ice::Ice(const Ice &src)
 {
 	*this = src;
 }
 
-AMateria	&AMateria::operator =(const AMateria &rhs)
+Ice	&Ice::operator =(const Ice &rhs)
 {
 	if (this != &rhs)
 		_type = rhs.getType();
 }
 
-AMateria::AMateria(std::string const &type)
-{
-	_type = type;
-}
-
-AMateria::~AMateria()
+Ice::Ice(std::string const &type)
 {
 }
 
-std::string const	&AMateria::getType() const
+Ice::~Ice()
+{
+}
+
+std::string const	&Ice::getType() const
 {
 	return (_type);
 }
 
-void	AMateria::use(ICharacter &target)
+AMateria	*Ice::clone() const
 {
-	PRINT CYN BOLD "Shoots abstaction at " AND target.getName() AND CLR ENDL;
+	AMateria	*IceClone = new Ice();
+	return (IceClone);
+}
+
+void	Ice::use(ICharacter &target)
+{
+	PRINT CYN BOLD "🧙 Shoots an ice bold at " AND target.getName() AND " 🥶" CLR ENDL;
 }

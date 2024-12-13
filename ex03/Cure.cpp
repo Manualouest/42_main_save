@@ -1,48 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AMateria.cpp                                       :+:      :+:    :+:   */
+/*   Cure.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/12 13:42:38 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/13 14:20:59 by mbirou           ###   ########.fr       */
+/*   Created: 2024/12/13 14:22:34 by mbirou            #+#    #+#             */
+/*   Updated: 2024/12/13 14:24:15 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AMateria.hpp"
+#include "Cure.hpp"
 
-AMateria::AMateria()
+Cure::Cure()
 {
-	_type = "";
+	_type = "cure";
 }
 
-AMateria::AMateria(const AMateria &src)
+Cure::Cure(const Cure &src)
 {
 	*this = src;
 }
 
-AMateria	&AMateria::operator =(const AMateria &rhs)
+Cure	&Cure::operator =(const Cure &rhs)
 {
 	if (this != &rhs)
 		_type = rhs.getType();
 }
 
-AMateria::AMateria(std::string const &type)
-{
-	_type = type;
-}
-
-AMateria::~AMateria()
+Cure::Cure(std::string const &type)
 {
 }
 
-std::string const	&AMateria::getType() const
+Cure::~Cure()
+{
+}
+
+std::string const	&Cure::getType() const
 {
 	return (_type);
 }
 
-void	AMateria::use(ICharacter &target)
+AMateria	*Cure::clone() const
 {
-	PRINT CYN BOLD "Shoots abstaction at " AND target.getName() AND CLR ENDL;
+	AMateria	*CureClone = new Cure();
+	return (CureClone);
+}
+
+void	Cure::use(ICharacter &target)
+{
+	PRINT CYN BOLD "🧙 Heals " AND target.getName() AND "'s wounds ✨" CLR ENDL;
 }
