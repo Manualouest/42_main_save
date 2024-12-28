@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 10:55:53 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/13 17:56:55 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/28 13:35:25 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ class Character : public ICharacter
 {
 	public:
 		Character();
+		Character(const std::string &name);
 		Character(const Character &src);
 		Character	&operator =(const Character &rhs);
 		~Character();
@@ -31,7 +32,10 @@ class Character : public ICharacter
 		void				use(int idx, ICharacter& target);
 	
 	private:
-		AMateria	**_inventory[4];
+		AMateria	*_inventory[4];
+		int			_invIndex;
+		AMateria	**_storage;
+		int			_storageLen;
 		std::string	_name;
 };
 

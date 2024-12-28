@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:19:10 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/13 14:24:12 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/28 12:34:46 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ Ice	&Ice::operator =(const Ice &rhs)
 {
 	if (this != &rhs)
 		_type = rhs.getType();
-}
-
-Ice::Ice(std::string const &type)
-{
+	return (*this);
 }
 
 Ice::~Ice()

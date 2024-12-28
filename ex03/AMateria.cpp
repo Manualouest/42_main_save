@@ -6,11 +6,13 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 13:42:38 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/13 14:20:59 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/28 12:32:17 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "AMateria.hpp"
+#include "ICharacter.hpp"
 
 AMateria::AMateria()
 {
@@ -26,6 +28,7 @@ AMateria	&AMateria::operator =(const AMateria &rhs)
 {
 	if (this != &rhs)
 		_type = rhs.getType();
+	return (*this);
 }
 
 AMateria::AMateria(std::string const &type)

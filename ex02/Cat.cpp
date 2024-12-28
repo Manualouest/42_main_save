@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:02:20 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/11 15:49:33 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/28 14:30:16 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ Cat	&Cat::operator =(const Cat &rhs)
 	if (this != &rhs)
 	{
 		_type = rhs.getType();
+		delete _brain;
 		_brain = new Brain();
 		*_brain = *rhs._brain;
 	}

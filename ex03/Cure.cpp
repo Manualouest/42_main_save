@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:22:34 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/13 14:24:15 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/28 12:34:42 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ Cure	&Cure::operator =(const Cure &rhs)
 {
 	if (this != &rhs)
 		_type = rhs.getType();
-}
-
-Cure::Cure(std::string const &type)
-{
+	return (*this);
 }
 
 Cure::~Cure()

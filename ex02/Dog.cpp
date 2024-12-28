@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:00:00 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/11 15:49:36 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/28 14:30:07 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ Dog	&Dog::operator =(const Dog &rhs)
 	if (this != &rhs)
 	{
 		_type = rhs.getType();
+		delete _brain;
 		_brain = new Brain();
 		*_brain = *rhs._brain;
 	}
