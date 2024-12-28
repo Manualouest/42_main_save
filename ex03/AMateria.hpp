@@ -6,12 +6,11 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 17:31:29 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/28 12:47:33 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/28 19:14:23 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AMATERIA_HPP
-# define AMATERIA_HPP
+#pragma once
 
 # include <spellBook.hpp>
 # include <iostream>
@@ -36,5 +35,3 @@ class AMateria
 		std::string	_type;
 
 };
-
-#endif

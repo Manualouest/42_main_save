@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 14:27:00 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/28 18:28:12 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/28 19:10:26 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,27 @@ Character::Character(const Character &src)
 	*this = src;
 }
 
-Character	&Character::operator =(const Character &rhs)
+Character&	Character::operator=(const Character &rhs)
 {
-	PRINT "HEY" ENDL;
-	if (this != &rhs)
-	{
-		_name = rhs.getName();
-		for (int i = 0; i < _storageLen; ++i)
-			if (_storage[i])
-				delete (_storage[i]);
-		delete [] _storage;
-		_storage = new AMateria*[rhs._invIndex];
-		for (int i = 0; i < rhs._invIndex; ++i)
-		{
-			_storage[i] = rhs._inventory[i]->clone();
-			_inventory[i] = _storage[i];
-		}
-		for (int i = rhs._invIndex; i < 4; ++i)
-			_inventory[i] = NULL;
-		_storageLen = rhs._invIndex;
-	}
+	std::cout << "HEY" << std::endl;
+	(void)rhs;
+	// if (this != &rhs)
+	// {
+	// 	_name = rhs.getName();
+	// 	for (int i = 0; i < _storageLen; ++i)
+	// 		if (_storage[i])
+	// 			delete (_storage[i]);
+	// 	delete [] _storage;
+	// 	_storage = new AMateria*[rhs._invIndex];
+	// 	for (int i = 0; i < rhs._invIndex; ++i)
+	// 	{
+	// 		_storage[i] = rhs._inventory[i]->clone();
+	// 		_inventory[i] = _storage[i];
+	// 	}
+	// 	for (int i = rhs._invIndex; i < 4; ++i)
+	// 		_inventory[i] = NULL;
+	// 	_storageLen = rhs._invIndex;
+	// }
 	return (*this);
 }
 
