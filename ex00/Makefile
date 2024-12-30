@@ -7,7 +7,7 @@ SRC ?= main.cpp\
 		WrongAnimal.cpp\
 		WrongCat.cpp
 
-FLAGS += -Werror -Wall -Wextra -std=c++98 -I../ex00
+FLAGS += -g -Werror -Wall -Wextra -std=c++98 -I../ex00
 
 OBJ = $(SRC:.cpp=.o)
 

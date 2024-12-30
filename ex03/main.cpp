@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 12:18:16 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/29 07:51:47 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/30 15:51:47 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,8 @@ int	main(void)
 	SW->use(5, *Jhon);
 	NEWL;
 
-	SW->equip(source->createMateria("ice"));
-	SW->equip(source->createMateria("cure"));
-
-	// delete Jhon;
-	// Jhon = new Character("Jhon");
-	// Character test(*SW);
-	// *Jhon = *SW;
-	// Jhon->use(0, *SW);
-
-	// IMateriaSource	*dupSource = new MateriaSource();
-	// *dupSource = *source;
-	// Jhon->equip(dupSource->createMateria("cure"));
-	// Jhon->use(1, *SW);
-
 	delete Jhon;
 	delete SW;
 
 	delete source;
-	// delete dupSource;
 }

@@ -32,6 +32,10 @@ int main()
 		j->makeSound();
 		meta->makeSound();
 		t.makeSound();
+
+		delete meta;
+		delete j;
+		delete i;
 	}
 	NEWL;
 	{
@@ -43,5 +47,8 @@ int main()
 		
 		wi->makeSound();
 		wmeta->makeSound();
+
+		delete wmeta;
+		delete wi;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:00:00 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/28 14:30:07 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/30 16:05:19 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ Dog::Dog()
 Dog::Dog(const Dog &src)
 {
 	PRINT GRN BOLD "Dog Copy constructor called" CLR ENDL;
+	_brain = new Brain();
 	*this = src;
 }
 

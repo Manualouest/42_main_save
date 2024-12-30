@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:02:20 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/28 14:29:49 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/30 15:59:22 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ Cat::Cat()
 Cat::Cat(const Cat &src)
 {
 	PRINT GRN BOLD "Cat Copy constructor called" CLR ENDL;
+	_brain = new Brain();
 	*this = src;
 }
 
