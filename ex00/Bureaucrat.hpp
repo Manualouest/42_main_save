@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 08:00:57 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/29 16:33:57 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/30 15:05:53 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ class Bureaucrat
 {
 	public:
 		Bureaucrat();
-		Bureaucrat(const std::string &name, const int &grade);
 		Bureaucrat(const Bureaucrat &src);
+		Bureaucrat(const std::string &name, const int &grade);
 		Bureaucrat	&operator =(const Bureaucrat &rhs);
 		~Bureaucrat();
 
