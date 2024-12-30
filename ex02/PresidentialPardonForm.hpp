@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 19:03:46 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/30 15:06:52 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/30 17:42:11 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,8 @@ class PresidentialPardonForm : public AForm
 		PresidentialPardonForm	&operator =(const PresidentialPardonForm &rhs);
 		~PresidentialPardonForm();
 
-		virtual const std::string	&getName() const;
-		virtual const bool			&getStatus() const;
-		virtual const int			&getSignGrade() const;
-		virtual const int			&getExecGrade() const;
-		virtual void				beSigned(const Bureaucrat &employee);
-		void						bePardoned() const;
+		virtual void				execute(Bureaucrat const & executor) const;
 
 	private:
-		std::string	_target
+		std::string	_target;
 };

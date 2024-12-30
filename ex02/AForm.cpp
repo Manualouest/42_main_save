@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 10:08:17 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/29 19:07:37 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/30 16:36:07 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,16 @@ const int			&AForm::getSignGrade() const
 const int			&AForm::getExecGrade() const
 {
 	return (_execGrade);
+}
+
+
+void	AForm::beSigned(const Bureaucrat &employee)
+{
+	if (employee.getGrade() > getSignGrade())
+		throw (AForm::GradeTooLowException());
+	if (_isSigned)
+		throw (AForm::FormAlreadySignedExeption());
+	_isSigned = true;
 }
 
 const char *AForm::GradeTooLowException::what() const throw ()

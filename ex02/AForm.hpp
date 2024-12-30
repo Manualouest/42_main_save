@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 10:08:27 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/29 17:57:16 by mbirou           ###   ########.fr       */
+/*   Updated: 2024/12/30 17:43:06 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@ class AForm
 		AForm(const std::string &name, const int &signGrade, const int &execGrade);
 		AForm(const AForm &src);
 		AForm	&operator =(const AForm &rhs);
-		~AForm();
+		virtual ~AForm();
 
-		virtual const std::string	&getName() const;
-		virtual const bool			&getStatus() const;
-		virtual const int			&getSignGrade() const;
-		virtual const int			&getExecGrade() const;
-		virtual void				beSigned(const Bureaucrat &employee) = 0;
+		const std::string			&getName() const;
+		const bool					&getStatus() const;
+		const int					&getSignGrade() const;
+		const int					&getExecGrade() const;
+		void						beSigned(const Bureaucrat &employee);
+		virtual void				execute(Bureaucrat const & executor) const = 0; 
 
 	private:
 		const std::string	_name;
