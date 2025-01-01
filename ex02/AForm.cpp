@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AForm.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 10:08:17 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/30 16:36:07 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/01 17:55:08 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,15 @@ void	AForm::beSigned(const Bureaucrat &employee)
 	_isSigned = true;
 }
 
+void	AForm::execute(Bureaucrat const & executor) const
+{
+	if (!getStatus())
+		throw (AForm::FormNotSignedExeption());
+	if (executor.getGrade() > getExecGrade())
+		throw (AForm::GradeTooLowException());
+	formAction();
+}
+
 const char *AForm::GradeTooLowException::what() const throw ()
 {
 	return (RED BOLD "Even Cats would've been able to sign your Aform 🤦" CLR);
@@ -104,6 +113,11 @@ const char *AForm::GradeTooHighException::what() const throw ()
 }
 
 const char *AForm::FormAlreadySignedExeption::what() const throw ()
+{
+	return (RED BOLD "This is already signed 😐" CLR);
+}
+
+const char *AForm::FormNotSignedExeption::what() const throw ()
 {
 	return (RED BOLD "This is already signed 😐" CLR);
 }

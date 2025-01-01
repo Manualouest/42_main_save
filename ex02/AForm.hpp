@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AForm.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 10:08:27 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/30 17:43:06 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/01 18:00:08 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ class AForm
 		const int					&getSignGrade() const;
 		const int					&getExecGrade() const;
 		void						beSigned(const Bureaucrat &employee);
-		virtual void				execute(Bureaucrat const & executor) const = 0; 
+		void						execute(Bureaucrat const & executor) const;
+		virtual void				formAction() const = 0;
 
 	private:
 		const std::string	_name;
@@ -53,6 +54,12 @@ class AForm
 		};
 
 		class FormAlreadySignedExeption : public std::exception
+		{
+			public:
+				virtual const char *what() const throw();
+		};
+
+		class FormNotSignedExeption : public std::exception
 		{
 			public:
 				virtual const char *what() const throw();

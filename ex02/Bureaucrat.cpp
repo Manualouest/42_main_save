@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bureaucrat.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 08:00:53 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/29 17:54:37 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/01 18:02:45 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,11 @@ void	Bureaucrat::signForm(AForm &form) const
 		form.beSigned(*this);
 		PRINT CYN BOLD "Mr/rs " AND getName() AND " was able to sign " AND form.getName() AND CLR ENDL;
 	}
-	catch (AForm::GradeTooLowException)
+	catch (const AForm::GradeTooLowException &)
 	{
 		PRINT RED BOLD "Oopsie " AND getName() AND ", seems like your grade is " AND getGrade() - form.getSignGrade() AND " too low to sign " AND form.getName() AND CLR ENDL;
 	}
-	catch (AForm::FormAlreadySignedExeption)
+	catch (const AForm::FormAlreadySignedExeption &)
 	{
 		PRINT RED BOLD AND getName() AND " this " AND form.getName() AND " is already signed 😐" CLR ENDL;
 	}

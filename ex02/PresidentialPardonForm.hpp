@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PresidentialPardonForm.hpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 19:03:46 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/30 17:42:11 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/01 18:07:38 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ class PresidentialPardonForm : public AForm
 		PresidentialPardonForm	&operator =(const PresidentialPardonForm &rhs);
 		~PresidentialPardonForm();
 
-		virtual void				execute(Bureaucrat const & executor) const;
-
 	private:
 		std::string	_target;
+		void	formAction() const;
 };

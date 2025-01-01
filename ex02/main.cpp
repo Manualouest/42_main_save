@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 08:49:21 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/30 17:45:53 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/01 18:21:15 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "AForm.hpp"
 #include "Bureaucrat.hpp"
 #include "PresidentialPardonForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "ShrubberyCreationForm.hpp"
 
 int	main(void)
 {
@@ -25,15 +27,23 @@ int	main(void)
 	PRINT RGB(255, 165, 0) BOLD "║ TESTS" CLR ENDL ENDL;
 
 	AForm	*pres = new PresidentialPardonForm("steve");
-	AForm	*pres2(pres);
+	AForm	*rob = new RobotomyRequestForm("steve");
+	AForm	*shrub = new ShrubberyCreationForm("steve");
 
 	Marvin.signForm(*pres);
 	pres->execute(Marvin);
+
+	Marvin.signForm(*rob);
+	rob->execute(Marvin);
+
+	Marvin.signForm(*shrub);
+	shrub->execute(Marvin);
 
 	NEWL;
 	PRINT RGB(255, 165, 0) BOLD "╔═════════════════════════════════════════════" CLR ENDL;
 	PRINT RGB(255, 165, 0) BOLD "║ The End" CLR ENDL ENDL;
 
 	delete pres;
-	(void)pres2;
+	delete rob;
+	delete shrub;
 }
