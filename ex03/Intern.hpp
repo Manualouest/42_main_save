@@ -1,33 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PresidentialPardonForm.hpp                         :+:      :+:    :+:   */
+/*   Intern.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/29 19:03:46 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/04 12:48:52 by mbirou           ###   ########.fr       */
+/*   Created: 2025/01/04 13:30:30 by mbirou            #+#    #+#             */
+/*   Updated: 2025/01/04 14:53:34 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-# include "AForm.hpp"
+# include "ShrubberyCreationForm.hpp"
+# include "RobotomyRequestForm.hpp"
+# include "PresidentialPardonForm.hpp"
 # include <iostream>
 # include <spellBook.hpp>
 
-class PresidentialPardonForm : public AForm
+class Intern
 {
 	public:
-		PresidentialPardonForm();
-		PresidentialPardonForm(const std::string &target);
-		PresidentialPardonForm(const PresidentialPardonForm &src);
-		PresidentialPardonForm	&operator =(const PresidentialPardonForm &rhs);
-		~PresidentialPardonForm();
+		Intern();
+		Intern(const Intern &src);
+		const Intern	&operator =(const Intern &rhs);
+		~Intern();
 
-		const std::string	&getTarget() const;
+		AForm	*makeForm(const std::string &name, const std::string &target);
 
-	private:
-		std::string	_target;
-		void	formAction() const;
+		class UnknownFormNameExeption : public std::exception
+		{
+			public:
+				virtual const char *what() const throw();
+		};
 };

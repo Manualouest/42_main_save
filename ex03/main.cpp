@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 08:49:21 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/04 15:00:10 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/04 14:59:42 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,34 @@
 #include "PresidentialPardonForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "ShrubberyCreationForm.hpp"
+#include "Intern.hpp"
 
 int	main(void)
 {
 	Bureaucrat	Marvin;
 	Bureaucrat	Jhon("Jhon", 70);
 	Bureaucrat	Steve("Steve", 145);
+	
+	NEWL;
+	PRINT RGB(255, 165, 0) BOLD "╔═════════════════════════════════════════════" CLR ENDL;
+	PRINT RGB(255, 165, 0) BOLD "║ Intern check" CLR ENDL ENDL;
 
-	AForm	*rob = new RobotomyRequestForm("Jhon");
-	AForm	*shrub = new ShrubberyCreationForm("Steve");
-	AForm	*pres = new PresidentialPardonForm("Marvin");
-	AForm	*dupPres = new PresidentialPardonForm("Bob");
+	Intern Bob;
+	AForm *pres = Bob.makeForm("PresidentialPardonForm", "Marvin");
+	AForm *dupPres = Bob.makeForm("PresidentialPardonForm", "Bob");
+	AForm *shrub = Bob.makeForm("ShrubberyCreationForm", "Jhon");
+	AForm *rob = Bob.makeForm("RobotomyRequestForm", "Steve");
+	try
+	{
+		AForm *fake = Bob.makeForm("asdoishado", "test");
+		PRINT BOLD AND *fake AND CLR ENDL;
+	}
+	catch (Intern::UnknownFormNameExeption &e)
+	{
+		PRINT e.what() ENDL;
+	}
 
-	PRINT BOLD AND *pres AND *rob AND *shrub;
+	PRINT BOLD AND *pres AND *rob AND *shrub AND CLR;
 
 	NEWL;
 	PRINT RGB(255, 165, 0) BOLD "╔═════════════════════════════════════════════" CLR ENDL;

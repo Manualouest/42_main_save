@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 10:08:17 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/29 16:50:59 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/04 12:55:19 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ Form	&Form::operator =(const Form &rhs)
 
 std::ostream 	&operator <<(std::ostream &ost, const Form &rhs)
 {
-	ost AND CYN UNDL BOLD "Form " AND rhs.getName() AND ", ";
+	ost AND CYN BOLD "Form " UNDL AND rhs.getName() AND CYN BOLD ", ";
 	if (rhs.getStatus())
 		PRINT "Signed. ";
 	else
