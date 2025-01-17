@@ -6,26 +6,11 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:15:20 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/16 20:04:42 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/17 17:59:18 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
-
-ScalarConverter::ScalarConverter()
-{
-}
-
-ScalarConverter::ScalarConverter(const ScalarConverter &src)
-{
-	*this = src;
-}
-
-ScalarConverter &ScalarConverter::operator =(const ScalarConverter &rhs)
-{
-	(void)rhs;
-	return (*this);
-}
 
 void	ScalarConverter::convert(const std::string &param)
 {
@@ -38,7 +23,8 @@ void	ScalarConverter::convert(const std::string &param)
 int	isValid(const std::string &param)
 {
 	int	coma = 0;
-	if (param == "inf" || param == "+inf" || param == "-inf" || param == "nan" || param == "nanf")
+	if (param == "nan" || param == "nanf" || param == "inf" || param == "inff"
+		|| param == "+inf" || param == "-inf"|| param == "+inff" || param == "-inff")
 		return (2);
 	for (std::string::const_iterator digit = param.begin(); digit != param.end(); ++digit)
 	{
@@ -76,10 +62,10 @@ void	ScalarConverter::printFloat(const std::string &param)
 {
 	errno = 0;
 	double	num = (std::strtod(param.c_str(), NULL));
-	if (num > __FLT_MAX__ || num < -__FLT_MAX__)
+	if ((num > __FLT_MAX__ || num < -__FLT_MAX__) && isValid(param) != 2)
 		errno = ERANGE;
 	PRINT CYN BOLD "float:   ";
-	if (isValid(param) && errno != ERANGE)
+	if (isValid(param) == 1 && errno != ERANGE)
 	{
 		PRINT CYN BOLD AND static_cast<float>(num);
 		if (num == static_cast<int>(num) && !std::isnan(static_cast<float>(num)) && !std::isinf(static_cast<float>(num)) && num <= 1000000)
@@ -88,6 +74,8 @@ void	ScalarConverter::printFloat(const std::string &param)
 			PRINT "f";
 		PRINT CLR ENDL;
 	}
+	else if (isValid(param) && errno != ERANGE)
+		PRINT CYN BOLD AND num AND "f" CENDL;
 	else
 		PRINT CYN BOLD "impossible" CENDL;
 }
