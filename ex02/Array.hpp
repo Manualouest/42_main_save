@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:40:25 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/19 19:46:54 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/20 08:39:15 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ class	Array
 			for (int i = 0; i < _len; ++i)
 				_array[i] = 0;
 		}
+		
 		Array(const Array &src) : _len(0), _array(NULL) {*this = src;}
 		Array	&operator =(const Array &rhs)
 		{
@@ -40,6 +41,7 @@ class	Array
 			}
 			return (*this);
 		}
+
 		C	&operator [](int i) const
 		{
 			if (i < 0)
@@ -48,7 +50,9 @@ class	Array
 				throw (std::out_of_range("\033[31;1mYou went too far!🤦\033[0m\n"));
 			return (_array[i]);
 		}
+
 		~Array() {delete []_array;}
+
 
 		int	size() const {return (_len);}
 
