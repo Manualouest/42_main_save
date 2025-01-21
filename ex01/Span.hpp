@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 11:44:02 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/20 17:58:53 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/21 10:05:14 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,16 @@ class Span
 		template<typename T>
 		void	addRange(T start, T end)
 		{
-			for (int i = 0; i < _size && start != end; ++start, ++i)
-			{
-				_deque[i] = *start;
-				++_index;
-			}
-			if (start != end)
+			if (_index + std::distance(start, end) > _size)
 				throw(std::range_error("\033[31;1mThe range you tried to use is too big! 😑\033[0m\n"));
+			_deque.insert(_deque.begin() + _index, start, end);
+			_index += std::distance(start, end);
 		}
 
 	private:
 		int				_index;
 		int				_size;
 		std::deque<int>	_deque;
-
 };
 
 std::ostream	&operator <<(std::ostream &ost, const Span &rhs);

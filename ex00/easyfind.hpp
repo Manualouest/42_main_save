@@ -6,14 +6,13 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 08:54:59 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/20 11:32:28 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/20 18:41:40 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <algorithm>
-#include <iterator>
 #include <iostream>
 
 template<typename T>

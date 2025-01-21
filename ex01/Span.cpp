@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:10:18 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/20 18:12:46 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/21 10:11:22 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,30 +67,41 @@ void	Span::addNumber(int n)
 	_index ++;
 }
 
+// int	Span::shortestSpan()
+// {
+// 	int	min = std::abs(_deque[0] - _deque[1]);
+// 	int	i = 0;
+
+// 	if (_index <= 1)
+// 		throw (std::length_error("\033[31;1mThere isn't enough numbers to compare 🤪\033[0m\n"));
+// 	for (std::deque<int>::iterator n = _deque.begin(); n != _deque.end() && i < _index; ++n, ++i)
+// 	{
+// 		for (std::deque<int>::iterator i = n + 1; i != _deque.end(); ++i)
+// 			if (std::abs(*i - *n) < min)
+// 				min = std::abs(*i - *n);
+// 	}
+// 	return (min);
+// }
+
 int	Span::shortestSpan()
 {
-	int	min = std::abs(_deque[0] - _deque[1]);
-	for (std::deque<int>::iterator n = _deque.begin(); n != _deque.end(); ++n)
+	std::deque<int> tpDeque (_deque.begin(), _deque.begin() + _index);
+	std::sort(tpDeque.begin(), tpDeque.end());
+	int	min = tpDeque[1] - tpDeque[0];
+	int	tpmin = 0;
+	for (std::deque<int>::iterator n = tpDeque.begin(); n != tpDeque.end() - 1; ++n)
 	{
-		for (std::deque<int>::iterator i = n + 1; i != _deque.end(); ++i)
-			if (std::abs(*i - *n) < min)
-				min = std::abs(*i - *n);
+		if (tpmin = *(n + 1) - *n, tpmin < min)
+			min = tpmin;
 	}
 	return (min);
 }
 
 int	Span::longestSpan()
 {
-	int	min = _deque[0];
-	int	max = _deque[0];
-	for (std::deque<int>::iterator n = _deque.begin(); n != _deque.end(); ++n)
-	{
-		if (*n < min)
-			min = *n;
-		if (*n > max)
-			max = *n;
-	}
-	return (max - min);
+	std::deque<int> tpDeque (_deque.begin(), _deque.begin() + _index);
+	std::sort(tpDeque.begin(), tpDeque.end());
+	return (*(tpDeque.end() - 1) - *tpDeque.begin());
 }
 
 std::ostream	&operator <<(std::ostream &ost, const Span &rhs)
