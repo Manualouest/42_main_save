@@ -6,92 +6,100 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:15:20 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/17 17:59:18 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/23 11:00:45 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
 
-void	ScalarConverter::convert(const std::string &param)
-{
-	ScalarConverter::printChar(param);
-	ScalarConverter::printInt(param);
-	ScalarConverter::printFloat(param);
-	ScalarConverter::printDouble(param);
-}
-
-int	isValid(const std::string &param)
+int	parseParam(const std::string &param)
 {
 	int	coma = 0;
 	if (param == "nan" || param == "nanf" || param == "inf" || param == "inff"
-		|| param == "+inf" || param == "-inf"|| param == "+inff" || param == "-inff")
+		|| param == "+inf" || param == "-inf" || param == "+inff" || param == "-inff")
 		return (2);
-	for (std::string::const_iterator digit = param.begin(); digit != param.end(); ++digit)
-	{
-		if ((!std::isdigit(*digit) && *digit != '.') || coma > 1)
-			if (*digit != 'f' || (*digit == 'f' && digit + 1 != param.end()))
-				return (0);
-		if (*digit == '.')
-			coma ++;
-	}
+	if (param.length() == 1)
+		return (1);
+	if (param.find_first_not_of("0123456789.f+-") != std::string::npos
+		|| param.find('f') != param.find_last_of('f')
+		|| param.find('.') != param.find_last_of('.')
+		|| param.find('+') != param.find_last_of('+')
+		|| param.find('-') != param.find_last_of('-')
+		|| (param.find('-') != std::string::npos
+			&& param.find('+') != std::string::npos))
+		return (0);
 	return (1);
 }
 
-void	ScalarConverter::printChar(const std::string &param)
+int	detectType(const std::string &param, int parser)
 {
-	PRINT CYN BOLD "char:    ";
-	if (isValid(param) && std::atoi(param.c_str()) < 127 && std::atoi(param.c_str()) > 0 && std::isprint(std::atoi(param.c_str())))
-		PRINT CYN BOLD "'" AND static_cast<char>(std::atoi(param.c_str())) AND "'" CENDL;
-	else if (!isValid(param) || std::isnan(std::atof(param.c_str())) || std::isinf(std::atof(param.c_str()))
-		|| std::atol(param.c_str()) > INT_MAX || std::atol(param.c_str()) < INT_MIN)
-		PRINT CYN BOLD "impossible" CENDL;
-	else
-		PRINT CYN BOLD "not printable" CENDL;
+	double	tpNum = std::strtod(param.c_str(), NULL);
+	if ((errno == ERANGE
+		|| (tpNum > __FLT_MAX__ || tpNum < -__FLT_MAX__
+			&& param.find('f') != std::string::npos)
+		|| ((long int)tpNum > INT_MAX || (long int)tpNum < INT_MIN
+			&& (param.find('f') == std::string::npos
+				|| param.find('.') == std::string::npos)))
+		&& parser == 1)
+		return (NONE);
+	if (param.length() == 1 && !std::isdigit(param[0]))
+		return (CHAR);
+	if (param == "nan" || param == "inf" || param == "+inf" || param == "-inf")
+		return (DOUBLE);
+	if (param == "nanf" || param == "inff" || param == "+inff" || param == "-inff")
+		return (FLOAT);
+	if (param.find('f') != std::string::npos)
+		return (FLOAT);
+	if (param.find('.') != std::string::npos)
+		return (DOUBLE);
+	return (INT);
 }
 
-void	ScalarConverter::printInt(const std::string &param)
+void	ScalarConverter::convert(const std::string &param)
 {
-	PRINT CYN BOLD "int:     ";
-	if (isValid(param) == 1 && std::atol(param.c_str()) <= INT_MAX && std::atol(param.c_str()) >= INT_MIN)
-		PRINT CYN BOLD AND std::atoi(param.c_str()) CENDL;
-	else
-		PRINT CYN BOLD "impossible" CENDL;
-}
-
-void	ScalarConverter::printFloat(const std::string &param)
-{
+	int	parser = parseParam(param);
+	if (!parser)
+		throw (std::invalid_argument(RED BOLD "Please enter a valid char, int, float or double.😡" CLR));
 	errno = 0;
-	double	num = (std::strtod(param.c_str(), NULL));
-	if ((num > __FLT_MAX__ || num < -__FLT_MAX__) && isValid(param) != 2)
-		errno = ERANGE;
-	PRINT CYN BOLD "float:   ";
-	if (isValid(param) == 1 && errno != ERANGE)
+	switch (int paramType = detectType(param, parser))
 	{
-		PRINT CYN BOLD AND static_cast<float>(num);
-		if (num == static_cast<int>(num) && !std::isnan(static_cast<float>(num)) && !std::isinf(static_cast<float>(num)) && num <= 1000000)
-			PRINT ".0";
-		if (!std::isinf(static_cast<float>(num)))
-			PRINT "f";
-		PRINT CLR ENDL;
+		case CHAR:
+		{
+			ScalarConverter::print((char)(param.c_str()[0]));
+			break ;
+		}
+		case INT:
+		{
+			ScalarConverter::print(std::atoi(param.c_str()));
+			break ;
+		}
+		case FLOAT:
+		{
+			if (param.length() - 2 - param.find('.') < 1
+				|| param.find('.') == param.length() - 2
+				|| param.find('.') == std::string::npos)
+				PRINT std::fixed AND std::setprecision(1);
+			ScalarConverter::print(static_cast<float>(std::atof(param.c_str())));
+			break ;
+		}
+		case DOUBLE:
+		{
+			if (param.length() - 1 - param.find('.') < 1
+				|| param.find('.') == param.length() - 1
+				|| param.find('.') == std::string::npos)
+				PRINT std::fixed AND std::setprecision(1);
+			ScalarConverter::print(std::strtod(param.c_str(), NULL));
+			break ;
+		}
+		default:
+		{
+			if (std::strncmp(param.c_str(), "0", 1) || std::strncmp(param.c_str(), "-0", 2) || std::strncmp(param.c_str(), "+0", 2))
+				PRINT CYN BOLD "char: not printable" ENDL AND "int: 0" ENDL
+					AND "float: impossible" ENDL AND "double: impossible" CENDL;
+			else
+				PRINT CYN BOLD "char: impossible" ENDL AND "int: impossible" ENDL
+					AND "float: impossible" ENDL AND "double: impossible" CENDL;
+		}
 	}
-	else if (isValid(param) && errno != ERANGE)
-		PRINT CYN BOLD AND num AND "f" CENDL;
-	else
-		PRINT CYN BOLD "impossible" CENDL;
 }
 
-void	ScalarConverter::printDouble(const std::string &param)
-{
-	errno = 0;
-	double	num = std::strtod(param.c_str(), NULL);
-	PRINT CYN BOLD "double:  ";
-	if (isValid(param) && errno != ERANGE)
-	{
-		PRINT CYN BOLD AND num AND CLR;
-		if (num == static_cast<int>(num) && !std::isnan(num) && !std::isinf(num) && num <= 1000000)
-			PRINT CYN BOLD ".0" CLR;
-		NEWL;
-	}
-	else
-		PRINT CYN BOLD "impossible" CENDL;
-}
