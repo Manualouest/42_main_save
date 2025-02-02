@@ -6,12 +6,12 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 11:41:56 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/21 10:09:27 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/30 00:50:23 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include <spellBook.hpp>
+#include "spellBook.hpp"
 #include "Span.hpp"
 #include <vector>
 #include <cstdlib>

@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 11:44:02 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/21 10:05:14 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/01/30 00:50:28 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <climits>
 # include <iterator>
 # include <deque>
-# include <spellBook.hpp>
+# include "spellBook.hpp"
 
 class Span
 {
