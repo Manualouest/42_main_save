@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 08:00:57 by mbirou            #+#    #+#             */
-/*   Updated: 2024/12/29 17:54:27 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/02 21:17:18 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ class Bureaucrat
 		void				upGrade();
 		void				downGrade();
 		void				signForm(AForm &form) const;
+		void				executeForm(AForm const & form) const;
 
 	private:
 		std::string	_name;

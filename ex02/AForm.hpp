@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 10:08:27 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/04 12:47:29 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/02 21:14:21 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ class AForm
 		};
 
 		class FormNotSignedExeption : public std::exception
+		{
+			public:
+				virtual const char *what() const throw();
+		};
+
+		class FileCreationFailedExeption : public std::exception
 		{
 			public:
 				virtual const char *what() const throw();

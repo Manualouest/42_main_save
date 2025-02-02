@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 08:49:21 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/02 10:17:21 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/02 21:21:12 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,118 +48,43 @@ int	main(void)
 	PRINT RGB(255, 165, 0) BOLD "╔═════════════════════════════════════════════" CLR ENDL;
 	PRINT RGB(255, 165, 0) BOLD "║ Sign check" CLR ENDL ENDL;
 
-	try
-	{
-		PRINT BOLD "Jhon tries to sign pres." CLR ENDL;
-		Jhon.signForm(*pres);
-	}
-	catch (AForm::GradeTooLowException &e)
-	{
-		PRINT e.what() ENDL;
-	}
-	try
-	{
-		PRINT BOLD "Jhon tries to sign rob." CLR ENDL;
-		Jhon.signForm(*rob);
-	}
-	catch (AForm::GradeTooLowException &e)
-	{
-		PRINT e.what() ENDL;
-	}
-	try
-	{
-		PRINT BOLD "Steve tries to sign shrub." CLR ENDL;
-		Steve.signForm(*shrub);
-	}
-	catch (AForm::GradeTooLowException &e)
-	{
-		PRINT e.what() ENDL;
-	}
-	try
-	{
-		PRINT BOLD "Marvin tries to sign pres." CLR ENDL;
-		Marvin.signForm(*pres);
-	}
-	catch (AForm::GradeTooLowException &e)
-	{
-		PRINT e.what() ENDL;
-	}
-	try
-	{
-		PRINT BOLD "Marvin tries to sign pres." CLR ENDL;
-		Marvin.signForm(*pres);
-	}
-	catch (AForm::FormAlreadySignedExeption &e)
-	{
-		PRINT e.what() ENDL;
-	}
+	PRINT BOLD "Jhon tries to sign pres." CLR ENDL;
+	Jhon.signForm(*pres);
+
+	PRINT BOLD "Jhon tries to sign rob." CLR ENDL;
+	Jhon.signForm(*rob);
+
+	PRINT BOLD "Steve tries to sign shrub." CLR ENDL;
+	Steve.signForm(*shrub);
+
+	PRINT BOLD "Marvin tries to sign pres." CLR ENDL;
+	Marvin.signForm(*pres);
+
+	PRINT BOLD "Marvin tries to sign pres." CLR ENDL;
+	Marvin.signForm(*pres);
 
 	NEWL;
 	PRINT RGB(255, 165, 0) BOLD "╔═════════════════════════════════════════════" CLR ENDL;
 	PRINT RGB(255, 165, 0) BOLD "║ Execute check" CLR ENDL ENDL;
 
-	try
-	{
-		PRINT BOLD "Jhon tries to execute rob." CLR ENDL;
-		rob->execute(Jhon);
-	}
-	catch (AForm::GradeTooLowException &e)
-	{
-		PRINT RED BOLD "Grade too low to execute" CLR ENDL;
-	}
-	try
-	{
-		PRINT BOLD "Steve tries to execute shrub." CLR ENDL;
-		shrub->execute(Steve);
-	}
-	catch (ShrubberyCreationForm::FileCreationFailedExeption &e)
-	{
-		PRINT e.what() ENDL;
-	}
-	catch (AForm::GradeTooLowException &e)
-	{
-		PRINT RED BOLD "Grade too low to execute" CLR ENDL;
-	}
-	try
-	{
-		PRINT BOLD "Jhon tries to execute shrub." CLR ENDL;
-		shrub->execute(Jhon);
-	}
-	catch (ShrubberyCreationForm::FileCreationFailedExeption &e)
-	{
-		PRINT e.what() ENDL;
-	}
-	catch (AForm::GradeTooLowException &e)
-	{
-		PRINT RED BOLD "Grade too low to execute" CLR ENDL;
-	}
-	try
-	{
-		PRINT BOLD "Marvin tries to execute rob." CLR ENDL;
-		rob->execute(Marvin);
-	}
-	catch (AForm::GradeTooLowException &e)
-	{
-		PRINT RED BOLD "Grade too low to execute" CLR ENDL;
-	}
-	try
-	{
-		PRINT BOLD "Marvin tries to execute pres." CLR ENDL;
-		pres->execute(Marvin);
-	}
-	catch (AForm::GradeTooLowException &e)
-	{
-		PRINT RED BOLD "Grade too low to execute" CLR ENDL;
-	}
-	try
-	{
-		PRINT BOLD "Marvin tries to execute dupPres." CLR ENDL;
-		dupPres->execute(Marvin);
-	}
-	catch (AForm::FormNotSignedExeption &e)
-	{
-		PRINT e.what() ENDL;
-	}
+	PRINT BOLD "Jhon tries to execute rob." CLR ENDL;
+	Jhon.executeForm(*rob);
+
+	PRINT BOLD "Steve tries to execute shrub." CLR ENDL;
+	Steve.executeForm(*shrub);
+
+	PRINT BOLD "Jhon tries to execute shrub." CLR ENDL;
+	Jhon.executeForm(*shrub);
+
+	PRINT BOLD "Marvin tries to execute rob." CLR ENDL;
+	Marvin.executeForm(*rob);
+
+	PRINT BOLD "Marvin tries to execute pres." CLR ENDL;
+	Marvin.executeForm(*pres);
+
+	PRINT BOLD "Marvin tries to execute dupPres." CLR ENDL;
+	Marvin.executeForm(*dupPres);
+
 
 	NEWL;
 	PRINT RGB(255, 165, 0) BOLD "╔═════════════════════════════════════════════" CLR ENDL;

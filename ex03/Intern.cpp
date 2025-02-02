@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 13:30:28 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/04 14:55:59 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/02 21:29:41 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,24 @@ int	searchName(const std::string &name)
 
 AForm	*Intern::makeForm(const std::string &name, const std::string &target)
 {
+	AForm	*form;
+
 	switch (searchName(name))
 	{
 		case (0):
-			return (new PresidentialPardonForm(target));
+			form = new PresidentialPardonForm(target);
+			break;
 		case (1):
-			return (new RobotomyRequestForm(target));
+			form = new RobotomyRequestForm(target);
+			break;
 		case (2):
-			return (new ShrubberyCreationForm(target));
+			form = new ShrubberyCreationForm(target);
+			break;
 		default:
 			throw (Intern::UnknownFormNameExeption());
 	}
+	PRINT CYN BOLD UNDL "<<Some intern created a " AND form->getName() AND ">>" CLR ENDL;
+	return (form);
 }
 
 const char *Intern::UnknownFormNameExeption::what() const throw()

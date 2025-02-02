@@ -116,8 +116,3 @@ void	ShrubberyCreationForm::formAction() const
 	" ENDL;
 	ofs.close();
 }
-
-const char *ShrubberyCreationForm::FileCreationFailedExeption::what() const throw ()
-{
-	return (RED BOLD "Somehow the file couldn't be made :(" CLR);
-}

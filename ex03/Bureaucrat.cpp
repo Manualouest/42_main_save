@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bureaucrat.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbirou <manutea.birou@gmail.com>           +#+  +:+       +#+        */
+/*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 08:00:53 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/01 18:02:45 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/02 21:25:19 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,27 @@ void	Bureaucrat::signForm(AForm &form) const
 	catch (const AForm::FormAlreadySignedExeption &)
 	{
 		PRINT RED BOLD AND getName() AND " this " AND form.getName() AND " is already signed 😐" CLR ENDL;
+	}
+}
+
+void	Bureaucrat::executeForm(AForm const &form) const
+{
+	try
+	{
+		form.execute(*this);
+		PRINT CYN BOLD UNDL "<<" AND _name AND " managed to execute " AND form.getName() AND ">>" CLR ENDL;
+	}
+	catch (AForm::FileCreationFailedExeption &e)
+	{
+		PRINT e.what() ENDL;
+	}
+	catch (AForm::FormNotSignedExeption &e)
+	{
+		PRINT e.what() ENDL;
+	}
+	catch (AForm::GradeTooLowException &e)
+	{
+		PRINT RED BOLD "Grade too low to execute" CLR ENDL;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 10:08:17 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/04 13:25:10 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/02 21:14:52 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,4 +120,9 @@ const char *AForm::FormAlreadySignedExeption::what() const throw ()
 const char *AForm::FormNotSignedExeption::what() const throw ()
 {
 	return (RED BOLD "This isn't signed yet 😐" CLR);
+}
+
+const char *AForm::FileCreationFailedExeption::what() const throw ()
+{
+	return (RED BOLD "Somehow the file couldn't be used :(" CLR);
 }
