@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 08:49:21 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/04 15:00:10 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/02 10:15:15 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,25 +90,33 @@ int	main(void)
 	}
 	catch (AForm::GradeTooLowException &e)
 	{
-		PRINT RED BOLD "Grade too low to execute" ENDL;
+		PRINT RED BOLD "Grade too low to execute" CLR ENDL;
 	}
 	try
 	{
 		PRINT BOLD "Steve tries to execute shrub." CLR ENDL;
 		shrub->execute(Steve);
 	}
+	catch (ShrubberyCreationForm::FileCreationFailedExeption &e)
+	{
+		PRINT e.what() ENDL;
+	}
 	catch (AForm::GradeTooLowException &e)
 	{
-		PRINT RED BOLD "Grade too low to execute" ENDL;
+		PRINT RED BOLD "Grade too low to execute" CLR ENDL;
 	}
 	try
 	{
 		PRINT BOLD "Jhon tries to execute shrub." CLR ENDL;
 		shrub->execute(Jhon);
 	}
+	catch (ShrubberyCreationForm::FileCreationFailedExeption &e)
+	{
+		PRINT e.what() ENDL;
+	}
 	catch (AForm::GradeTooLowException &e)
 	{
-		PRINT RED BOLD "Grade too low to execute" ENDL;
+		PRINT RED BOLD "Grade too low to execute" CLR ENDL;
 	}
 	try
 	{
@@ -117,7 +125,7 @@ int	main(void)
 	}
 	catch (AForm::GradeTooLowException &e)
 	{
-		PRINT RED BOLD "Grade too low to execute" ENDL;
+		PRINT RED BOLD "Grade too low to execute" CLR ENDL;
 	}
 	try
 	{
@@ -126,7 +134,7 @@ int	main(void)
 	}
 	catch (AForm::GradeTooLowException &e)
 	{
-		PRINT RED BOLD "Grade too low to execute" ENDL;
+		PRINT RED BOLD "Grade too low to execute" CLR ENDL;
 	}
 	try
 	{
