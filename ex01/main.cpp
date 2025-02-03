@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 11:41:56 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/30 00:50:23 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/03 11:40:16 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ std::vector<int> vecGen(int len)
 	int					rNum;
 	for (int i = 0; i < len; ++i)
 	{
-		// ;
 		while (rNum = std::rand(), *std::find(vector.begin(), vector.end(), rNum) == rNum)
 			rNum = std::rand();
 		vector[i] = rNum;
@@ -40,6 +39,7 @@ int	main()
 		span.addNumber(1);
 		PRINT BOLD "Safety checks (" AND span AND "):" CENDL;
 		PRINT TAB BOLD "Shortest and longest span safety:" CENDL;
+		PRINT TAB BOLD "Shortest: " CENDL;
 		try
 		{
 			span.shortestSpan();
@@ -48,6 +48,7 @@ int	main()
 		{
 			PRINT TAB TAB AND e.what();
 		}
+		PRINT TAB BOLD "Longest: " CENDL;
 		try
 		{
 			span.longestSpan();
