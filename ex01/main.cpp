@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:02:38 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/17 17:40:44 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/06 15:33:18 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ int	main(void)
 	uintptr_t	importantBytes = Serializer::serialize(&importantOperationData);
 	Data		importantDeserializedData = *Serializer::deserialize(importantBytes);
 
+	PRINT BOLD "serialized data: " AND importantBytes CENDL;
+
+	NEWL;
 	if (importantDeserializedData == importantOperationData)
 		PRINT GRN BOLD "The operation may continue. 🕴️" CENDL;
 	else

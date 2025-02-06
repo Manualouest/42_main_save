@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:49:38 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/23 10:55:28 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/06 13:28:35 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ class ScalarConverter
 		template<typename T>
 		static void	print(const T &param)
 		{
+			switch (type)
 			char Char = static_cast<char>(param);
 			int Int = static_cast<int>(param);
 			float Float = static_cast<float>(param);
