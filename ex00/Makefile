@@ -1,6 +1,6 @@
 NAME ?= btc
 
-FLAGS += -Wall -Werror -Wextra -std=c++98 -I../ex00/
+FLAGS += -Wall -Werror -Wextra -std=c++98 -I../ex00/ -g
 
 SRC ?= main.cpp\
 		BitcoinExchange.cpp

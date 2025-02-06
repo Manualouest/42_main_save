@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:43:27 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/02 22:21:41 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/04 11:42:19 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define CLR "\033[0m"
 # define BOLD "\033[1m"
 # define UNDL "\033[4m"
+# define DUNDL "\033[21m"
 # define ITAL "\033[3m"
 # define STRK "\033[9m"
 
