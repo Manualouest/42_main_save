@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 22:10:54 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/04 17:04:50 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/06 11:30:27 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,20 @@ std::string	itostr(const int &nb, const bool &needBig)
 	std::string	str;
 
 	for (int i = nb; i > 0; i /= 10)
-		str.insert(str.length(), 1, static_cast<char>(i % 10));
+		str.insert(0, 1, static_cast<char>((int)i % 10 + '0'));
 	if (needBig)
 	{
 		str.insert(0, 1, '1');
-		str.insert(0, 19 - str.length(), '0');
+		str.insert(1, 19 - str.length(), '0');
 	}
 	return (str);
 }
 
 int	BitcoinExchange::_getClosestDate(const int &date)
 {
-	return (_database.lower_bound(date)->first);
+	if (_database.lower_bound(date)->first == date)
+		return (date);
+	return ((--_database.lower_bound(date))->first);
 }
 
 void	BitcoinExchange::getRates()
@@ -149,22 +151,22 @@ void	BitcoinExchange::getRates()
 		switch ((int)it->second)
 		{
 		case (-1):
-			PRINT RED BOLD AND (std::string(" ").insert(0, maxLen - it->first.length(), ' ')) AND "-> Header not at start ??" CENDL;
+			PRINT (std::string(" ").insert(0, maxLen - it->first.length(), ' ')) AND RED BOLD AND "-> Header not at start ??" CENDL;
 			break;
 		case (-2):
-			PRINT RED BOLD AND (std::string(" ").insert(0, maxLen - it->first.length(), ' ')) AND "-> Line is invalid :(" CENDL;
+			PRINT (std::string(" ").insert(0, maxLen - it->first.length(), ' ')) AND RED BOLD AND "-> Line is invalid :(" CENDL;
 			break;
 		case (-3):
-			PRINT RED BOLD  AND (std::string(" ").insert(0, maxLen - it->first.length(), ' ')) AND "-> Missing header line at start >:[" CENDL;
+			PRINT  (std::string(" ").insert(0, maxLen - it->first.length(), ' ')) AND RED BOLD AND "-> Missing header line at start >:[" CENDL;
 			break;
 		case (-4):
-			PRINT RED BOLD AND (std::string(" ").insert(0, maxLen - it->first.length(), ' ')) AND "-> Date seems to be invalid :/" CENDL;
+			PRINT (std::string(" ").insert(0, maxLen - it->first.length(), ' ')) AND RED BOLD AND "-> Date seems to be invalid :/" CENDL;
 			break;
 		case (-5):
-			PRINT RED BOLD AND (std::string(" ").insert(0, maxLen - it->first.length(), ' ')) AND "-> This isn't a valid value :\\" CENDL;
+			PRINT (std::string(" ").insert(0, maxLen - it->first.length(), ' ')) AND RED BOLD AND "-> This isn't a valid value :\\" CENDL;
 			break;
 		default:
-			PRINT CYN BOLD AND (std::string(" ").insert(0, maxLen - it->first.length(), ' ')) AND "-> " AND std::setprecision(10) AND (it->second * _database.find(_getClosestDate(convertDate(it->first.substr(19, it->first.length()), false)))->second) CENDL;
+			PRINT (std::string(" ").insert(0, maxLen - it->first.length(), ' ')) AND CYN BOLD AND "-> " AND std::setprecision(10) AND (it->second * _database.find(_getClosestDate(convertDate(it->first.substr(19, it->first.length()), false)))->second) CENDL;
 			break;
 		}
 	}
@@ -173,7 +175,6 @@ void	BitcoinExchange::getRates()
 void	BitcoinExchange::_setupDatabase()
 {
 	std::string		line;
-	char			nbLine[20];
 	int				date;
 	double			value;
 	bool			sawHead = false;
@@ -184,13 +185,12 @@ void	BitcoinExchange::_setupDatabase()
 		throw(BitcoinExchange::CannotOpenDatabaseException());
 	while (std::getline(data, line))
 	{
-		sprintf(nbLine, "%lu", _database.size() + 1 + sawHead);
 		if (line == "date,exchange_rate")
 		{
 			if (!sawHead)
 				sawHead = true;
 			else
-				throw(BitcoinExchange::BadDatabaseException(line, nbLine));
+				throw(BitcoinExchange::BadDatabaseException(line, itostr(_inputData.size() + 1 + sawHead, false)));
 			continue ;
 		}
 		if (!sawHead
@@ -201,12 +201,12 @@ void	BitcoinExchange::_setupDatabase()
 			|| line.find('-') == std::string::npos
 			|| line.substr(line.find('-') + 1).find('-') == std::string::npos
 			|| line.substr(line.substr(line.find('-') + 1).find('-') + line.find('-') + 2).find('-') != std::string::npos)
-			throw(BitcoinExchange::BadDatabaseException(line, nbLine));
+			throw(BitcoinExchange::BadDatabaseException(line, itostr(_inputData.size() + 1 + sawHead, false)));
 		date = convertDate(line, true);
 		value = std::strtod(line.substr(line.find(',') + 1).c_str(), NULL);
 		if (date == -1 || value < 0 || errno == ERANGE
 			|| _database.find(date) != _database.end())
-			throw(BitcoinExchange::BadDatabaseException(line, nbLine));
+			throw(BitcoinExchange::BadDatabaseException(line, itostr(_inputData.size() + 1 + sawHead, false)));
 		_database.insert(std::pair<int, double>(date, value));
 	}
 	if (!_database.size())
@@ -222,7 +222,11 @@ BitcoinExchange::BadDatabaseException::BadDatabaseException(std::string line, co
 {
 	_msg = std::string(RED BOLD UNDL "Error" RED BOLD " Database is invalid at line ") + nbLine + ": '" + line + "'" CLR;
 	
-	if (nbLine == "1")
+	if (line == "file is empty")
+	{
+		
+	}
+	else if (nbLine == "1")
 		_msg.insert(_msg.length(), RED BOLD " != date,exchange_rate" CLR);
 
 	else if (line.find_first_not_of("0123456789-.,") != std::string::npos)
