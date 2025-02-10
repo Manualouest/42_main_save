@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:49:38 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/06 17:06:44 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/10 10:20:32 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ class ScalarConverter
 		~ScalarConverter();
 		
 		template<typename T>
-		static void	print(const T &param)
+		static void	print(const T &param, const int &precision)
 		{
 			char Char = static_cast<char>(param);
 			int Int = static_cast<int>(param);
@@ -50,22 +50,19 @@ class ScalarConverter
 			double Double = static_cast<double>(param);
 			if (std::isnan(Float) || std::isinf(Float))
 				PRINT CYN BOLD "char: impossible" CENDL;
-			else if (Char > 0 && Char < 127 && std::isprint(Char))
+			else if (Double > 0 && Double < 127 && std::isprint(Char))
 				PRINT CYN BOLD "char: '" AND Char AND "'" CENDL;
 			else
 				PRINT CYN BOLD "char: not printable" CENDL;
 			if (std::isnan(Float) || std::isinf(Float))
 				PRINT CYN BOLD "int: impossible" CENDL;
-			else if ((long int)Float >= INT_MIN && (long int)Float <= INT_MAX)
+			else if (Double >= INT_MIN && Double <= INT_MAX)
 				PRINT CYN BOLD "int: " AND Int CENDL;
 			else
 				PRINT CYN BOLD "int: impossible" CENDL;
-			if ((Double < 0 && Double >= -__FLT_MAX__ && Double <= -__FLT_MIN__)
-				|| (Double > 0 && Double <= __FLT_MAX__ && Double >= __FLT_MIN__)
-				|| Double == 0 || std::isnan(Float) || std::isinf(Float))
-				PRINT CYN BOLD "float: " AND Float AND "f" CENDL;
-			else
-				PRINT CYN BOLD "float: impossible" CENDL;
+			PRINT std::fixed AND std::setprecision(precision);
+			PRINT CYN BOLD "float: " AND Float AND "f" CENDL;
+			PRINT std::fixed AND std::setprecision(precision);
 			PRINT CYN BOLD "double: " AND Double CENDL;
 		}
 };

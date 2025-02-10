@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:15:20 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/23 11:00:45 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/07 11:12:33 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,9 @@ int	parseParam(const std::string &param)
 		return (2);
 	if (param.length() == 1)
 		return (1);
-	if (param.find_first_not_of("0123456789.f+-") != std::string::npos
-		|| param.find('f') != param.find_last_of('f')
-		|| param.find('.') != param.find_last_of('.')
-		|| param.find('+') != param.find_last_of('+')
-		|| param.find('-') != param.find_last_of('-')
-		|| (param.find('-') != std::string::npos
-			&& param.find('+') != std::string::npos))
+	char * ptr;
+	double	tpNum = std::strtod(param.c_str(), &ptr);
+	if ((*ptr != 0 && *ptr != 'f'))
 		return (0);
 	return (1);
 }
@@ -34,14 +30,12 @@ int	parseParam(const std::string &param)
 int	detectType(const std::string &param, int parser)
 {
 	double	tpNum = std::strtod(param.c_str(), NULL);
-	if ((errno == ERANGE
-		|| (tpNum > __FLT_MAX__ || tpNum < -__FLT_MAX__
-			&& param.find('f') != std::string::npos)
-		|| ((long int)tpNum > INT_MAX || (long int)tpNum < INT_MIN
-			&& (param.find('f') == std::string::npos
-				|| param.find('.') == std::string::npos)))
-		&& parser == 1)
+	if (errno == ERANGE && parser == 1)
 		return (NONE);
+	if (((tpNum < 0 && (tpNum < -__FLT_MAX__ || tpNum > -__FLT_MIN__)
+			|| (tpNum > 0 && (tpNum > __FLT_MAX__ || tpNum < __FLT_MIN__)))
+			&& param.find('f') != std::string::npos))
+		return (DOUBLE);
 	if (param.length() == 1 && !std::isdigit(param[0]))
 		return (CHAR);
 	if (param == "nan" || param == "inf" || param == "+inf" || param == "-inf")
@@ -50,7 +44,8 @@ int	detectType(const std::string &param, int parser)
 		return (FLOAT);
 	if (param.find('f') != std::string::npos)
 		return (FLOAT);
-	if (param.find('.') != std::string::npos)
+	if (param.find('.') != std::string::npos
+		|| tpNum > INT_MAX || tpNum < INT_MIN)
 		return (DOUBLE);
 	return (INT);
 }
@@ -65,40 +60,28 @@ void	ScalarConverter::convert(const std::string &param)
 	{
 		case CHAR:
 		{
-			ScalarConverter::print((char)(param.c_str()[0]));
+			ScalarConverter::print((char)(param.c_str()[0]), 1);
 			break ;
 		}
 		case INT:
 		{
-			ScalarConverter::print(std::atoi(param.c_str()));
+			ScalarConverter::print(static_cast<int>(std::strtod(param.c_str(), NULL)), 1);
 			break ;
 		}
 		case FLOAT:
 		{
-			if (param.length() - 2 - param.find('.') < 1
-				|| param.find('.') == param.length() - 2
-				|| param.find('.') == std::string::npos)
-				PRINT std::fixed AND std::setprecision(1);
-			ScalarConverter::print(static_cast<float>(std::atof(param.c_str())));
+			ScalarConverter::print(static_cast<float>(std::atof(param.c_str())), (param.length() - param.find('.') - 2)  * (param.find('.') != std::string::npos));
 			break ;
 		}
 		case DOUBLE:
 		{
-			if (param.length() - 1 - param.find('.') < 1
-				|| param.find('.') == param.length() - 1
-				|| param.find('.') == std::string::npos)
-				PRINT std::fixed AND std::setprecision(1);
-			ScalarConverter::print(std::strtod(param.c_str(), NULL));
+			ScalarConverter::print(std::strtod(param.c_str(), NULL), (param.length() - param.find('.') - 1) * (param.find('.') != std::string::npos));
 			break ;
 		}
 		default:
 		{
-			if (std::strncmp(param.c_str(), "0", 1) || std::strncmp(param.c_str(), "-0", 2) || std::strncmp(param.c_str(), "+0", 2))
-				PRINT CYN BOLD "char: not printable" ENDL AND "int: 0" ENDL
-					AND "float: impossible" ENDL AND "double: impossible" CENDL;
-			else
-				PRINT CYN BOLD "char: impossible" ENDL AND "int: impossible" ENDL
-					AND "float: impossible" ENDL AND "double: impossible" CENDL;
+			PRINT CYN BOLD "char: impossible" ENDL AND "int: impossible" ENDL
+				AND "float: inff" ENDL AND "double: inf" CENDL;
 		}
 	}
 }
