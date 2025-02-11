@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 17:59:54 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/06 15:35:20 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/11 09:33:32 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,21 @@ void identify(Base& p)
 	try 
 	{
 		Base &test = dynamic_cast<A&>(p);
+		(void)test;
 		PRINT CYN BOLD "Our sources say this is an A. 🕴️" CENDL;
 	}
 	catch (...) {}
 	try 
 	{
 		Base &test = dynamic_cast<B&>(p);
+		(void)test;
 		PRINT CYN BOLD "Our sources say this is a B. 🕴️" CENDL;
 	}
 	catch (...) {}
 	try 
 	{
 		Base &test = dynamic_cast<C&>(p);
+		(void)test;
 		PRINT CYN BOLD "Our sources say this is a C. 🕴️" CENDL;
 	}
 	catch (...) {}

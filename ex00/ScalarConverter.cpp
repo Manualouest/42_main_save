@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:15:20 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/07 11:12:33 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/11 09:32:56 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	parseParam(const std::string &param)
 {
-	int	coma = 0;
 	if (param == "nan" || param == "nanf" || param == "inf" || param == "inff"
 		|| param == "+inf" || param == "-inf" || param == "+inff" || param == "-inff")
 		return (2);
@@ -24,6 +23,7 @@ int	parseParam(const std::string &param)
 	double	tpNum = std::strtod(param.c_str(), &ptr);
 	if ((*ptr != 0 && *ptr != 'f'))
 		return (0);
+	(void)tpNum;
 	return (1);
 }
 
@@ -32,9 +32,9 @@ int	detectType(const std::string &param, int parser)
 	double	tpNum = std::strtod(param.c_str(), NULL);
 	if (errno == ERANGE && parser == 1)
 		return (NONE);
-	if (((tpNum < 0 && (tpNum < -__FLT_MAX__ || tpNum > -__FLT_MIN__)
+	if (((tpNum < 0 && (tpNum < -__FLT_MAX__ || tpNum > -__FLT_MIN__))
 			|| (tpNum > 0 && (tpNum > __FLT_MAX__ || tpNum < __FLT_MIN__)))
-			&& param.find('f') != std::string::npos))
+			&& param.find('f') != std::string::npos)
 		return (DOUBLE);
 	if (param.length() == 1 && !std::isdigit(param[0]))
 		return (CHAR);

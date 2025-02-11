@@ -3,7 +3,7 @@ NAME ?= scalarconverter
 SRC ?= main.cpp\
 		ScalarConverter.cpp
 
-FLAGS += -Werror -Wextra -Wextra -std=c++98 -I../ex00
+FLAGS += -Werror -Wextra -Wall -std=c++98 -I../ex00
 
 OBJ = $(SRC:.cpp=.o)
 
