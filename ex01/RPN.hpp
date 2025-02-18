@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 11:26:11 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/07 15:03:28 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/18 11:47:07 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,16 @@ class RPN
 		RPN(const RPN &src);
 		RPN	&operator =(const RPN &rhs);
 		~RPN();
+
+		static void	_doOperation(int(*f)(int, int));
+		static std::stack<int>	_nums;
+	
+		class invalidFormatException : public std::exception {
+			public:
+				virtual const char *what() const throw();
+		};
+		class invalidCharException : public std::exception {
+			public:
+				virtual const char *what() const throw();
+		};
 };

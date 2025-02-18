@@ -6,34 +6,69 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:04:20 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/10 17:30:09 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/18 12:02:20 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
 
-std::stack<std::string>	split(const std::string &expression)
+std::stack<int>	RPN::_nums = std::stack<int>();
+int _add(int a, int b) {return (a + b);}
+int _sub(int a, int b) {return (a - b);}
+int _mul(int a, int b) {return (a * b);}
+int _div(int a, int b) {return (a / b);}
+
+void	RPN::_doOperation(int(*operation)(int, int))
 {
-	std::stack<std::string>	rsplit;
-	std::stack<std::string>	split;
-	for (std::size_t pos = 0; pos < expression.length(); pos = expression.find_first_not_of("0123456789./*-+", pos))
-	{
-		PRINT pos AND ", " AND expression.substr(pos, expression.find_first_not_of("0123456789./*-+", pos + 1) + pos) ENDL;
-		rsplit.push(expression.substr(pos + (pos > 0), expression.find_first_not_of("0123456789./*-+", pos + 1) + pos));
-		pos += 1;
-	}
-	rsplit.push("");
-	for (std::string exp = rsplit.top(); rsplit.size() > 0; exp = rsplit.top(), rsplit.pop())
-	{
-		split.push(exp);
-	}
-	return (split);
+	if (RPN::_nums.size() < 2)
+		throw (RPN::invalidFormatException());
+	int result = RPN::_nums.top();
+	RPN::_nums.pop();
+	result = operation(RPN::_nums.top(), result);
+	RPN::_nums.pop();
+	RPN::_nums.push(result);
 }
 
 void	RPN::rpn(const std::string &expression)
 {
-	// std::stack<int> nums;
-	std::stack<std::string> splitExp = split(expression);
-	for (std::string exp = splitExp.top(); splitExp.size() > 0; splitExp.pop(), exp = splitExp.top())
-		PRINT "'" AND exp AND "'" CENDL;
+	for (std::string::const_iterator it = expression.begin(); it != expression.end(); ++it)
+	{
+		switch (*it)
+		{
+			case ' ':
+				break ;
+			case '0': case '1': case '2': case '3': case '4':
+			case '5': case '6': case '7': case '8': case '9':
+				RPN::_nums.push(*it - '0');
+				break ;
+			case '+':
+				_doOperation(_add);
+				break ;
+			case '-':
+				_doOperation(_sub);
+				break ;
+			case '*':
+				_doOperation(_mul);
+				break ;
+			case '/':
+				_doOperation(_div);
+				break ;
+			default:
+				throw(RPN::invalidCharException());
+		}
+	}
+	if (RPN::_nums.size() == 1)
+		PRINT CYN BOLD AND RPN::_nums.top() CENDL;
+	else
+		throw(RPN::invalidFormatException());
+}
+
+const char *RPN::invalidFormatException::what() const throw()
+{
+	return (RED BOLD "Format is invalid." CLR);
+}
+
+const char *RPN::invalidCharException::what() const throw()
+{
+	return (RED BOLD "Invalid character found." CLR);
 }

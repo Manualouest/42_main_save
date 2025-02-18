@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:43:27 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/04 11:42:19 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/18 12:02:13 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@
 # define PRINT std::cout <<
 # define AND <<
 # define ENDL << std::endl
-# define CENDL << CLR << std::endl
+# define CENDL AND CLR ENDL
 # define TAB "\t"
-# define NEWL std::cout << std::endl
+# define NEWL PRINT CENDL;
