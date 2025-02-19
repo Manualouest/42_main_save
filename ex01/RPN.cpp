@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:04:20 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/18 12:02:20 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/18 13:55:06 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	RPN::rpn(const std::string &expression)
 		{
 			case ' ':
 				break ;
-			case '0': case '1': case '2': case '3': case '4':
-			case '5': case '6': case '7': case '8': case '9':
+			case '0':case '1':case '2':case '3':case '4':
+			case '5':case '6':case '7':case '8':case '9':
 				RPN::_nums.push(*it - '0');
 				break ;
 			case '+':
@@ -57,10 +57,14 @@ void	RPN::rpn(const std::string &expression)
 				throw(RPN::invalidCharException());
 		}
 	}
-	if (RPN::_nums.size() == 1)
-		PRINT CYN BOLD AND RPN::_nums.top() CENDL;
-	else
-		throw(RPN::invalidFormatException());
+	switch (RPN::_nums.size())
+	{
+		case 1:
+			PRINT CYN BOLD AND RPN::_nums.top() CENDL;
+			break ;
+		default:
+			throw(RPN::invalidFormatException());
+	}
 }
 
 const char *RPN::invalidFormatException::what() const throw()

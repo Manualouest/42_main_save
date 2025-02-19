@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/06 17:43:27 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/18 12:02:13 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/19 09:38:39 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,4 @@
 # define ENDL << std::endl
 # define CENDL AND CLR ENDL
 # define TAB "\t"
-# define NEWL PRINT CENDL;
+# define NEWL PRINT CLR ENDL;

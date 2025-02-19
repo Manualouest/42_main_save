@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 22:10:54 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/06 11:30:27 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/02/18 13:21:15 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,13 +222,13 @@ BitcoinExchange::BadDatabaseException::BadDatabaseException(std::string line, co
 {
 	_msg = std::string(RED BOLD UNDL "Error" RED BOLD " Database is invalid at line ") + nbLine + ": '" + line + "'" CLR;
 	
-	if (line == "file is empty")
-	{
-		
-	}
+	PRINT BOLD AND line AND nbLine CENDL;
+	if (line.empty())
+
+	else if (line == "file is empty")
+		_msg.insert(_msg.length(), RED BOLD " file is empty" CLR);
 	else if (nbLine == "1")
 		_msg.insert(_msg.length(), RED BOLD " != date,exchange_rate" CLR);
-
 	else if (line.find_first_not_of("0123456789-.,") != std::string::npos)
 	{
 		_msg.insert(_msg.length() - (line.length() - line.find_last_not_of("0123456789-.,")) - 4, RED BOLD);
