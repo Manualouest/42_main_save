@@ -62,6 +62,7 @@
 		"typeinfo": "cpp",
 		"variant": "cpp",
 		"stack": "cpp",
-		"csignal": "cpp"
+		"csignal": "cpp",
+		"*.tpp": "cpp"
 	}
 }
