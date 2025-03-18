@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 17:37:03 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/20 08:47:30 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/03/18 14:54:02 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main()
 		}
 		try
 		{
-			PRINT BOLD "a[-26]:" TAB;
+			PRINT BOLD "a[26]:" TAB;
 			a[26] = 'z';
 		}
 		catch (std::exception &e)
