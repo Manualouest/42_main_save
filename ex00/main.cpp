@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 08:53:08 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/03 09:34:13 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/03/18 15:12:23 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,29 @@ int	main()
 	PRINT BOLD "Searching for '5' inside the Set\t(" AND printContainer(Set) AND "):" TAB CYN BOLD AND easyfind(Set, 5) CENDL;
 	PRINT BOLD "Searching for '6' inside the MultiSet\t(" AND printContainer(MultiSet) AND "): " TAB CYN BOLD AND easyfind(MultiSet, 6) CENDL;
 	NEWL;
-	PRINT BOLD "Testing errors, should return [-1]" CENDL;
-	PRINT BOLD "Searching for '42' inside the String\t(" AND printContainer(Str) AND "): " TAB CYN BOLD AND easyfind(Str, 42) CENDL;
-	PRINT BOLD "Searching for '42' inside the Deque\t(" AND printContainer(Deq) AND "): " TAB CYN BOLD AND easyfind(Deq, 42) CENDL;
-	PRINT BOLD "Searching for '42' inside the MultiSet\t(" AND printContainer(MultiSet) AND "): " TAB CYN BOLD AND easyfind(MultiSet, 42) CENDL;
+	PRINT BOLD "Testing errors, should throw an error" CENDL;
+	try
+	{
+		PRINT BOLD "Searching for '42' inside the String\t(" AND printContainer(Str) AND "): " TAB CYN BOLD AND easyfind(Str, 42) CENDL;
+	}
+	catch (std::exception &e)
+	{
+		PRINT e.what() CENDL;
+	}
+	try
+	{
+		PRINT BOLD "Searching for '42' inside the Deque\t(" AND printContainer(Deq) AND "): " TAB CYN BOLD AND easyfind(Deq, 42) CENDL;
+	}
+	catch (std::exception &e)
+	{
+		PRINT e.what() CENDL;
+	}
+	try
+	{
+		PRINT BOLD "Searching for '42' inside the MultiSet\t(" AND printContainer(MultiSet) AND "): " TAB CYN BOLD AND easyfind(MultiSet, 42) CENDL;
+	}
+	catch (std::exception &e)
+	{
+		PRINT e.what() CENDL;
+	}
 }

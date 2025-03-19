@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 10:14:09 by mbirou            #+#    #+#             */
-/*   Updated: 2025/01/31 14:48:05 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/03/18 15:23:33 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,3 +39,16 @@ class MutantStack : public std::stack<T>
 		reverse_iterator	rend() {return (this->c.rend());}
 		const_reverse_iterator	crend() {return (this->c.crend());}
 };
+
+template<typename T>
+std::string	printContainer(T container)
+{
+	for (typename T::iterator it = container.begin(); it != container.end(); ++it)
+	{
+		PRINT CYN BOLD AND *it;
+		if (++it != container.end())
+			PRINT ", ";
+		--it;
+	}
+	return ("");
+}

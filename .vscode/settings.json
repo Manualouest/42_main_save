@@ -61,6 +61,8 @@
 		"variant": "cpp",
 		"list": "cpp",
 		"set": "cpp",
-		"stack": "cpp"
+		"stack": "cpp",
+		"csignal": "cpp",
+		"fstream": "cpp"
 	}
 }
