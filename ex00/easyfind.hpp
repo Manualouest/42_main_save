@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 08:54:59 by mbirou            #+#    #+#             */
-/*   Updated: 2025/03/18 15:10:00 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/03/20 10:42:01 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 #include <iostream>
 
 template<typename T>
-int	easyfind(T container, int n)
+typename T::iterator	easyfind(T container, int n)
 {
 	if (std::find(container.begin(), container.end(), n) == container.end())
 		throw(std::range_error(RED BOLD "not found." CLR));
-	return (std::distance(container.begin(), std::find(container.begin(), container.end(), n)));
+	return (std::find(container.begin(), container.end(), n));
 }
 
 template<typename T>
@@ -35,5 +35,6 @@ std::string	printContainer(T container)
 			PRINT ", ";
 		--it;
 	}
+	PRINT CLR;
 	return ("");
 }
