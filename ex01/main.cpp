@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 11:41:56 by mbirou            #+#    #+#             */
-/*   Updated: 2025/03/20 09:59:25 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/03/20 11:19:44 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ std::vector<int> vecGen(int len)
 	int					rNum;
 	for (int i = 0; i < len; ++i)
 	{
-		while (rNum = std::rand(), *std::find(vector.begin(), vector.end(), rNum) == rNum)
+		while (rNum = std::rand(), std::find(vector.begin(), vector.end(), rNum) != vector.end())
 			;
 		vector[i] = rNum;
 	}
@@ -99,8 +99,8 @@ int	main()
 	NEWL;
 	{
 		PRINT BOLD "Making a vector of 20000 ints and putting it inside the span:" CENDL;
-		std::vector<int> vec = vecGen(20000);
-		Span span(20000);
+		std::vector<int> vec = vecGen(20);
+		Span span(20);
 		span.addRange(vec.begin(), vec.end());
 		// PRINT TAB AND span CENDL;
 		PRINT TAB BOLD "shortest span: " CYN BOLD;
