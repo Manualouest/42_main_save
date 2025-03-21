@@ -6,43 +6,15 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 22:10:54 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/18 13:21:15 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/03/21 13:17:38 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange()
-{
-	throw(BitcoinExchange::CannotOpenInputFileException());
-}
-
-BitcoinExchange::BitcoinExchange(const std::string &filename)
-{
-	_input.open(filename.c_str(), std::ifstream::in);
-	if (_input.fail())
-		throw(BitcoinExchange::CannotOpenInputFileException());
-	_setupDatabase();
-}
-
-BitcoinExchange::BitcoinExchange(const BitcoinExchange &src)
-{
-	*this = src;
-}
-
-BitcoinExchange	&BitcoinExchange::operator =(const BitcoinExchange &rhs)
-{
-	if (this != &rhs)
-	{
-		_database.clear();
-		_database.insert(rhs._database.begin(), rhs._database.end());
-	}
-	return (*this);
-}
-
-BitcoinExchange::~BitcoinExchange()
-{
-}	
+std::ifstream					BitcoinExchange::_input;
+std::map<int, double>			BitcoinExchange::_database;
+std::map<std::string, double>	BitcoinExchange::_inputData;
 
 int	convertDate(const std::string &line, const bool &isData)
 {
@@ -100,13 +72,18 @@ int	BitcoinExchange::_getClosestDate(const int &date)
 	return ((--_database.lower_bound(date))->first);
 }
 
-void	BitcoinExchange::getRates()
+void	BitcoinExchange::getRates(const std::string &filename)
 {
 	std::string	line;
 	int			date;
 	double		value;
 	bool		sawHead = false;
 	std::size_t	maxLen;
+
+	_input.open(filename.c_str(), std::ifstream::in);
+	if (_input.fail())
+		throw(BitcoinExchange::CannotOpenInputFileException());
+	_setupDatabase();
 
 	while (std::getline(_input, line))
 	{
@@ -147,7 +124,7 @@ void	BitcoinExchange::getRates()
 	}
 	for (std::map<std::string, double>::iterator it = _inputData.begin(); it != _inputData.end(); ++it)
 	{
-		PRINT it->first.substr(19, it->first.length());
+		PRINT BOLD AND it->first.substr(19, it->first.length()) AND CLR;
 		switch ((int)it->second)
 		{
 		case (-1):
@@ -190,7 +167,7 @@ void	BitcoinExchange::_setupDatabase()
 			if (!sawHead)
 				sawHead = true;
 			else
-				throw(BitcoinExchange::BadDatabaseException(line, itostr(_inputData.size() + 1 + sawHead, false)));
+				throw(BitcoinExchange::BadDatabaseException(line, itostr(_database.size() + 1 + sawHead, false)));
 			continue ;
 		}
 		if (!sawHead
@@ -201,12 +178,12 @@ void	BitcoinExchange::_setupDatabase()
 			|| line.find('-') == std::string::npos
 			|| line.substr(line.find('-') + 1).find('-') == std::string::npos
 			|| line.substr(line.substr(line.find('-') + 1).find('-') + line.find('-') + 2).find('-') != std::string::npos)
-			throw(BitcoinExchange::BadDatabaseException(line, itostr(_inputData.size() + 1 + sawHead, false)));
+			throw(BitcoinExchange::BadDatabaseException(line, itostr(_database.size() + 1 + sawHead, false)));
 		date = convertDate(line, true);
 		value = std::strtod(line.substr(line.find(',') + 1).c_str(), NULL);
 		if (date == -1 || value < 0 || errno == ERANGE
 			|| _database.find(date) != _database.end())
-			throw(BitcoinExchange::BadDatabaseException(line, itostr(_inputData.size() + 1 + sawHead, false)));
+			throw(BitcoinExchange::BadDatabaseException(line, itostr(_database.size() + 1 + sawHead, false)));
 		_database.insert(std::pair<int, double>(date, value));
 	}
 	if (!_database.size())
@@ -221,12 +198,11 @@ const char	*BitcoinExchange::CannotOpenDatabaseException::what() const throw()
 BitcoinExchange::BadDatabaseException::BadDatabaseException(std::string line, const std::string &nbLine)
 {
 	_msg = std::string(RED BOLD UNDL "Error" RED BOLD " Database is invalid at line ") + nbLine + ": '" + line + "'" CLR;
-	
-	PRINT BOLD AND line AND nbLine CENDL;
-	if (line.empty())
 
+	if (line.empty())
+		_msg.insert(_msg.length(), RED BOLD " line is empty" CLR);
 	else if (line == "file is empty")
-		_msg.insert(_msg.length(), RED BOLD " file is empty" CLR);
+		;
 	else if (nbLine == "1")
 		_msg.insert(_msg.length(), RED BOLD " != date,exchange_rate" CLR);
 	else if (line.find_first_not_of("0123456789-.,") != std::string::npos)

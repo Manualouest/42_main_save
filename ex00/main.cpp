@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 22:14:23 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/04 12:39:33 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/03/21 11:18:35 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ int	main(int argc, char **argv)
 	}
 	try
 	{
-		BitcoinExchange	btcExchanger(argv[1]);
-		btcExchanger.getRates();
+		BitcoinExchange::getRates(argv[1]);
 	}
 	catch (std::exception &e)
 	{

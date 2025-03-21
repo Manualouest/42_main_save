@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 17:59:35 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/25 17:38:59 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/03/21 14:19:35 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	main(int argc, char **argv)
 {
-	if (argc == 1)
-		PRINT RED BOLD "usage: " AND argv[0] AND "<option (-y)> numbers" CENDL;
+	if (argc == 1 || !std::strcmp(argv[1], "-p"))
+		PRINT RED BOLD "usage: " AND argv[0] AND " numbers <option (-p)>" CENDL;
 	else
 	{
 		try

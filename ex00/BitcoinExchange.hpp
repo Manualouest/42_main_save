@@ -6,43 +6,36 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 22:10:08 by mbirou            #+#    #+#             */
-/*   Updated: 2025/02/04 17:02:45 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/03/21 14:31:05 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <map>
-#include <exception>
 #include <fstream>
-#include <cstdlib>
-#include <cerrno>
-#include <cstdlib>
-#include <cstdio>
-#include <cmath>
 #include <iomanip>
 #include <iostream>
+#include <algorithm>
 #include <spellBook.hpp>
 
 class	BitcoinExchange
 {
 	public:
-		BitcoinExchange();
-		BitcoinExchange(const BitcoinExchange &src);
-		BitcoinExchange(const std::string &filename);
-		BitcoinExchange	&operator =(const BitcoinExchange &rhs);
-		~BitcoinExchange();		
-	
-		void	getRates();
+		static void	getRates(const std::string &filename);
 
 	private:
-		std::ifstream						_input;
-		std::map<int, double>				_database;
-		std::map<std::string, double>		_inputData;
+		BitcoinExchange();
+		BitcoinExchange(const BitcoinExchange &src);
+		BitcoinExchange	&operator =(const BitcoinExchange &rhs);
+		~BitcoinExchange();
 
-		void	_setupDatabase();
-		int		_getClosestDate(const int &date);
-		// int		_convertDate(const std::string &line, bool isData) const;
+		static std::ifstream					_input;
+		static std::map<int, double>			_database;
+		static std::map<std::string, double>	_inputData;
+
+		static void	_setupDatabase();
+		static int	_getClosestDate(const int &date);
 
 	class	CannotOpenDatabaseException : public std::exception
 	{
