@@ -6,14 +6,12 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 18:32:35 by mbirou            #+#    #+#             */
-/*   Updated: 2025/03/21 14:34:49 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/03/27 09:54:49 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
-std::pair<std::vector<__uint64_t>, std::vector<__uint64_t> >	PmergeMe::_vec = std::pair<std::vector<__uint64_t>, std::vector<__uint64_t> >();
-std::pair<std::deque<__uint64_t>, std::deque<__uint64_t> >		PmergeMe::_deq = std::pair<std::deque<__uint64_t>, std::deque<__uint64_t> >();
 std::vector<__uint64_t>											PmergeMe::_jacob = std::vector<__uint64_t>();
 
 void	printTime(const timespec &time1, const timespec &time0)
@@ -68,7 +66,9 @@ void	PmergeMe::sort(int nbNums, char **args)
 		printContainers = true;
 	}
 	std::vector<__uint64_t>	vnums = getInts(nbNums, args);
+	std::vector<__uint64_t>	resultvec;
 	std::deque<__uint64_t>	dnums(vnums.begin(), vnums.end());
+	std::deque<__uint64_t>	resultdeq;
 	int						nbPair = (int)ceil(nbNums / 2.f);
 	timespec				vStart;
 	timespec				vEnd;
@@ -76,43 +76,27 @@ void	PmergeMe::sort(int nbNums, char **args)
 	timespec				dEnd;
 
 	_setupJacob(nbNums);
-	_vec =  std::pair<std::vector<__uint64_t>, std::vector<__uint64_t> >(std::vector<__uint64_t>(nbPair, 0), std::vector<__uint64_t>(nbPair - (nbNums % 2), 0));
-	_deq =  std::pair<std::deque<__uint64_t>, std::deque<__uint64_t> >(std::deque<__uint64_t>(nbPair, 0), std::deque<__uint64_t>(nbPair - (nbNums % 2), 0));
 	{
 		timespec_get(&vStart, TIME_UTC);
-		PmergeMe::_setupPairs(_vec.first.begin(), _vec.second.begin(), vnums.begin(), vnums.begin() + nbNums - (nbNums % 2));
-		if (nbNums % 2)
-		_vec.first[nbPair - 1] = vnums[nbNums - 1];
-		try
-		{PmergeMe::_checkIsSorted(_vec.first.begin(), _vec.first.end());}
-		catch (...)
-		{PmergeMe::quicksort(_vec.first, 0, nbPair - 1);}
-		PmergeMe::_jacobInsert(_vec.first, _vec.second, nbPair);
+		resultvec = PmergeMe::Ford(vnums, nbNums, nbPair);
 		timespec_get(&vEnd, TIME_UTC);
 	}
 	{
 		timespec_get(&dStart, TIME_UTC);
-		PmergeMe::_setupPairs(_deq.first.begin(), _deq.second.begin(), dnums.begin(), dnums.begin() + nbNums - (nbNums % 2));
-		if (nbNums % 2)
-		_deq.first[nbPair - 1] = dnums[nbNums - 1];
-		try
-		{PmergeMe::_checkIsSorted(_deq.first.begin(), _deq.first.end());}
-		catch (...)
-		{PmergeMe::quicksort(_deq.first, 0, nbPair - 1);}
-		PmergeMe::_jacobInsert(_deq.first, _deq.second, nbPair);
+		resultdeq = PmergeMe::Ford(dnums, nbNums, nbPair);
 		timespec_get(&dEnd, TIME_UTC);
 	}
 	{
 		if (printContainers)
 		{
 			PRINT DSTR UNDL BOLD "Vector:" TAB YLW BOLD ENDL;
-			for (std::vector<__uint64_t>::iterator	it = _vec.first.begin(); it != _vec.first.end(); ++it)
-				PRINT *it AND (it + 1 != _vec.first.end() ? ", ": CLR);
+			for (std::vector<__uint64_t>::iterator	it = resultvec.begin(); it != resultvec.end(); ++it)
+				PRINT *it AND (it + 1 != resultvec.end() ? ", ": CLR);
 			NEWL;
 			NEWL;
 			PRINT DSTR UNDL BOLD "Deque:" TAB YLW BOLD ENDL;
-			for (std::deque<__uint64_t>::iterator	it = _deq.first.begin(); it != _deq.first.end(); ++it)
-					PRINT *it AND (it + 1 != _deq.first.end() ? ", ": CLR);
+			for (std::deque<__uint64_t>::iterator	it = resultdeq.begin(); it != resultdeq.end(); ++it)
+					PRINT *it AND (it + 1 != resultdeq.end() ? ", ": CLR);
 			NEWL;
 			NEWL;
 		}
@@ -124,8 +108,8 @@ void	PmergeMe::sort(int nbNums, char **args)
 		PRINT CYN BOLD AND *it AND ((it + 1 != vnums.end() && std::distance(vnums.begin(), it) < 4) ? ", ": (it + 1 != vnums.end() ? " [...]" CLR: CLR));
 		NEWL;
 		PRINT TAB CYN UNDL BOLD "After" CYN BOLD ": ";
-		for (std::vector<__uint64_t>::iterator	it = _vec.first.begin(); it != _vec.first.end() && std::distance(_vec.first.begin(), it) < 5; ++it)
-		PRINT CYN BOLD AND *it AND ((it + 1 != _vec.first.end() && std::distance(_vec.first.begin(), it) < 4) ? ", ": (it + 1 != _vec.first.end() ? " [...]" CLR: CLR));
+		for (std::vector<__uint64_t>::iterator	it = resultvec.begin(); it != resultvec.end() && std::distance(resultvec.begin(), it) < 5; ++it)
+		PRINT CYN BOLD AND *it AND ((it + 1 != resultvec.end() && std::distance(resultvec.begin(), it) < 4) ? ", ": (it + 1 != resultvec.end() ? " [...]" CLR: CLR));
 		NEWL;
 		NEWL;
 		PRINT CYN UNDL BOLD "Deque" CYN BOLD ": ";
@@ -136,12 +120,12 @@ void	PmergeMe::sort(int nbNums, char **args)
 			PRINT CYN BOLD AND *it AND ((it + 1 != dnums.end() && std::distance(dnums.begin(), it) < 4) ? ", ": (it + 1 != dnums.end() ? " [...]" CLR: CLR));
 		NEWL;
 		PRINT TAB CYN UNDL BOLD "After" CYN BOLD ": ";
-		for (std::deque<__uint64_t>::iterator	it = _deq.first.begin(); it != _deq.first.end() && std::distance(_deq.first.begin(), it) < 5; ++it)
-			PRINT CYN BOLD AND *it AND ((it + 1 != _deq.first.end() && std::distance(_deq.first.begin(), it) < 4) ? ", ": (it + 1 != _deq.first.end() ? " [...]" CLR: CLR));
+		for (std::deque<__uint64_t>::iterator	it = resultdeq.begin(); it != resultdeq.end() && std::distance(resultdeq.begin(), it) < 5; ++it)
+			PRINT CYN BOLD AND *it AND ((it + 1 != resultdeq.end() && std::distance(resultdeq.begin(), it) < 4) ? ", ": (it + 1 != resultdeq.end() ? " [...]" CLR: CLR));
 		NEWL;
 	}
-	PmergeMe::_checkIsSorted(_vec.first.begin(), _vec.first.end());
-	PmergeMe::_checkIsSorted(_deq.first.begin(), _deq.first.end());
+	PmergeMe::_checkIsSorted(resultvec, vnums);
+	PmergeMe::_checkIsSorted(resultdeq, dnums);
 }
 
 const char	*PmergeMe::InvalidArgException::what() const throw()

@@ -6,7 +6,7 @@
 /*   By: mbirou <mbirou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:11:03 by mbirou            #+#    #+#             */
-/*   Updated: 2025/03/21 14:32:34 by mbirou           ###   ########.fr       */
+/*   Updated: 2025/03/27 09:59:15 by mbirou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,20 @@
 #include <vector>
 #include <deque>
 #include <spellBook.hpp>
+
+template<typename T>
+std::string	printContainer(T container)
+{
+	for (typename T::iterator it = container.begin(); it != container.end(); ++it)
+	{
+		PRINT CYN BOLD AND *it;
+		if (++it != container.end())
+			PRINT ", ";
+		--it;
+	}
+	PRINT CLR;
+	return ("");
+}
 
 class PmergeMe
 {
@@ -44,9 +58,23 @@ class PmergeMe
 
 		static void	_setupJacob(const __uint64_t &nbNum);
 
-		static std::pair<std::vector<__uint64_t>, std::vector<__uint64_t> >	_vec;
-		static std::pair<std::deque<__uint64_t>, std::deque<__uint64_t> >	_deq;
-		static std::vector<__uint64_t>										_jacob;
+		static std::vector<__uint64_t>	_jacob;
+
+		template <typename T>
+		static T	Ford(T &nums, const int &nbNums, const int &nbPair)
+		{
+			T	big = T(nbPair, 0);
+			T	small = T(nbPair - (nbNums % 2), 0);
+			PmergeMe::_setupPairs(big.begin(), small.begin(), nums.begin(), nums.begin() + nbNums - (nbNums % 2));
+			if (nbNums % 2)
+				big[nbPair - 1] = nums[nbNums - 1];
+			try
+			{PmergeMe::_checkIsSorted(big, big);}
+			catch (...)
+			{big = PmergeMe::Ford(big, big.size(), (int)ceil((big.size()) / 2.f));}
+			PmergeMe::_jacobInsert(big, small);
+			return(big);
+		}
 
 		template <typename T>
 		static void	_setupPairs(T big, T small, T nums, T end)
@@ -69,31 +97,7 @@ class PmergeMe
 		}
 
 		template <typename T>
-		static int	partition(T &container, const int &low, const int &high)
-		{
-			__uint64_t	pivot = container[high];
-			int	i = low - 1;
-
-			for (int ii = low; ii < high; ++ii)
-				if (container[ii] <= pivot)
-					std::swap(container[++i], container[ii]);
-			std::swap(container[i + 1], container[high]);
-			return (i + 1);
-		}
-
-		template <typename T>
-		static void	quicksort(T &container, const int &low, const int &high)
-		{
-			if (low < high)
-			{
-				int pivot = PmergeMe::partition(container, low, high);
-				PmergeMe::quicksort(container, low, pivot - 1);
-				PmergeMe::quicksort(container, pivot + 1, high);
-			}
-		}
-
-		template <typename T>
-		static void	_jacobInsert(T &sorted, T &numsList, const __uint64_t &nbPair)
+		static void	_jacobInsert(T &sorted, T &numsList)
 		{
 			int			left;
 			int			right;
@@ -102,35 +106,59 @@ class PmergeMe
 			__uint64_t	i = 0;
 			__uint64_t	nb = 0;
 
-			for(typename T::iterator nums = numsList.begin(); nums != numsList.end(); ++nums, ++nb, ++i)
+			while (numsList.size()> _jacob[jI])
+			{
+				i = 0;
+				while (i < _jacob[jI])
+				{
+					left = 0;
+					right = sorted.size();
+					mid = _jacob[jI];
+					if (mid >= right)
+						mid = (right - left) / 2 + left;
+					while (left < right)
+					{
+						if (sorted[mid] < (numsList[_jacob[jI] - i]))
+							left = mid + 1;
+						else
+							right = mid - 1;
+						mid = (left + right) / 2;
+					}
+					sorted.insert(sorted.begin() + mid + (sorted[mid] < (numsList[_jacob[jI] - i])), (numsList[_jacob[jI] - i]));
+					numsList.erase(numsList.begin() + (_jacob[jI] - i));
+					++i;
+					++nb;
+				}
+				++jI;
+			}
+			while (numsList.size() > 0)
 			{
 				left = 0;
-				right = nbPair + nb;
-				mid = _jacob[jI];
+				right = sorted.size();
+				mid = (left + right) / 2;
 				if (mid >= right)
 					mid = (right - left) / 2 + left;
 				while (left < right)
 				{
-					if (sorted[mid] < *nums)
+					if (sorted[mid] < (numsList[0]))
 						left = mid + 1;
 					else
 						right = mid - 1;
 					mid = (left + right) / 2;
 				}
-				sorted.insert(sorted.begin() + mid + (sorted[mid] < *nums), *nums);
-				if (i == _jacob[jI])
-				{
-					i = 0;
-					++jI;
-				}
+				sorted.insert(sorted.begin() + mid + (sorted[mid] < (numsList[0])), (numsList[0]));
+				numsList.erase(numsList.begin());
+				++nb;
 			}
 		}
 
 		template <typename T>
-		static void	_checkIsSorted(T start, T end)
+		static void	_checkIsSorted(T sorted, T nums)
 		{
-			for(; start != end - 1; ++start)
-				if (*start > *(start + 1))	
+			if (sorted.size() != nums.size())
+				throw(PmergeMe::SortFailedException());
+			for(typename T::iterator start = sorted.begin(); start != sorted.end() - 1; ++start)
+				if (*start > *(start + 1))
 					throw(PmergeMe::SortFailedException());
 		}
 };
