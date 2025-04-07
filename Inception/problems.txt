@@ -1,0 +1,84 @@
+Attaching to mariadb-1, nginx-1, wordpress-1
+mariadb-1    | 2025-04-03 16:33:57+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:11.7.2+maria~ubu2404 started.
+wordpress-1  | WordPress not found in /var/www/html - copying now...
+nginx-1      | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+nginx-1      | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+nginx-1      | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+nginx-1      | 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+nginx-1      | 10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+nginx-1      | /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+nginx-1      | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+nginx-1      | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+nginx-1      | /docker-entrypoint.sh: Configuration complete; ready for start up
+nginx-1      | 2025/04/03 16:33:58 [notice] 1#1: using the "epoll" event method
+nginx-1      | 2025/04/03 16:33:58 [notice] 1#1: nginx/1.27.4
+nginx-1      | 2025/04/03 16:33:58 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14) 
+nginx-1      | 2025/04/03 16:33:58 [notice] 1#1: OS: Linux 6.11.0-17-generic
+nginx-1      | 2025/04/03 16:33:58 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+nginx-1      | 2025/04/03 16:33:58 [notice] 1#1: start worker processes
+nginx-1      | 2025/04/03 16:33:58 [notice] 1#1: start worker process 29
+nginx-1      | 2025/04/03 16:33:58 [notice] 1#1: start worker process 30
+nginx-1      | 2025/04/03 16:33:58 [notice] 1#1: start worker process 31
+nginx-1      | 2025/04/03 16:33:58 [notice] 1#1: start worker process 32
+wordpress-1  | Complete! WordPress has been successfully copied to /var/www/html
+mariadb-1    | 2025-04-03 16:33:58+00:00 [Warn] [Entrypoint]: /sys/fs/cgroup///memory.pressure not writable, functionality unavailable to MariaDB
+mariadb-1    | 2025-04-03 16:33:58+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+mariadb-1    | 2025-04-03 16:33:58+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:11.7.2+maria~ubu2404 started.
+wordpress-1  | AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.18.0.3. Set the 'ServerName' directive globally to suppress this message
+wordpress-1  | AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.18.0.3. Set the 'ServerName' directive globally to suppress this message
+wordpress-1  | [Thu Apr 03 16:33:59.153973 2025] [mpm_prefork:notice] [pid 1:tid 1] AH00163: Apache/2.4.62 (Debian) PHP/8.2.28 configured -- resuming normal operations
+wordpress-1  | [Thu Apr 03 16:33:59.154005 2025] [core:notice] [pid 1:tid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
+mariadb-1    | 2025-04-03 16:33:59+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
+mariadb-1    |  You need to specify one of MARIADB_ROOT_PASSWORD, MARIADB_ROOT_PASSWORD_HASH, MARIADB_ALLOW_EMPTY_ROOT_PASSWORD and MARIADB_RANDOM_ROOT_PASSWORD
+mariadb-1 exited with code 0
+mariadb-1    | 2025-04-03 16:34:01+00:00 [Warn] [Entrypoint]: /sys/fs/cgroup///memory.pressure not writable, functionality unavailable to MariaDB
+w Enable Watch
+mariadb-1    | 2025-04-03 16:34:01+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:11.7.2+maria~ubu2404 started.
+mariadb-1    | 2025-04-03 16:34:01+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
+mariadb-1    |  You need to specify one of MARIADB_ROOT_PASSWORD, MARIADB_ROOT_PASSWORD_HASH, MARIADB_ALLOW_EMPTY_ROOT_PASSWORD and MARIADB_RANDOM_ROOT_PASSWORD
+mariadb-1 exited with code 1
+mariadb-1    | 2025-04-03 16:34:02+00:00 [Warn] [Entrypoint]: /sys/fs/cgroup///memory.pressure not writable, functionality unavailable to MariaDB
+mariadb-1    | 2025-04-03 16:34:02+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+mariadb-1    | 2025-04-03 16:34:02+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:11.7.2+maria~ubu2404 started.
+mariadb-1    | 2025-04-03 16:34:02+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
+mariadb-1    |  You need to specify one of MARIADB_ROOT_PASSWORD, MARIADB_ROOT_PASSWORD_HASH, MARIADB_ALLOW_EMPTY_ROOT_PASSWORD and MARIADB_RANDOM_ROOT_PASSWORD
+mariadb-1 exited with code 1
+mariadb-1    | 2025-04-03 16:34:03+00:00 [Warn] [Entrypoint]: /sys/fs/cgroup///memory.pressure not writable, functionality unavailable to MariaDB
+mariadb-1    | 2025-04-03 16:34:03+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+mariadb-1    | 2025-04-03 16:34:03+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:11.7.2+maria~ubu2404 started.
+mariadb-1    | 2025-04-03 16:34:04+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
+mariadb-1    |  You need to specify one of MARIADB_ROOT_PASSWORD, MARIADB_ROOT_PASSWORD_HASH, MARIADB_ALLOW_EMPTY_ROOT_PASSWORD and MARIADB_RANDOM_ROOT_PASSWORD
+mariadb-1 exited with code 1
+mariadb-1    | 2025-04-03 16:34:05+00:00 [Warn] [Entrypoint]: /sys/fs/cgroup///memory.pressure not writable, functionality unavailable to MariaDB
+mariadb-1    | 2025-04-03 16:34:05+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+mariadb-1    | 2025-04-03 16:34:05+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:11.7.2+maria~ubu2404 started.
+mariadb-1    | 2025-04-03 16:34:06+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
+mariadb-1    |  You need to specify one of MARIADB_ROOT_PASSWORD, MARIADB_ROOT_PASSWORD_HASH, MARIADB_ALLOW_EMPTY_ROOT_PASSWORD and MARIADB_RANDOM_ROOT_PASSWORD
+mariadb-1 exited with code 1
+mariadb-1    | 2025-04-03 16:34:08+00:00 [Warn] [Entrypoint]: /sys/fs/cgroup///memory.pressure not writable, functionality unavailable to MariaDB
+mariadb-1    | 2025-04-03 16:34:08+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+mariadb-1    | 2025-04-03 16:34:08+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:11.7.2+maria~ubu2404 started.
+mariadb-1    | 2025-04-03 16:34:08+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
+mariadb-1    |  You need to specify one of MARIADB_ROOT_PASSWORD, MARIADB_ROOT_PASSWORD_HASH, MARIADB_ALLOW_EMPTY_ROOT_PASSWORD and MARIADB_RANDOM_ROOT_PASSWORD
+mariadb-1 exited with code 1
+mariadb-1    | 2025-04-03 16:34:12+00:00 [Warn] [Entrypoint]: /sys/fs/cgroup///memory.pressure not writable, functionality unavailable to MariaDB
+mariadb-1    | 2025-04-03 16:34:12+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+mariadb-1    | 2025-04-03 16:34:12+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:11.7.2+maria~ubu2404 started.
+mariadb-1    | 2025-04-03 16:34:12+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
+mariadb-1    |  You need to specify one of MARIADB_ROOT_PASSWORD, MARIADB_ROOT_PASSWORD_HASH, MARIADB_ALLOW_EMPTY_ROOT_PASSWORD and MARIADB_RANDOM_ROOT_PASSWORD
+mariadb-1 exited with code 1
+mariadb-1    | 2025-04-03 16:34:19+00:00 [Warn] [Entrypoint]: /sys/fs/cgroup///memory.pressure not writable, functionality unavailable to MariaDB
+mariadb-1    | 2025-04-03 16:34:19+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+mariadb-1    | 2025-04-03 16:34:19+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:11.7.2+maria~ubu2404 started.
+mariadb-1    | 2025-04-03 16:34:20+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
+mariadb-1    |  You need to specify one of MARIADB_ROOT_PASSWORD, MARIADB_ROOT_PASSWORD_HASH, MARIADB_ALLOW_EMPTY_ROOT_PASSWORD and MARIADB_RANDOM_ROOT_PASSWORD
+mariadb-1 exited with code 1
+mariadb-1    | 2025-04-03 16:34:33+00:00 [Warn] [Entrypoint]: /sys/fs/cgroup///memory.pressure not writable, functionality unavailable to MariaDB
+mariadb-1    | 2025-04-03 16:34:33+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+mariadb-1    | 2025-04-03 16:34:33+00:00 [Note] [Entrypoint]: Entrypoint script for MariaDB Server 1:11.7.2+maria~ubu2404 started.
+mariadb-1    | 2025-04-03 16:34:33+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
+mariadb-1    |  You need to specify one of MARIADB_ROOT_PASSWORD, MARIADB_ROOT_PASSWORD_HASH, MARIADB_ALLOW_EMPTY_ROOT_PASSWORD and MARIADB_RANDOM_ROOT_PASSWORD
+mariadb-1 exited with code 1
+
+
+nginx-1      | nginx: [emerg] host not found in upstream "wordpress" in /etc/nginx/http.d/default.conf:17
