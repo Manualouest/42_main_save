@@ -1,5 +1,9 @@
 all:
-	docker compose -f ./srcs/docker-compose.yml up --build
+	mkdir -p /home/mbirou
+	mkdir -p /home/mbirou/data
+	mkdir -p /home/mbirou/data/wordpress
+	mkdir -p /home/mbirou/data/mariadb
+	docker compose -f ./srcs/docker-compose.yml up -d
 
 stop:
 	@if docker ps -a | grep "nginx" | grep -v -q "Exited" ; then \
@@ -16,6 +20,7 @@ stop:
 	fi
 
 clean: stop
+	rm -rf /home/mbirou/data
 	@if docker ps -a | grep -q "nginx"; then \
 		echo -n "Removing " $$(docker ps -a | grep "nginx" | awk '{print $$2}') " with id "; \
 		docker rm $$(docker ps -a | grep "nginx" | awk '{print $$1}'); \
